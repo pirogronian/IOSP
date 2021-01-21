@@ -24,3 +24,11 @@
 
 #add_executable(IndexEntryTest IndexEntryTest.cpp)
 #target_include_directories(IndexEntryTest BEFORE PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/../")
+
+set(SOURCES
+    TestControlPanel.h
+    TestControlPanel.cpp)
+
+list(TRANSFORM SOURCES PREPEND "${CMAKE_CURRENT_SOURCE_DIR}/")
+
+target_sources(IOSP PRIVATE ${SOURCES})

@@ -8,6 +8,8 @@ add_subdirectory(Utils)
 add_subdirectory(Tests)
 
 set(IOSP_MAIN_SRCS
+    AbstractControlPanelSceneNode.h
+    AbstractControlPanelSceneNode.cpp
     BulletBodySceneNode.h
     BulletBodySceneNode.cpp
     BulletDebugDrawer.h

@@ -5,6 +5,7 @@
 #include <TestScene.h>
 
 #include <Tests/NodeSearchTest.h>
+#include <Tests/TestControlPanel.h>
 
 #include <cstdio>
 
@@ -38,6 +39,9 @@ Simulation *IOSP::TestScene(IrrlichtDevice *dvc)
     wall->setWorld(bworld->bulletWorld());
     wall->setName("BWall");
 //     auto *wallbox = smgr->addCubeSceneNode(1, wall);
+    auto *tcpanel = new TestControlPanel(dvc, smgr->getRootSceneNode(), smgr, 1234);
+    tcpanel->setTarget(body);
+    tcpanel->grabEvents();
     auto *sim = new Simulation(dvc);
     sim->addWorld(bworld);
     return sim;
