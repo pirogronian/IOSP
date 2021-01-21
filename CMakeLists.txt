@@ -24,6 +24,6 @@ target_include_directories(IOSP PRIVATE ${IRRLICHT_INCLUDE_DIR})
 add_subdirectory(src)
 
 target_link_libraries(IOSP PRIVATE
-    MospUtils
+    IospUtils
     Bullet
     Irrlicht)

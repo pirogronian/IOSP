@@ -4,10 +4,11 @@ set(SOURCES
     Accumulator.cpp
     AutoIndexer.h
     IndexEntry.h
-    NamedClassInstance.h)
+    InputKeyBinder.h
+    InputKeyBinder.cpp
+    NamedClassInstance.h
+    VectorHelper.h)
 
-add_library(MospUtils STATIC ${SOURCES})
+add_library(IospUtils STATIC ${SOURCES})
 
-#list(TRANSFORM SOURCES PREPEND "${CMAKE_CURRENT_SOURCE_DIR}/")
-
-#target_sources(MOSP PRIVATE ${SOURCES})
+target_include_directories(IospUtils PRIVATE ${PROJECT_SOURCE_DIR}/src/)

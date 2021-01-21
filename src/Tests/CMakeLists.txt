@@ -32,3 +32,9 @@ set(SOURCES
 list(TRANSFORM SOURCES PREPEND "${CMAKE_CURRENT_SOURCE_DIR}/")
 
 target_sources(IOSP PRIVATE ${SOURCES})
+
+add_executable(InputKeyBinderTest InputKeyBinderTest.cpp)
+
+target_include_directories(InputKeyBinderTest BEFORE PRIVATE "${PROJECT_SOURCE_DIR}/src/")
+
+target_link_libraries(InputKeyBinderTest IospUtils)
