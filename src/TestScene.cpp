@@ -42,6 +42,7 @@ Simulation *IOSP::TestScene(IrrlichtDevice *dvc)
     auto *tcpanel = new TestControlPanel(dvc, smgr->getRootSceneNode(), smgr, 1234);
     tcpanel->setTarget(body);
     tcpanel->grabEvents();
+    tcpanel->stateActionManager()->bind(TestControlPanel::ThrustAction, irr::KEY_KEY_A, false, true);
     auto *sim = new Simulation(dvc);
     sim->addWorld(bworld);
     return sim;

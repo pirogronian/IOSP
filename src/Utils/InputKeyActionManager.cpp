@@ -17,10 +17,11 @@ void IOSP::InputKeyStateActionManager::setActive(int action, bool active)
     m_actionStates[action] = active;
 }
 
-void IOSP::InputKeyStateActionManager::OnKeyInput(const irr::SEvent::SKeyInput& ki)
+bool IOSP::InputKeyStateActionManager::OnKeyInput(const irr::SEvent::SKeyInput& ki)
 {
     int action = boundAction(ki);
-    if (action <= 0)  return;
+    if (action <= 0)  return false;
     if (ki.PressedDown)  setActive(action, true);
     else setActive(action, false);
+    return true;
 }

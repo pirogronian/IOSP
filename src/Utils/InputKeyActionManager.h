@@ -8,18 +8,19 @@ namespace IOSP
     class AbstractInputKeyActionManager : public InputKeyBinder
     {
     public:
-        virtual void OnKeyInput(const irr::SEvent::SKeyInput&) = 0;
+        virtual bool OnKeyInput(const irr::SEvent::SKeyInput&) = 0;
     };
 
     class AbstractInputKeyTriggeredActionManager : public AbstractInputKeyActionManager
     {
     public:
         virtual void triggered(int) = 0;
-        void OnKeyInput(const irr::SEvent::SKeyInput& ki) override
+        bool OnKeyInput(const irr::SEvent::SKeyInput& ki) override
         {
-            if (!ki.PressedDown)  return;
+            if (!ki.PressedDown)  return false;
             int action = boundAction(ki);
             if (action > 0)  triggered(action);
+            return true;
         }
     };
 
@@ -30,6 +31,6 @@ namespace IOSP
     public:
         bool isActive(int) const;
         void setActive(int, bool);
-        void OnKeyInput(const irr::SEvent::SKeyInput&) override;
+        bool OnKeyInput(const irr::SEvent::SKeyInput&) override;
     };
 }

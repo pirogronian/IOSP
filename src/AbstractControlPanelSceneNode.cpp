@@ -29,3 +29,16 @@ void IOSP::AbstractControlPanelSceneNode::setVisible(bool v)
         m_rootGui->setVisible(v);
     irr::scene::ISceneNode::setVisible(v);
 }
+
+bool IOSP::KeyInputAbstractControlPanel::OnEvent(const irr::SEvent& event)
+{
+    bool trRet{false}, stRet{false};
+    if (event.EventType == irr::EET_KEY_INPUT_EVENT)
+    {
+        if (m_trKeyActions)
+            trRet = m_trKeyActions->OnKeyInput(event.KeyInput);
+        if (m_stKeyActions)
+            stRet = m_stKeyActions->OnKeyInput(event.KeyInput);
+    }
+    return trRet || stRet;
+}

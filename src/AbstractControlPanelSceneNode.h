@@ -1,9 +1,11 @@
 
 #pragma once
 
+#include <memory>
 #include <irrlicht.h>
 
 #include <Common.h>
+#include <Utils/InputKeyActionManager.h>
 
 namespace IOSP
 {
@@ -32,7 +34,7 @@ namespace IOSP
     };
 
     template<class TT>
-    class TargetedAbstractControlPanel : public AbstractControlPanelSceneNode
+    class TargetedAbstractControlPanel : virtual public AbstractControlPanelSceneNode
     {
     protected:
         TT *m_target{nullptr};
@@ -61,5 +63,48 @@ namespace IOSP
             if (m_target != nullptr)
                 m_target->drop();
         }
+    };
+
+    class KeyInputAbstractControlPanel : virtual public AbstractControlPanelSceneNode
+    {
+    protected:
+        std::shared_ptr<AbstractInputKeyTriggeredActionManager> m_trKeyActions;
+        std::shared_ptr<InputKeyStateActionManager> m_stKeyActions;
+    public:
+        KeyInputAbstractControlPanel(
+            irr::IrrlichtDevice *dev,
+            irr::scene::ISceneNode *parent,
+            irr::scene::ISceneManager *smgr,
+            irr::s32 id,
+            const irr::core::vector3df& pos,
+            const irr::core::vector3df& rot)
+        : AbstractControlPanelSceneNode(dev, parent, smgr, id, pos, rot)
+        {
+        }
+        std::shared_ptr<AbstractInputKeyTriggeredActionManager>& triggeredActionManager()
+        {
+            return m_trKeyActions;
+        }
+        const std::shared_ptr<AbstractInputKeyTriggeredActionManager>& triggeredActionManager() const
+        {
+            return m_trKeyActions;
+        }
+        void setTriggeredActionManager(std::shared_ptr<AbstractInputKeyTriggeredActionManager>& manager)
+        {
+            m_trKeyActions = manager;
+        }
+        std::shared_ptr<InputKeyStateActionManager>& stateActionManager()
+        {
+            return m_stKeyActions;
+        }
+        const std::shared_ptr<InputKeyStateActionManager>& stateActionManager() const
+        {
+            return m_stKeyActions;
+        }
+        void setStateActionManager(std::shared_ptr<InputKeyStateActionManager>& manager)
+        {
+            m_stKeyActions = manager;
+        }
+        bool OnEvent(const irr::SEvent&) override;
     };
 }
