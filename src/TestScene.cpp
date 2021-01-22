@@ -25,6 +25,7 @@ Simulation *IOSP::TestScene(IrrlichtDevice *dvc)
 //     btRigidBody::btRigidBodyConstructionInfo info;
     auto *bsphere = new btSphereShape(5);
     auto *brigid = new btRigidBody(1, nullptr, bsphere);
+    brigid->setActivationState(DISABLE_DEACTIVATION);
     auto *body = new BulletBodySceneNode(smgr->getRootSceneNode(), smgr, brigid);
     body->setName("BBody");
     body->setWorld(bworld->bulletWorld());
