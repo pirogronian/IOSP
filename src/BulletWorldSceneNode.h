@@ -14,7 +14,7 @@ namespace IOSP
         btDbvtBroadphase m_broadphase;
         btSequentialImpulseConstraintSolver m_solver;
         btDiscreteDynamicsWorld m_world{&m_dispatcher, &m_broadphase, &m_solver, &m_config};
-        int m_maxSubSteps{1024};
+        int m_maxSubSteps{128};
         btScalar m_minStepDelta{1./60.};
         irr::core::aabbox3d<irr::f32> m_bbox;
     public:

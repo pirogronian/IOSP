@@ -21,6 +21,9 @@ int main()
 
     irr::video::IVideoDriver *driver = device->getVideoDriver();
     irr::scene::ISceneManager* smgr = device->getSceneManager();
+    irr::gui::IGUIEnvironment *gui = device->getGUIEnvironment();
+    auto *dtimeText = gui->addStaticText(L"Static text", irr::core::rect<irr::s32>(0, 0, 150, 15));
+    dtimeText->setDrawBackground(true);
 
     irr::u32 ptime = device->getTimer()->getTime(), ctime;
     auto *sim = IOSP::TestScene(device);
@@ -33,9 +36,13 @@ int main()
         btScalar dtime = (ctime - ptime) / 1000.;
         ptime = ctime;
         sim->stepSimulation(dtime);
+        irr::core::stringw dtext = "Delta time: ";
+        dtext += dtime;
+        dtimeText->setText(dtext.c_str());
 
         driver->beginScene(true, true, irr::video::SColor(0,50,50,50));
         smgr->drawAll();
+        gui->drawAll();
         sim->drawDebug();
         driver->endScene();
         irr::core::stringw wcaption = L"IOSP [";
