@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <unordered_map>
+#include <irrlicht.h>
 
 namespace IOSP
 {
@@ -48,7 +49,11 @@ namespace IOSP
         int actionKey(int) const;
         bool actionShift(int) const;
         bool actionCtrl(int) const;
-        int keyVariantAction(int key, bool shift = false, bool ctrl = false) const;
+        int boundAction(int key, bool shift = false, bool ctrl = false) const;
+        int boundAction(const irr::SEvent::SKeyInput& ke) const
+        {
+            return boundAction(ke.Key, ke.Shift, ke.Control);
+        }
         void bind(int action, int key, bool shift = false, bool ctrl = false);
         void unbindKey(int key, bool shift = false, bool ctrl = false);
         void unbindAction(int action);

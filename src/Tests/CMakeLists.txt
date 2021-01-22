@@ -25,15 +25,9 @@
 #add_executable(IndexEntryTest IndexEntryTest.cpp)
 #target_include_directories(IndexEntryTest BEFORE PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/../")
 
-set(SOURCES
-    TestControlPanel.h
-    TestControlPanel.cpp)
-
-list(TRANSFORM SOURCES PREPEND "${CMAKE_CURRENT_SOURCE_DIR}/")
-
-target_sources(IOSP PRIVATE ${SOURCES})
-
 add_executable(InputKeyBinderTest InputKeyBinderTest.cpp)
+
+target_include_directories(InputKeyBinderTest PRIVATE ${IRRLICHT_INCLUDE_DIR})
 
 target_include_directories(InputKeyBinderTest BEFORE PRIVATE "${PROJECT_SOURCE_DIR}/src/")
 

@@ -25,6 +25,8 @@ set(IOSP_MAIN_SRCS
     main.cpp
     Simulation.h
     Simulation.cpp
+    TestControlPanel.h
+    TestControlPanel.cpp
     TestScene.h
     TestScene.cpp)
 

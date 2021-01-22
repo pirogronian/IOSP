@@ -5,7 +5,7 @@
 #include <TestScene.h>
 
 #include <Tests/NodeSearchTest.h>
-#include <Tests/TestControlPanel.h>
+#include <TestControlPanel.h>
 
 #include <cstdio>
 

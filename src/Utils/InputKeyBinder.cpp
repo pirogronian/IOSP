@@ -20,7 +20,7 @@ bool IOSP::InputKeyBinder::actionCtrl(int action) const
     return m_actionCtrl[action];
 }
 
-int IOSP::InputKeyBinder::keyVariantAction(int key, bool shift, bool ctrl) const
+int IOSP::InputKeyBinder::boundAction(int key, bool shift, bool ctrl) const
 {
     auto itv = m_keyActions.find(key);
     if (itv == m_keyActions.end())  return 0;
