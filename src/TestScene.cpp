@@ -42,9 +42,10 @@ Simulation *IOSP::TestScene(IrrlichtDevice *dvc)
 //     auto *wallbox = smgr->addCubeSceneNode(1, wall);
     auto *tcpanel = new TestControlPanel(dvc, smgr->getRootSceneNode(), smgr, 1234);
     tcpanel->setTarget(body);
-    tcpanel->grabEvents();
+//     tcpanel->grabEvents();
     tcpanel->stateActionManager()->bind(TestControlPanel::ThrustAction, irr::KEY_KEY_A, false, true);
     auto *sim = new Simulation(dvc);
     sim->addWorld(bworld);
+    sim->setActivePanel(tcpanel);
     return sim;
 }

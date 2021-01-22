@@ -25,6 +25,7 @@ int main()
     irr::u32 ptime = device->getTimer()->getTime(), ctime;
     auto *sim = IOSP::TestScene(device);
     sim->debugDrawer().setDebugMode(btIDebugDraw::DBG_DrawWireframe|btIDebugDraw::DBG_DrawAabb);
+    eventReceiver->setSimulation(sim);
 
     while(device->run())
     {

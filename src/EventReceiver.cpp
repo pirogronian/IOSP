@@ -1,5 +1,5 @@
 
-#include <iostream>
+#include <cstdio>
 
 #include <EventReceiver.h>
 
@@ -9,6 +9,7 @@ using namespace irr;
 
 bool EventReceiver::OnEvent(const SEvent& event)
 {
-//     std::cout << "OnEvent(EventType: " << event.EventType << ")\n";
+    if (m_simulation)  return m_simulation->OnEvent(event);
+//     std::puts("Simulation not set");
     return false;
 }

@@ -23,13 +23,14 @@ void IOSP::TestControlPanel::update()
 {
     if (m_target != nullptr && m_stKeyActions->isActive(ThrustAction))
     {
+//         std::puts("Thrust On!");
         m_target->bulletRigidBody()->applyForce(btVector3(0, 0, -3), btVector3(0, 0, 0));
         auto f = m_target->bulletRigidBody()->getTotalForce();
 //         std::printf("Total force: [%f, %f, %f]\n", f.getX(), f.getY(), f.getZ());
-    }
+    } //else std::puts("Thrust Off!");
 }
 
-void IOSP::TestControlPanel::render() { update(); }
+void IOSP::TestControlPanel::render() {}
 
 void IOSP::TestControlPanel::OnRegisterSceneNode()
 {
