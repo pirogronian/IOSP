@@ -15,7 +15,13 @@ namespace IOSP
         LinkedPtrList<BulletWorldSceneNode> m_worlds;
         BulletDebugDrawer m_ddrawer;
         AbstractControlPanelSceneNode *m_activePanel{nullptr};
-        irr::u32 m_timeMult{1}, m_timeLast{0}, m_timeCurrent{0}, m_timeLastDelta{0}, m_timePassed{0};
+        irr::u32 
+            m_timeMult{1},
+            m_timeLast{0},
+            m_timeCurrent{0},
+            m_timeLastDelta{0},
+            m_timePassed{0},
+            m_maxTimeMult{100};
     public:
         Simulation(irr::IrrlichtDevice *d) : m_idev{d}, m_ddrawer{m_idev->getVideoDriver()} {}
         bool addWorld(BulletWorldSceneNode *);
@@ -33,6 +39,10 @@ namespace IOSP
         bool OnEvent(const irr::SEvent&) override;
         irr::u32 lastDelta() const { return m_timeLastDelta; }
         irr::u32 timeMultiplier() const { return m_timeMult; }
-        void setTimeMultiplier(irr::u32 tm) { m_timeMult = tm; }
+        void setTimeMultiplier(irr::u32 tm)
+        {
+            if (tm > m_maxTimeMult)  return;
+            m_timeMult = tm;
+        }
     };
 }

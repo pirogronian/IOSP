@@ -5,6 +5,30 @@
 
 using namespace IOSP;
 
+void IOSP::SimpleInputKeyTriggeredActionManager::triggered(int action)
+{
+    ensureSize(m_triggered, action);
+    m_triggered[action] = true;
+}
+
+bool IOSP::SimpleInputKeyTriggeredActionManager::isTriggered(int action) const
+{
+    if (!isIndexValid(m_triggered, action))  return false;
+    return m_triggered[action];
+}
+
+void IOSP::SimpleInputKeyTriggeredActionManager::reset(int action)
+{
+    if (action > 0)
+    {
+        if (!isIndexValid(m_triggered, action))  return;
+        m_triggered[action] = false;
+        return;
+    }
+    for (auto it = m_triggered.begin(); it != m_triggered.end(); it++)
+        *it = false;
+}
+
 bool IOSP::InputKeyStateActionManager::isActive(int action) const
 {
     if (!isIndexValid(m_actionStates, action))  return false;
