@@ -1,4 +1,7 @@
 cmake_minimum_required(VERSION 3.4)
+
+#set(CMAKE_VERBOSE_MAKEFILE ON)
+
 project(MOSP)
 
 cmake_policy(SET CMP0079 NEW)
@@ -26,4 +29,5 @@ add_subdirectory(src)
 target_link_libraries(IOSP PRIVATE
     IospUtils
     Bullet
-    Irrlicht)
+    Irrlicht
+    IrrlichtI18n)

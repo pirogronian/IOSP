@@ -1,12 +1,10 @@
 
-#include <iostream>
+#include <cstdio>
 
 #include <irrlicht.h>
-
+#include <CGUITTFont.h>
 #include <EventReceiver.h>
 #include <TestScene.h>
-
-#include <cstdio>
 
 int main()
 {
@@ -22,8 +20,12 @@ int main()
     irr::video::IVideoDriver *driver = device->getVideoDriver();
     irr::scene::ISceneManager* smgr = device->getSceneManager();
     irr::gui::IGUIEnvironment *gui = device->getGUIEnvironment();
+    auto *font = irr::gui::CGUITTFont::createTTFont(device->getGUIEnvironment(), "/usr/share/fonts/gnu-free/FreeMono.otf", 14);
+    if (!font)  std::puts("Font not loaded!");
+    gui->getSkin()->setFont(font);
     auto *dtimeText = gui->addStaticText(L"Static text", irr::core::rect<irr::s32>(0, 0, 150, 15));
     dtimeText->setDrawBackground(true);
+    dtimeText->setAlignment(irr::gui::EGUIA_SCALE, irr::gui::EGUIA_SCALE, irr::gui::EGUIA_SCALE, irr::gui::EGUIA_SCALE);
 
     irr::u32 ptime = device->getTimer()->getTime(), ctime;
     auto *sim = IOSP::TestScene(device);
