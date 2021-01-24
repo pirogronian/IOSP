@@ -3,6 +3,7 @@
 
 #include <irrlicht.h>
 
+#include <CGUITTFont.h>
 #include <Utils/InputKeyActionManager.h>
 #include <Simulation.h>
 
@@ -14,7 +15,13 @@ namespace IOSP
         enum Actions
         {
             TimeFaster = 1,
-            TimeSlower
+            TimeSlower,
+            LoadTTF
+        };
+        enum GuiElements
+        {
+            OpenTTFButton = 1,
+            OpenTTFFileDialog
         };
     protected:
         irr::IrrlichtDevice *m_dev{nullptr};
@@ -23,6 +30,8 @@ namespace IOSP
         irr::gui::IGUIEnvironment *m_gui{nullptr};
         Simulation *m_simulation{nullptr};
         irr::gui::IGUIStaticText *m_guiRunStats{nullptr};
+        irr::gui::IGUIButton *m_loadTTFButton{nullptr};
+        irr::gui::IGUIFileOpenDialog *m_fileOpenDialog{nullptr};
         SimpleInputKeyTriggeredActionManager m_trKeyActions;
     public:
         Application();
@@ -33,6 +42,15 @@ namespace IOSP
         const Simulation *simulation() const { m_simulation; }
         void setSimulation(Simulation *s) { m_simulation = s; }
         bool OnEvent(const irr::SEvent&) override;
+        bool OnGuiEvent(const irr::SEvent::SGUIEvent&);
+//         bool OnKeyInput(const irr::SEvent::SKeyInput&);
         void run();
+        bool loadTTF(const irr::io::path&, const irr::u32);
+        bool openTTFLoadFileDialog()
+        {
+            if (m_fileOpenDialog)  return false;
+            m_fileOpenDialog = m_gui->addFileOpenDialog(L"Load TTF file", true, nullptr, OpenTTFFileDialog);
+            return true;
+        }
     };
 }

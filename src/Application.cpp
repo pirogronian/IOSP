@@ -14,28 +14,26 @@ Application::Application()
         irr::core::dimension2d<irr::u32>(800, 600),
         16, false, true, true, this
     );
+
     if (!m_dev)  return;
     m_smgr = m_dev->getSceneManager();
     m_drv = m_dev->getVideoDriver();
+    m_gui = m_dev->getGUIEnvironment();
 
     m_trKeyActions.bind(TimeFaster, irr::KEY_PRIOR);
     m_trKeyActions.bind(TimeSlower, irr::KEY_NEXT);
 
     m_guiRunStats = m_gui->addStaticText(L"Static text", irr::core::rect<irr::s32>(0, 0, 200, 15));
     m_guiRunStats->setDrawBackground(true);
+    m_loadTTFButton = m_gui->addButton(irr::core::rect<irr::s32>(0, 20, 50, 35), 0, OpenTTFButton, L"Load font");
 }
 
 bool Application::OnEvent(const SEvent& event)
 {
-    if (m_simulation)
+    if (event.EventType == irr::EET_GUI_EVENT)
     {
-        if (m_simulation->OnEvent(event))  return true;
+        if (OnGuiEvent(event.GUIEvent))  return true;
     }
-//     if (event.EventType == irr::EET_KEY_INPUT_EVENT)
-//     {
-//         if (event.KeyInput.PressedDown)
-//             std::printf("Pressed key: %i\n", event.KeyInput.Key);
-//     }
     if (m_trKeyActions.OnEvent(event))
     {
         if (m_trKeyActions.isTriggered(TimeFaster))  m_simulation->setTimeMultiplier(m_simulation->timeMultiplier() + 1);
@@ -43,7 +41,52 @@ bool Application::OnEvent(const SEvent& event)
             m_trKeyActions.reset();
         return true;
     }
+    if (m_simulation)
+    {
+        if (m_simulation->OnEvent(event))  return true;
+    }
 
+    return false;
+}
+
+bool IOSP::Application::OnGuiEvent(const irr::SEvent::SGUIEvent& ge)
+{
+    auto *caller = ge.Caller;
+    assert(caller);
+    auto id = caller->getID();
+    switch(id)
+    {
+        case OpenTTFFileDialog:
+        {
+            if (ge.EventType == irr::gui::EGET_FILE_SELECTED)
+            {
+                std::puts("File selected.");
+                auto *dialog = (irr::gui::IGUIFileOpenDialog*)(caller);
+                auto *fname = dialog->getFileName();
+                if (fname)
+                {
+                    if (!loadTTF(fname, 14))
+                        std::printf("Cannot load font from file\"%s\"\n", fname);
+                }
+            }
+            if (ge.EventType == irr::gui::EGET_FILE_CHOOSE_DIALOG_CANCELLED)
+            {
+                std::puts("Dialog canceled.");
+                caller->drop();
+            }
+            break;
+        }
+        case OpenTTFButton:
+        {
+            if (ge.EventType == irr::gui::EGET_BUTTON_CLICKED)
+            {
+                openTTFLoadFileDialog();
+            }
+            return true;
+        }
+        default:
+            ;
+    }
     return false;
 }
 
@@ -68,6 +111,18 @@ void IOSP::Application::run()
         wcaption += L" fps]";
         m_dev->setWindowCaption(wcaption.c_str());
     }
+}
+
+bool IOSP::Application::loadTTF(const irr::io::path& fname, const irr::u32 size)
+{
+    auto *font = irr::gui::CGUITTFont::createTTFont(m_dev, fname, size);
+    if (!font)
+    {
+        std::puts("Font not loaded!");
+        return false;
+    }
+    m_gui->getSkin()->setFont(font);
+    return true;
 }
 
 IOSP::Application::~Application()
