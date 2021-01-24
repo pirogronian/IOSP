@@ -3,55 +3,28 @@
 
 #include <irrlicht.h>
 #include <CGUITTFont.h>
-#include <EventReceiver.h>
+#include <Application.h>
 #include <TestScene.h>
 
 int main()
 {
-    IOSP::EventReceiver *eventReceiver = new IOSP::EventReceiver();
-    irr::IrrlichtDevice *device = irr::createDevice(
-        irr::video::EDT_OPENGL,
-        irr::core::dimension2d<irr::u32>(800, 600),
-        16, false, true, true, eventReceiver
-    );
-    if (!device)
+    IOSP::Application app;
+    if (!app.device())
         return 1;
 
-    irr::video::IVideoDriver *driver = device->getVideoDriver();
-    irr::scene::ISceneManager* smgr = device->getSceneManager();
-    irr::gui::IGUIEnvironment *gui = device->getGUIEnvironment();
-    auto *font = irr::gui::CGUITTFont::createTTFont(device->getGUIEnvironment(), "/usr/share/fonts/gnu-free/FreeMono.otf", 14);
+    irr::video::IVideoDriver *driver = app.device()->getVideoDriver();
+    irr::scene::ISceneManager* smgr = app.device()->getSceneManager();
+    irr::gui::IGUIEnvironment *gui = app.device()->getGUIEnvironment();
+    auto *font = irr::gui::CGUITTFont::createTTFont(app.device()->getGUIEnvironment(), "/usr/share/fonts/gnu-free/FreeMono.otf", 14);
     if (!font)  std::puts("Font not loaded!");
     gui->getSkin()->setFont(font);
-    auto *dtimeText = gui->addStaticText(L"Static text", irr::core::rect<irr::s32>(0, 0, 200, 15));
-    dtimeText->setDrawBackground(true);
-    dtimeText->setAlignment(irr::gui::EGUIA_SCALE, irr::gui::EGUIA_SCALE, irr::gui::EGUIA_SCALE, irr::gui::EGUIA_SCALE);
 
-    auto *sim = IOSP::TestScene(device);
+    auto *sim = IOSP::TestScene(app.device());
     sim->debugDrawer().setDebugMode(btIDebugDraw::DBG_DrawWireframe|btIDebugDraw::DBG_DrawAabb);
-    eventReceiver->setSimulation(sim);
+    app.setSimulation(sim);
 
     sim->init();
-    while(device->run())
-    {
-        sim->update();
-        irr::core::stringw dtext = "Delta time: ";
-        dtext += sim->lastDelta();
-        dtext += ", mult: ";
-        dtext += sim->timeMultiplier();
-        dtimeText->setText(dtext.c_str());
-
-        driver->beginScene(true, true, irr::video::SColor(0,50,50,50));
-        smgr->drawAll();
-        gui->drawAll();
-        sim->drawDebug();
-        driver->endScene();
-        irr::core::stringw wcaption = L"IOSP [";
-        wcaption += driver->getFPS();
-        wcaption += L" fps]";
-        device->setWindowCaption(wcaption.c_str());
-    }
-    device->drop();
+    app.run();
 
     return 0;
 }

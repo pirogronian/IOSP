@@ -10,6 +10,8 @@ add_subdirectory(Tests)
 set(IOSP_MAIN_SRCS
     AbstractControlPanelSceneNode.h
     AbstractControlPanelSceneNode.cpp
+    Application.h
+    Application.cpp
     BulletBodySceneNode.h
     BulletBodySceneNode.cpp
     BulletDebugDrawer.h
@@ -20,8 +22,6 @@ set(IOSP_MAIN_SRCS
     BulletWorldSceneNode.cpp
     Common.h
     Conversions.h
-    EventReceiver.h
-    EventReceiver.cpp
     main.cpp
     Simulation.h
     Simulation.cpp
