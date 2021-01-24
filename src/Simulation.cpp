@@ -35,6 +35,11 @@ bool IOSP::Simulation::hasWorld(const BulletWorldSceneNode *w) const
     return m_worlds.hasItem(w);
 }
 
+void IOSP::Simulation::init()
+{
+    m_timeCurrent = m_idev->getTimer()->getTime();
+}
+
 void IOSP::Simulation::stepSimulation(btScalar d)
 {
     for (auto &w : m_worlds)
@@ -44,9 +49,17 @@ void IOSP::Simulation::stepSimulation(btScalar d)
         m_activePanel->update();
 }
 
+void IOSP::Simulation::update()
+{
+    m_timeLast = m_timeCurrent;
+    m_timeCurrent = m_idev->getTimer()->getTime();
+    m_timeLastDelta = m_timeCurrent - m_timeLast;
+    stepSimulation(static_cast<btScalar>(m_timeMult * m_timeLastDelta) / 1000);
+}
+
 void IOSP::Simulation::drawDebug()
 {
-    auto *drv = m_idevice->getVideoDriver();
+    auto *drv = m_idev->getVideoDriver();
     drv->setTransform(irr::video::ETS_WORLD, irr::core::matrix4());
     for (auto &world : m_worlds)
         world->bulletWorld().debugDrawWorld();
