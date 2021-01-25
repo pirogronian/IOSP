@@ -66,23 +66,24 @@ bool IOSP::Application::OnGuiEvent(const irr::SEvent::SGUIEvent& ge)
                 if (fname)
                 {
                     if (!loadTTF(fname, 14))
-                        std::printf("Cannot load font from file\"%s\"\n", fname);
+                    {
+                        irr::core::stringw text("Cannot load TrueType font from file: ");
+                        text += fname;
+                        m_gui->addMessageBox(L"Cannot load font!", text.c_str());
+                    }
                 }
+                return true;
             }
-            if (ge.EventType == irr::gui::EGET_FILE_CHOOSE_DIALOG_CANCELLED)
-            {
-                std::puts("Dialog canceled.");
-                caller->drop();
-            }
-            break;
+            return false;
         }
         case OpenTTFButton:
         {
             if (ge.EventType == irr::gui::EGET_BUTTON_CLICKED)
             {
                 openTTFLoadFileDialog();
+                return true;
             }
-            return true;
+            return false;
         }
         default:
             ;
@@ -103,8 +104,8 @@ void IOSP::Application::run()
 
         m_drv->beginScene(true, true, irr::video::SColor(0,50,50,50));
         m_smgr->drawAll();
-        m_gui->drawAll();
         m_simulation->drawDebug();
+        m_gui->drawAll();
         m_drv->endScene();
         irr::core::stringw wcaption = L"IOSP [";
         wcaption += m_drv->getFPS();

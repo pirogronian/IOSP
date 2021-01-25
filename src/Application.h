@@ -31,7 +31,6 @@ namespace IOSP
         Simulation *m_simulation{nullptr};
         irr::gui::IGUIStaticText *m_guiRunStats{nullptr};
         irr::gui::IGUIButton *m_loadTTFButton{nullptr};
-        irr::gui::IGUIFileOpenDialog *m_fileOpenDialog{nullptr};
         SimpleInputKeyTriggeredActionManager m_trKeyActions;
     public:
         Application();
@@ -48,8 +47,7 @@ namespace IOSP
         bool loadTTF(const irr::io::path&, const irr::u32);
         bool openTTFLoadFileDialog()
         {
-            if (m_fileOpenDialog)  return false;
-            m_fileOpenDialog = m_gui->addFileOpenDialog(L"Load TTF file", true, nullptr, OpenTTFFileDialog);
+            m_gui->addFileOpenDialog(L"Load TTF file", true, nullptr, OpenTTFFileDialog);
             return true;
         }
     };
