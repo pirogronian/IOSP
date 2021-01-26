@@ -23,6 +23,8 @@ set(IOSP_MAIN_SRCS
     Common.h
     Conversions.h
     main.cpp
+    Settings.h
+    Settings.cpp
     Simulation.h
     Simulation.cpp
     TestControlPanel.h

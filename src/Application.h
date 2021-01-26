@@ -6,6 +6,7 @@
 #include <CGUITTFont.h>
 #include <Utils/InputKeyActionManager.h>
 #include <Simulation.h>
+#include <Settings.h>
 
 namespace IOSP
 {
@@ -27,11 +28,14 @@ namespace IOSP
         irr::IrrlichtDevice *m_dev{nullptr};
         irr::video::IVideoDriver *m_drv{nullptr};
         irr::scene::ISceneManager *m_smgr{nullptr};
+        irr::io::IFileSystem *m_fs{nullptr};
         irr::gui::IGUIEnvironment *m_gui{nullptr};
         Simulation *m_simulation{nullptr};
         irr::gui::IGUIStaticText *m_guiRunStats{nullptr};
         irr::gui::IGUIButton *m_loadTTFButton{nullptr};
         SimpleInputKeyTriggeredActionManager m_trKeyActions;
+        irr::io::path m_basePath;
+        Settings m_settings;
     public:
         Application();
         ~Application();

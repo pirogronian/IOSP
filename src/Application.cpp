@@ -19,6 +19,17 @@ Application::Application()
     m_smgr = m_dev->getSceneManager();
     m_drv = m_dev->getVideoDriver();
     m_gui = m_dev->getGUIEnvironment();
+    m_fs = m_dev->getFileSystem();
+
+    m_basePath = m_fs->getWorkingDirectory();
+
+    m_settings.setFilesystem(m_fs);
+
+    m_settings.path() = "Config.xml";
+    m_settings.load();
+    m_settings.printFonts();
+    Settings::Font dfont = m_settings.getFont();
+    if (!dfont.file.empty()) loadTTF(dfont.file, dfont.size);
 
     m_trKeyActions.bind(TimeFaster, irr::KEY_PRIOR);
     m_trKeyActions.bind(TimeSlower, irr::KEY_NEXT);
@@ -118,10 +129,7 @@ bool IOSP::Application::loadTTF(const irr::io::path& fname, const irr::u32 size)
 {
     auto *font = irr::gui::CGUITTFont::createTTFont(m_dev, fname, size);
     if (!font)
-    {
-        std::puts("Font not loaded!");
         return false;
-    }
     m_gui->getSkin()->setFont(font);
     return true;
 }

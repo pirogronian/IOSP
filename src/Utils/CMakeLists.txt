@@ -9,7 +9,9 @@ set(SOURCES
     InputKeyBinder.h
     InputKeyBinder.cpp
     NamedClassInstance.h
-    VectorHelper.h)
+    VectorHelper.h
+    XMLParser.h
+    XMLParser.cpp)
 
 add_library(IospUtils STATIC ${SOURCES})
 
