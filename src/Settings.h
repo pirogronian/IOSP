@@ -17,6 +17,9 @@ namespace IOSP
             Font() = default;
             Font(const irr::core::stringw& f, unsigned int s) : file(f), size(s) {}
         };
+        static const irr::core::stringw FontCategoryAttr;
+        static const irr::core::stringw FontFileAttr;
+        static const irr::core::stringw FontSizeAttr;
     protected:
         bool m_dirty{false};
         bool m_loading{false};

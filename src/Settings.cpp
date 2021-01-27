@@ -15,9 +15,6 @@ class SettingsXMLParser : public XMLParser
     Settings &m_settings;
     const wchar_t *m_fontCategory{nullptr}, *m_fontFile{nullptr};
     unsigned int m_fontSize{10};
-    const core::stringw m_fontCatAttrName{"category"};
-    const core::stringw m_fontFileAttrName{"file"};
-    const core::stringw m_fontSizeAttrName{"size"};
 public:
     void fontAttrEnd()
     {
@@ -37,17 +34,17 @@ public:
     void fontAttr(const wchar_t *attr, Variant v)
     {
 //         std::printf("Processing attribute: %ls\n", attr);
-        if (m_fontCatAttrName == attr)
+        if (Settings::FontCategoryAttr == attr)
         {
             m_fontCategory = v.wChar;
             return;
         }
-        if (m_fontFileAttrName == attr)
+        if (Settings::FontFileAttr == attr)
         {
             m_fontFile = v.wChar;
             return;
         }
-        if (m_fontSizeAttrName == attr)
+        if (Settings::FontSizeAttr == attr)
         {
             m_fontSize = v.Int;
             return;
@@ -68,6 +65,10 @@ public:
 // static void writeFont(const irr::core::stringw&)
 // {
 // }
+
+const irr::core::stringw IOSP::Settings::FontCategoryAttr = L"category";
+const irr::core::stringw IOSP::Settings::FontFileAttr = L"file";
+const irr::core::stringw IOSP::Settings::FontSizeAttr = L"size";
 
 void IOSP::Settings::setFont(const irr::core::stringw& cat, const irr::core::stringw& file, unsigned int size)
 {
@@ -133,9 +134,9 @@ bool IOSP::Settings::save(const irr::io::path& arg)
         {
             XMLNodeWriter fontW(writer, L"font", true);
             Font font = it->getValue();
-            fontW.addAttribute(L"category", it->getKey());
-            fontW.addAttribute(L"file", font.file);
-            fontW.addAttribute(L"size", (int)font.size);
+            fontW.addAttribute(FontCategoryAttr, it->getKey());
+            fontW.addAttribute(FontFileAttr, font.file);
+            fontW.addAttribute(FontSizeAttr, (int)font.size);
             it++;
         }
     }
