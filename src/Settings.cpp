@@ -2,6 +2,7 @@
 #include <cassert>
 #include <cstdio>
 #include <Utils/XMLParser.h>
+#include <Utils/XMLNodeWriter.h>
 #include <Utils/IsAlive.h>
 #include "Settings.h"
 
@@ -64,12 +65,14 @@ public:
     }
 };
 
+// static void writeFont(const irr::core::stringw&)
+// {
+// }
+
 void IOSP::Settings::setFont(const irr::core::stringw& cat, const irr::core::stringw& file, unsigned int size)
 {
     Settings::Font font(file, size);
-    auto *node = m_fonts.find(cat);
-    if (node)  node->setValue(font);
-    else m_fonts.insert(cat, font);
+    m_fonts.set(cat, font);
     setDirty(true);
 }
 
@@ -122,21 +125,20 @@ bool IOSP::Settings::save(const irr::io::path& arg)
     }
     std::printf("Saving to config file: \"%s\"\n", fpath.c_str());
     writer->writeXMLHeader();
-    writer->writeLineBreak();
-    writer->writeElement(L"fonts");
-    writer->writeLineBreak();
-    auto it = m_fonts.getConstIterator();
-    while(!it.atEnd())
     {
-        Font font = it->getValue();
-        irr::core::stringw sizestr(font.size);
-        writer->writeElement(L"font", true, L"category", it->getKey().c_str(), L"file", font.file.c_str(), L"size", sizestr.c_str());
-        writer->writeLineBreak();
-        it++;
+        XMLNodeWriter fontsW(writer, L"fonts");
+        fontsW.write();
+        auto it = m_fonts.getConstIterator();
+        while(!it.atEnd())
+        {
+            XMLNodeWriter fontW(writer, L"font", true);
+            Font font = it->getValue();
+            fontW.addAttribute(L"category", it->getKey());
+            fontW.addAttribute(L"file", font.file);
+            fontW.addAttribute(L"size", (int)font.size);
+            it++;
+        }
     }
-    writer->writeClosingTag(L"fonts");
-    writer->writeLineBreak();
-    irr::core::stringw fontSizeStr();
     setDirty(false);
     return true;
 }

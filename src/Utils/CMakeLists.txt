@@ -10,6 +10,8 @@ set(SOURCES
     InputKeyBinder.cpp
     NamedClassInstance.h
     VectorHelper.h
+    XMLNodeWriter.h
+    XMLNodeWriter.cpp
     XMLParser.h
     XMLParser.cpp)
 
