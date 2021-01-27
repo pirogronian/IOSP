@@ -55,8 +55,8 @@ public:
         : m_settings{settings},
         XMLParser(xml, &m_rootHandler)
     {
-        m_rootHandler.m_nodeHandlers.insert(L"fonts", &m_fontsHandler);
-        m_fontsHandler.m_nodeHandlers.insert(L"font", &m_fontHandler);
+        m_rootHandler.m_nodeHandlers.insert(Settings::FontsNodeName, &m_fontsHandler);
+        m_fontsHandler.m_nodeHandlers.insert(Settings::FontNodeName, &m_fontHandler);
         m_fontHandler.m_attrHandler = (NodeHandler::AttrHandler_t)&SettingsXMLParser::fontAttr;
         m_fontHandler.m_attrEndHandler = (NodeHandler::AttrEndHandler_t)&SettingsXMLParser::fontAttrEnd;
     }
@@ -66,6 +66,8 @@ public:
 // {
 // }
 
+const irr::core::stringw IOSP::Settings::FontsNodeName = L"fonts";
+const irr::core::stringw IOSP::Settings::FontNodeName = L"font";
 const irr::core::stringw IOSP::Settings::FontCategoryAttr = L"category";
 const irr::core::stringw IOSP::Settings::FontFileAttr = L"file";
 const irr::core::stringw IOSP::Settings::FontSizeAttr = L"size";
@@ -127,12 +129,12 @@ bool IOSP::Settings::save(const irr::io::path& arg)
     std::printf("Saving to config file: \"%s\"\n", fpath.c_str());
     writer->writeXMLHeader();
     {
-        XMLNodeWriter fontsW(writer, L"fonts", 0);
+        XMLNodeWriter fontsW(writer, FontsNodeName, 0);
 //         fontsW.write();
         auto it = m_fonts.getConstIterator();
         while(!it.atEnd())
         {
-            XMLNodeWriter fontW(writer, L"font", true);
+            XMLNodeWriter fontW(writer, FontNodeName, true);
             Font font = it->getValue();
             fontW.addAttribute(FontCategoryAttr, it->getKey());
             fontW.addAttribute(FontFileAttr, font.file);
