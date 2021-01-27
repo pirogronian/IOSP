@@ -126,8 +126,8 @@ bool IOSP::Settings::save(const irr::io::path& arg)
     std::printf("Saving to config file: \"%s\"\n", fpath.c_str());
     writer->writeXMLHeader();
     {
-        XMLNodeWriter fontsW(writer, L"fonts");
-        fontsW.write();
+        XMLNodeWriter fontsW(writer, L"fonts", 0);
+//         fontsW.write();
         auto it = m_fonts.getConstIterator();
         while(!it.atEnd())
         {

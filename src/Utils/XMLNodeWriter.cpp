@@ -31,6 +31,13 @@ void IOSP::XMLNodeWriter::write()
 
 void IOSP::XMLNodeWriter::addAttribute(const irr::core::stringw& name, const irr::core::stringw& val)
 {
+    if (m_written)
+    {
+        std::printf("Cannot add attribute: node <%ls> already written!\n", m_nodeName.c_str());
+        return;
+    }
     m_attrNames.push_back(name);
     m_attrVals.push_back(val);
+    m_attrNum++;
+    if (m_attrNum > 0 && m_attrNum == m_attrNames.size())  write();
 }
