@@ -25,7 +25,7 @@ Application::Application()
 
     m_settings.setFilesystem(m_fs);
 
-    m_settings.path() = "Config.xml";
+    m_settings.path() = m_basePath + "/Config.xml";
     m_settings.load();
     m_settings.printFonts();
     Settings::Font dfont = m_settings.getFont();
@@ -82,6 +82,7 @@ bool IOSP::Application::OnGuiEvent(const irr::SEvent::SGUIEvent& ge)
                         text += fname;
                         m_gui->addMessageBox(L"Cannot load font!", text.c_str());
                     }
+                    else m_settings.setFont(L"Default", fname, 14);
                 }
                 return true;
             }
@@ -136,5 +137,6 @@ bool IOSP::Application::loadTTF(const irr::io::path& fname, const irr::u32 size)
 
 IOSP::Application::~Application()
 {
+    m_settings.save();
     m_dev->drop();
 }

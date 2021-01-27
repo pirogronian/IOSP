@@ -1,6 +1,8 @@
 
+#include <cassert>
 #include <cstdio>
 #include <Utils/XMLParser.h>
+#include <Utils/IsAlive.h>
 #include "Settings.h"
 
 using namespace IOSP;
@@ -24,7 +26,7 @@ public:
         if (!val.empty())
         {
             printf("Adding font to config: [%ls]: { %ls, %i }\n", key.c_str(), val.c_str(), m_fontSize);
-            m_settings.addFontFile(key, val, m_fontSize);
+            m_settings.setFont(key, val, m_fontSize);
         }
 //         else std::puts("Value empty!");
         m_fontCategory = nullptr;
@@ -62,6 +64,15 @@ public:
     }
 };
 
+void IOSP::Settings::setFont(const irr::core::stringw& cat, const irr::core::stringw& file, unsigned int size)
+{
+    Settings::Font font(file, size);
+    auto *node = m_fonts.find(cat);
+    if (node)  node->setValue(font);
+    else m_fonts.insert(cat, font);
+    setDirty(true);
+}
+
 IOSP::Settings::Font IOSP::Settings::getFont(const irr::core::stringw& arg) const
 {
     irr::core::stringw cat = arg;
@@ -86,6 +97,8 @@ void IOSP::Settings::printFonts() const
 
 bool IOSP::Settings::load(const irr::io::path& arg)
 {
+    IsAlive loading(m_loading);
+    assert(isLoading());
     irr::io::path fpath = arg.empty() ? m_fpath : arg;
     auto *reader = m_fs->createXMLReader(fpath);
     if (!reader)
@@ -95,4 +108,35 @@ bool IOSP::Settings::load(const irr::io::path& arg)
     }
     SettingsXMLParser parser(*this, reader);
     return parser.parse();
+}
+
+bool IOSP::Settings::save(const irr::io::path& arg)
+{
+    if (!isDirty())  return true;
+    irr::io::path fpath = arg.empty() ? m_fpath : arg;
+    auto *writer = m_fs->createXMLWriter(fpath);
+    if (!writer)
+    {
+        std::printf("Unable to save config file: \"%s\"\n", fpath.c_str());
+        return false;
+    }
+    std::printf("Saving to config file: \"%s\"\n", fpath.c_str());
+    writer->writeXMLHeader();
+    writer->writeLineBreak();
+    writer->writeElement(L"fonts");
+    writer->writeLineBreak();
+    auto it = m_fonts.getConstIterator();
+    while(!it.atEnd())
+    {
+        Font font = it->getValue();
+        irr::core::stringw sizestr(font.size);
+        writer->writeElement(L"font", true, L"category", it->getKey().c_str(), L"file", font.file.c_str(), L"size", sizestr.c_str());
+        writer->writeLineBreak();
+        it++;
+    }
+    writer->writeClosingTag(L"fonts");
+    writer->writeLineBreak();
+    irr::core::stringw fontSizeStr();
+    setDirty(false);
+    return true;
 }
