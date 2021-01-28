@@ -65,7 +65,7 @@ void IOSP::Simulation::drawDebug()
         world->bulletWorld().debugDrawWorld();
 }
 
-void IOSP::Simulation::setActivePanel(AbstractControlPanelSceneNode *p)
+void IOSP::Simulation::setActivePanel(ControlPanelSceneNode *p)
 {
     if (m_activePanel == p)  return;
     if (m_activePanel)
@@ -77,6 +77,6 @@ void IOSP::Simulation::setActivePanel(AbstractControlPanelSceneNode *p)
 bool IOSP::Simulation::OnEvent(const irr::SEvent& event)
 {
     if (m_activePanel)  return m_activePanel->OnEvent(event);
-//     std::puts("Simulation::OnEvent");
+//     std::puts("No active control panel!");
     return false;
 }

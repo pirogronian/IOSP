@@ -50,6 +50,7 @@ bool Application::OnEvent(const SEvent& event)
         if (m_trKeyActions.isTriggered(TimeFaster))  m_simulation->setTimeMultiplier(m_simulation->timeMultiplier() + 1);
         if (m_trKeyActions.isTriggered(TimeSlower))  m_simulation->setTimeMultiplier(m_simulation->timeMultiplier() - 1);
             m_trKeyActions.reset();
+//         std::puts("Application accepted event.");
         return true;
     }
     if (m_simulation)

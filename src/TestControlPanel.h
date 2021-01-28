@@ -1,17 +1,16 @@
 
 #pragma once
 
-#include <AbstractControlPanelSceneNode.h>
+#include <ControlPanelSceneNode.h>
 #include <BulletBodySceneNode.h>
 
 namespace IOSP
 {
-    class TestControlPanel : 
-    virtual public TargetedAbstractControlPanel<BulletBodySceneNode>,
-    virtual public KeyInputAbstractControlPanel
+    class TestControlPanel : public ControlPanelSceneNode
     {
     protected:
         bool m_isThrust{false};
+        void setTarget(irr::scene::ISceneNode*);
     public:
         enum Actions
         {
@@ -27,5 +26,6 @@ namespace IOSP
         void update() override;
         void render() override;
         void OnRegisterSceneNode() override;
+        void setTarget(BulletBodySceneNode *b) { ControlPanelSceneNode::setTarget(b); }
     };
 }

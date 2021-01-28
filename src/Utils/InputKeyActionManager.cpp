@@ -1,4 +1,7 @@
 
+#include <cstdio>
+#include <Utils/Dump.h>
+
 #include <Utils/VectorHelper.h>
 
 #include "InputKeyActionManager.h"
@@ -43,8 +46,10 @@ void IOSP::InputKeyStateActionManager::setActive(int action, bool active)
 
 bool IOSP::InputKeyStateActionManager::OnKeyInput(const irr::SEvent::SKeyInput& ki)
 {
+//     dump(ki);
     int action = boundAction(ki);
     if (action <= 0)  return false;
+//     std::puts("Found action!");
     if (ki.PressedDown)  setActive(action, true);
     else setActive(action, false);
     return true;

@@ -5,7 +5,7 @@
 #include <Utils/LinkedList.h>
 #include <BulletWorldSceneNode.h>
 #include <BulletDebugDrawer.h>
-#include <AbstractControlPanelSceneNode.h>
+#include <ControlPanelSceneNode.h>
 
 namespace IOSP
 {
@@ -14,7 +14,7 @@ namespace IOSP
         irr::IrrlichtDevice *m_idev;
         LinkedPtrList<BulletWorldSceneNode> m_worlds;
         BulletDebugDrawer m_ddrawer;
-        AbstractControlPanelSceneNode *m_activePanel{nullptr};
+        ControlPanelSceneNode *m_activePanel{nullptr};
         irr::u32 
             m_timeMult{1},
             m_timeLast{0},
@@ -33,9 +33,9 @@ namespace IOSP
         void drawDebug();
         BulletDebugDrawer& debugDrawer() { return m_ddrawer; }
         const BulletDebugDrawer& debugDrawer() const { return m_ddrawer; }
-        AbstractControlPanelSceneNode *activePanel() { return m_activePanel; }
-        const AbstractControlPanelSceneNode *activePanel() const { return m_activePanel; }
-        void setActivePanel(AbstractControlPanelSceneNode *);
+        ControlPanelSceneNode *activePanel() { return m_activePanel; }
+        const ControlPanelSceneNode *activePanel() const { return m_activePanel; }
+        void setActivePanel(ControlPanelSceneNode *);
         bool OnEvent(const irr::SEvent&) override;
         irr::u32 lastDelta() const { return m_timeLastDelta; }
         irr::u32 timeMultiplier() const { return m_timeMult; }

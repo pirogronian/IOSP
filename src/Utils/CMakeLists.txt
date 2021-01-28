@@ -3,6 +3,8 @@ set(SOURCES
     Accumulator.h
     Accumulator.cpp
     AutoIndexer.h
+    Dump.h
+    Dump.cpp
     IndexEntry.h
     InputKeyActionManager.h
     InputKeyActionManager.cpp

@@ -26,8 +26,12 @@ namespace IOSP
         {
             if (!ki.PressedDown)  return false;
             int action = boundAction(ki);
-            if (action > 0)  triggered(action);
-            return true;
+            if (action > 0)
+            {
+                triggered(action);
+                return true;
+            }
+            return false;
         }
     };
 
