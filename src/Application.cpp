@@ -1,7 +1,7 @@
 
 #include <cstdio>
 
-#include <Application.h>
+#include "Application.h"
 
 using namespace IOSP;
 
@@ -116,6 +116,7 @@ void IOSP::Application::run()
         m_guiRunStats->setText(dtext.c_str());
 
         m_drv->beginScene(true, true, irr::video::SColor(0,50,50,50));
+        ControlPanelSceneNode::thirdPersonCamera.update();
         m_smgr->drawAll();
         m_simulation->drawDebug();
         m_gui->drawAll();

@@ -44,6 +44,8 @@ Simulation *IOSP::TestScene(IrrlichtDevice *dvc)
     tcpanel->setTarget(body);
 //     tcpanel->grabEvents();
     tcpanel->stateActionManager()->bind(TestControlPanel::ThrustAction, irr::KEY_KEY_A, false, true);
+    ControlPanelSceneNode::thirdPersonCamera.setCamera(cam);
+    ControlPanelSceneNode::thirdPersonCamera.setTarget(body);
     auto *sim = new Simulation(dvc);
     sim->addWorld(bworld);
     sim->setActivePanel(tcpanel);

@@ -41,8 +41,8 @@ namespace IOSP
         ~Application();
         irr::IrrlichtDevice *device() { return m_dev; }
         const irr::IrrlichtDevice *device() const { return m_dev; }
-        Simulation *simulation() { m_simulation; }
-        const Simulation *simulation() const { m_simulation; }
+        Simulation *simulation() { return m_simulation; }
+        const Simulation *simulation() const { return m_simulation; }
         void setSimulation(Simulation *s) { m_simulation = s; }
         bool OnEvent(const irr::SEvent&) override;
         bool OnGuiEvent(const irr::SEvent::SGUIEvent&);

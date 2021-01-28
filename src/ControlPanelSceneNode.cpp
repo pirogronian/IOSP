@@ -4,6 +4,8 @@
 
 using namespace IOSP;
 
+IOSP::ThirdPersonCamera IOSP::ControlPanelSceneNode::thirdPersonCamera;
+
 IOSP::ControlPanelSceneNode::ControlPanelSceneNode(
             irr::IrrlichtDevice *dev,
             irr::scene::ISceneNode *parent,

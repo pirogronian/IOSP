@@ -6,6 +6,7 @@
 
 #include <Common.h>
 #include <Utils/InputKeyActionManager.h>
+#include <ThirdPersonCamera.h>
 
 namespace IOSP
 {
@@ -19,6 +20,7 @@ namespace IOSP
         std::shared_ptr<AbstractInputKeyTriggeredActionManager> m_trKeyActions;
         std::shared_ptr<InputKeyStateActionManager> m_stKeyActions;
     public:
+        static ThirdPersonCamera thirdPersonCamera;
         ControlPanelSceneNode(
             irr::IrrlichtDevice *,
             irr::scene::ISceneNode *,
