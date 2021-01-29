@@ -12,9 +12,18 @@ namespace IOSP
         bool m_isThrust{false};
         void setTarget(irr::scene::ISceneNode*);
     public:
-        enum Actions
+        enum TriggeredActions
         {
-            ThrustAction = 1
+            StartThrustAction = 1,
+            StopThrustAction
+        };
+        enum StateActions
+        {
+            ThrustAction = 1,
+            PitchUpAction,
+            PitchDownAction,
+            RollClockwiseAction,
+            RollAnticlockwiseAction
         };
         TestControlPanel(
             irr::IrrlichtDevice *dev,
