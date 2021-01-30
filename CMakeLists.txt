@@ -17,21 +17,21 @@ endif()
 set(CMAKE_CXX_STANDARD 17)
 
 find_package(Irrlicht REQUIRED)
-find_package(Bullet REQUIRED Collision Dynamics)
+#find_package(Bullet REQUIRED Collision Dynamics)
 
-#add_definitions(-DBT_USE_DOUBLE_PRECISION -DQUATERNION_DERIVATIVE)
+add_definitions(-DBT_USE_DOUBLE_PRECISION -DQUATERNION_DERIVATIVE)
 
 add_executable(IOSP)
 
 target_include_directories(IOSP PRIVATE ${IRRLICHT_INCLUDE_DIR})
-target_include_directories(IOSP PRIVATE ${BULLET_INCLUDE_DIR})
+#target_include_directories(IOSP PRIVATE ${BULLET_INCLUDE_DIR})
 
 add_subdirectory(src)
 
 target_link_libraries(IOSP PRIVATE
     IospUtils
-    BulletDynamics
-    BulletCollision
+    Bullet
+    #BulletCollision
     LinearMath
     Irrlicht
     IrrlichtI18n)

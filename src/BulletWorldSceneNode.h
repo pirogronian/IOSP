@@ -32,6 +32,8 @@ namespace IOSP
         btVector3 getGlobalGravity() const { return m_world.getGravity(); }
         void setMinStepDelta(btScalar d) { m_minStepDelta = d; }
         btScalar getMinStepDelta() const { return m_minStepDelta; }
+        btScalar getMaxSubSteps() const { return m_maxSubSteps; }
+        void setMaxSubSteps(btScalar m) { m_maxSubSteps = m; }
         void stepSimulation(btScalar d)
         {
             m_world.stepSimulation(d, m_maxSubSteps, m_minStepDelta);
