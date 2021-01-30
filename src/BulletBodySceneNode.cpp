@@ -1,4 +1,6 @@
 
+#include <Conversions.h>
+
 #include "BulletBodySceneNode.h"
 
 using namespace IOSP;
@@ -35,7 +37,7 @@ IOSP::BulletBodySceneNode::~BulletBodySceneNode()
 void IOSP::BulletBodySceneNode::syncTransform()
 {
     auto& pos = getPosition();
-    auto& rot = getRotation();
+    auto rot = degToRad(getRotation());
     btTransform tr(btQuaternion(rot.X, rot.Y, rot.Z), btVector3(pos.X, pos.Y, pos.Z));
     m_bbody->setWorldTransform(tr);
 }

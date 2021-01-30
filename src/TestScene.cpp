@@ -19,7 +19,7 @@ Simulation *IOSP::TestScene(IrrlichtDevice *dvc)
     cam->setTarget(core::vector3df(0, 0, 0));
 //     auto *light = smgr->addLightSceneNode();
     auto *bworld = new BulletWorldSceneNode(smgr->getRootSceneNode(), smgr);
-    bworld->setGlobalGravity(btVector3(0, 0, 1));
+    bworld->setGlobalGravity(btVector3(0, 0, 0));
     bworld->setName("BulletWorld");
 //     bworld->setMaxSubSteps(0);
     auto *bsphere = new btSphereShape(5);
@@ -30,7 +30,7 @@ Simulation *IOSP::TestScene(IrrlichtDevice *dvc)
 //     body->setName("BBody");
     brigid->setActivationState(DISABLE_DEACTIVATION);
 //     bworld->bulletWorld().addRigidBody(brigid);
-//     brigid->setAngularVelocity(btVector3(0, 0, 0.5));
+    brigid->setAngularVelocity(btVector3(0, 0, 0.5));
     auto *body = new BulletBodySceneNode(smgr->getRootSceneNode(), smgr, brigid);
     body->setWorld(bworld->bulletWorld());
     auto *cube = smgr->addCubeSceneNode(10, body);
@@ -43,7 +43,7 @@ Simulation *IOSP::TestScene(IrrlichtDevice *dvc)
     auto *bwall = new btRigidBody(0, nullptr, bbox2);
     auto *wall = new BulletBodySceneNode(smgr->getRootSceneNode(), smgr, bwall);
     wall->setPosition(core::vector3df(0, 0, 20));
-    wall->setRotation(core::vector3df(0, 1, 0));
+    wall->setRotation(core::vector3df(0, 45, 0));
     wall->syncTransform();
     wall->setWorld(bworld->bulletWorld());
     wall->setName("BWall");
