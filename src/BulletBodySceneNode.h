@@ -41,5 +41,13 @@ namespace IOSP
 //             ISceneNode::setRotation(pos);
 //             syncTransform();
 //         }
+        void applyTorqueLocal(const btVector3& rot)
+        {
+            m_bbody->applyTorque(m_bbody->getWorldTransform().getBasis() * rot);
+        }
+        void applyForceLocal(const btVector3& f, const btVector3& offset = btVector3(0, 0, 0))
+        {
+            m_bbody->applyForce(m_bbody->getWorldTransform().getBasis() * f, offset);
+        }
     };
 }

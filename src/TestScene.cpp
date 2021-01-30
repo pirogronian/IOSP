@@ -30,7 +30,7 @@ Simulation *IOSP::TestScene(IrrlichtDevice *dvc)
 //     body->setName("BBody");
     brigid->setActivationState(DISABLE_DEACTIVATION);
 //     bworld->bulletWorld().addRigidBody(brigid);
-    brigid->setAngularVelocity(btVector3(0, 0, 0.5));
+//     brigid->setAngularVelocity(btVector3(0, 0, 0.5));
     auto *body = new BulletBodySceneNode(smgr->getRootSceneNode(), smgr, brigid);
     body->setWorld(bworld->bulletWorld());
     auto *cube = smgr->addCubeSceneNode(10, body);

@@ -32,29 +32,34 @@ void IOSP::TestControlPanel::update()
         if (m_stKeyActions->isActive(ThrustAction))
         {
 //             std::puts("Thrust On!");
-            body->bulletRigidBody()->applyForce(btVector3(0, 0, -3), btVector3(0, 0, 0));
+//             body->bulletRigidBody()->applyForce(btVector3(0, 0, -3), btVector3(0, 0, 0));
+            body->applyForceLocal(btVector3(0, 0, -3));
         }
         if (m_stKeyActions->isActive(PitchUpAction))
         {
 //             std::puts("Pitch up On!");
-            body->bulletRigidBody()->applyTorque(btVector3(1, 0, 0));
+//             body->bulletRigidBody()->applyTorque(btVector3(1, 0, 0));
+            body->applyTorqueLocal(btVector3(1, 0, 0));
 //             auto av = body->bulletRigidBody()->getAngularVelocity();
 //             std::printf("Ang vel: [%f, %f, %f]\n", av.getX(), av.getY(), av.getZ());
         }
         else if (m_stKeyActions->isActive(PitchDownAction))
         {
 //             std::puts("Pitch down On!");
-            body->bulletRigidBody()->applyTorque(btVector3(-1, 0, 0));
+//             body->bulletRigidBody()->applyTorque(btVector3(-1, 0, 0));
+            body->applyTorqueLocal(btVector3(-1, 0, 0));
         }
         if (m_stKeyActions->isActive(RollClockwiseAction))
         {
 //             std::puts("Roll clockwise On!");
-            body->bulletRigidBody()->applyTorque(btVector3(0, 0, 1));
+//             body->bulletRigidBody()->applyTorque(btVector3(0, 0, 1));
+            body->applyTorqueLocal(btVector3(0, 0, 1));
         }
         else if (m_stKeyActions->isActive(RollAnticlockwiseAction))
         {
 //             std::puts("Roll anticlockwise On!");
-            body->bulletRigidBody()->applyTorque(btVector3(0, 0, -1));
+//             body->bulletRigidBody()->applyTorque(btVector3(0, 0, -1));
+            body->applyTorqueLocal(btVector3(0, 0, -1));
         }
 //         body->bulletRigidBody()->integrateVelocities(1);
 //         auto it = body->bulletRigidBody()->getInvInertiaTensor();
