@@ -22,6 +22,8 @@ set(IOSP_MAIN_SRCS
     ControlPanelSceneNode.h
     ControlPanelSceneNode.cpp
     Conversions.h
+    IrrlichtObject.h
+    IrrlichtObject.cpp
     main.cpp
     MagicSimpleRocketControlPanel.h
     MagicSimpleRocketControlPanel.cpp

@@ -11,6 +11,7 @@ set(SOURCES
     InputKeyBinder.h
     InputKeyBinder.cpp
     NamedClassInstance.h
+    Ownership.h
     VectorHelper.h
     XMLNodeWriter.h
     XMLNodeWriter.cpp
