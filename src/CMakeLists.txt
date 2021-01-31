@@ -23,12 +23,12 @@ set(IOSP_MAIN_SRCS
     ControlPanelSceneNode.cpp
     Conversions.h
     main.cpp
+    MagicSimpleRocketControlPanel.h
+    MagicSimpleRocketControlPanel.cpp
     Settings.h
     Settings.cpp
     Simulation.h
     Simulation.cpp
-    TestControlPanel.h
-    TestControlPanel.cpp
     TestScene.h
     TestScene.cpp
     ThirdPersonCamera.h)

@@ -6,7 +6,11 @@
 
 namespace IOSP
 {
-    class TestControlPanel : public ControlPanelSceneNode
+    /*
+     * It's called "magic", because it magically make a simple rocket
+     * from any BulletBodySceneNode which is set as a target.
+     */
+    class MagicSimpleRocketControlPanel : public ControlPanelSceneNode
     {
     protected:
         bool m_isThrust{false};
@@ -23,9 +27,11 @@ namespace IOSP
             PitchUpAction,
             PitchDownAction,
             RollClockwiseAction,
-            RollAnticlockwiseAction
+            RollAnticlockwiseAction,
+            YawLeftAction,
+            YawRightAction
         };
-        TestControlPanel(
+        MagicSimpleRocketControlPanel(
             irr::IrrlichtDevice *dev,
             irr::scene::ISceneNode *parent,
             irr::scene::ISceneManager *smgr,

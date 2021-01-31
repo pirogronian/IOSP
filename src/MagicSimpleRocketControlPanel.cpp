@@ -1,11 +1,11 @@
 
 #include <cstdio>
 
-#include "TestControlPanel.h"
+#include "MagicSimpleRocketControlPanel.h"
 
 using namespace IOSP;
 
-IOSP::TestControlPanel::TestControlPanel(
+IOSP::MagicSimpleRocketControlPanel::MagicSimpleRocketControlPanel(
             irr::IrrlichtDevice *dev,
             irr::scene::ISceneNode *parent,
             irr::scene::ISceneManager *smgr,
@@ -22,9 +22,11 @@ IOSP::TestControlPanel::TestControlPanel(
     m_stKeyActions->bind(PitchDownAction, irr::KEY_KEY_S);
     m_stKeyActions->bind(RollClockwiseAction, irr::KEY_KEY_A);
     m_stKeyActions->bind(RollAnticlockwiseAction, irr::KEY_KEY_D);
+    m_stKeyActions->bind(YawLeftAction, irr::KEY_KEY_Q);
+    m_stKeyActions->bind(YawRightAction, irr::KEY_KEY_E);
 }
 
-void IOSP::TestControlPanel::update()
+void IOSP::MagicSimpleRocketControlPanel::update()
 {
 //     if (!m_controlTarget)  std::puts("No control target!");
     if (m_controlTarget)
@@ -63,6 +65,18 @@ void IOSP::TestControlPanel::update()
 //             body->bulletRigidBody()->applyTorque(btVector3(0, 0, -1));
             body->applyTorqueLocal(btVector3(0, 0, -1));
         }
+        if (m_stKeyActions->isActive(YawLeftAction))
+        {
+//             std::puts("Roll clockwise On!");
+//             body->bulletRigidBody()->applyTorque(btVector3(0, 0, 1));
+            body->applyTorqueLocal(btVector3(0, 1, 0));
+        }
+        else if (m_stKeyActions->isActive(YawRightAction))
+        {
+//             std::puts("Roll anticlockwise On!");
+//             body->bulletRigidBody()->applyTorque(btVector3(0, 0, -1));
+            body->applyTorqueLocal(btVector3(0, -1, 0));
+        }
 //         body->bulletRigidBody()->integrateVelocities(1);
 //         auto it = body->bulletRigidBody()->getInvInertiaTensor();
         auto av = body->bulletRigidBody()->getAngularVelocity();
@@ -85,9 +99,9 @@ void IOSP::TestControlPanel::update()
     }
 }
 
-void IOSP::TestControlPanel::render() {}
+void IOSP::MagicSimpleRocketControlPanel::render() {}
 
-void IOSP::TestControlPanel::OnRegisterSceneNode()
+void IOSP::MagicSimpleRocketControlPanel::OnRegisterSceneNode()
 {
     if (IsVisible)
         SceneManager->registerNodeForRendering(this);

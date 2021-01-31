@@ -5,7 +5,7 @@
 #include <TestScene.h>
 
 #include <Tests/NodeSearchTest.h>
-#include <TestControlPanel.h>
+#include <MagicSimpleRocketControlPanel.h>
 
 #include <cstdio>
 
@@ -39,7 +39,7 @@ Simulation *IOSP::TestScene(IrrlichtDevice *dvc)
     bworld->addBody(wall);
     wall->setName("BWall");
 //     auto *wallbox = smgr->addCubeSceneNode(1, wall);
-    auto *tcpanel = new TestControlPanel(dvc, smgr->getRootSceneNode(), smgr, 1234);
+    auto *tcpanel = new MagicSimpleRocketControlPanel(dvc, smgr->getRootSceneNode(), smgr, 1234);
     tcpanel->setTarget(body);
     ControlPanelSceneNode::thirdPersonCamera.setCamera(cam);
     ControlPanelSceneNode::thirdPersonCamera.setTarget(body);
