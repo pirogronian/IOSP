@@ -14,6 +14,8 @@ IOSP::BulletBodySceneNode::BulletBodySceneNode(
 {
 //     assert(getSceneManager() == smgr);
     m_bbody = new btRigidBody(info);
+    syncInertia();
+    m_bbody->setActivationState(DISABLE_DEACTIVATION);
     m_bbody->setMotionState(&m_mstate);
 }
 
@@ -26,6 +28,8 @@ IOSP::BulletBodySceneNode::BulletBodySceneNode(
 {
 //     assert(getSceneManager() == smgr);
     m_bbody = body;
+    syncInertia();
+    m_bbody->setActivationState(DISABLE_DEACTIVATION);
     m_bbody->setMotionState(&m_mstate);
 }
 
@@ -40,4 +44,10 @@ void IOSP::BulletBodySceneNode::syncTransform()
     auto rot = degToRad(getRotation());
     btTransform tr(btQuaternion(rot.X, rot.Y, rot.Z), btVector3(pos.X, pos.Y, pos.Z));
     m_bbody->setWorldTransform(tr);
+}
+
+void IOSP::BulletBodySceneNode::syncInertia()
+{
+    auto m = m_bbody->getMass();
+    m_bbody->setMassProps(m, btVector3(m, m, m));
 }

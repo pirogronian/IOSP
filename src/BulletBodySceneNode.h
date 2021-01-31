@@ -31,6 +31,7 @@ namespace IOSP
         const irr::core::aabbox3d<irr::f32>& getBoundingBox() const { return m_bbox; }
         void render() {}
         void syncTransform();
+        void syncInertia();
 //         void setPosition(const irr::core::vector3df& pos) override
 //         {
 //             ISceneNode::setPosition(pos);
