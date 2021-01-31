@@ -47,7 +47,8 @@ namespace IOSP
         }
         void applyForceLocal(const btVector3& f, const btVector3& offset = btVector3(0, 0, 0))
         {
-            m_bbody->applyForce(m_bbody->getWorldTransform().getBasis() * f, offset);
+            auto &tr = m_bbody->getWorldTransform().getBasis();
+            m_bbody->applyForce(tr * f, tr * offset);
         }
     };
 }

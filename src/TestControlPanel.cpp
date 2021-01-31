@@ -20,6 +20,8 @@ IOSP::TestControlPanel::TestControlPanel(
     m_stKeyActions->bind(ThrustAction, irr::KEY_KEY_V);
     m_stKeyActions->bind(PitchUpAction, irr::KEY_KEY_W);
     m_stKeyActions->bind(PitchDownAction, irr::KEY_KEY_S);
+    m_stKeyActions->bind(RollClockwiseAction, irr::KEY_KEY_A);
+    m_stKeyActions->bind(RollAnticlockwiseAction, irr::KEY_KEY_D);
 }
 
 void IOSP::TestControlPanel::update()
@@ -33,7 +35,7 @@ void IOSP::TestControlPanel::update()
         {
 //             std::puts("Thrust On!");
 //             body->bulletRigidBody()->applyForce(btVector3(0, 0, -3), btVector3(0, 0, 0));
-            body->applyForceLocal(btVector3(0, 0, -3));
+            body->applyForceLocal(btVector3(0, 0, -3), btVector3(0, 0, 0));
         }
         if (m_stKeyActions->isActive(PitchUpAction))
         {
