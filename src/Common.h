@@ -5,6 +5,7 @@
 
 namespace IOSP
 {
+    typedef double time_t;
     enum SceneNodeType
     {
         ESNT_BULLET_WORLD = MAKE_IRR_ID('s', 'p', 'b', 'w'),

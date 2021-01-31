@@ -4,9 +4,14 @@
 #include <irrlicht.h>
 #include <btBulletDynamicsCommon.h>
 #include <Common.h>
+#include <Utils/AutoIndexer.h>
+// #include <BulletUpdatable.h>
 
 namespace IOSP
 {
+    class BulletUpdatable;
+    class BulletBodySceneNode;
+
     class BulletWorldSceneNode : public irr::scene::ISceneNode
     {
         btDefaultCollisionConfiguration m_config;
@@ -17,6 +22,7 @@ namespace IOSP
         int m_maxSubSteps{128};
         btScalar m_minStepDelta{1./60.};
         irr::core::aabbox3d<irr::f32> m_bbox;
+        AutoIndexer<BulletUpdatable*> m_updatableIndex;
     public:
         BulletWorldSceneNode(
             irr::scene::ISceneNode *,
@@ -34,10 +40,7 @@ namespace IOSP
         btScalar getMinStepDelta() const { return m_minStepDelta; }
         btScalar getMaxSubSteps() const { return m_maxSubSteps; }
         void setMaxSubSteps(btScalar m) { m_maxSubSteps = m; }
-        void stepSimulation(btScalar d)
-        {
-            m_world.stepSimulation(d, m_maxSubSteps, m_minStepDelta);
-        }
+        void stepSimulation(btScalar d);
         irr::scene::ESCENE_NODE_TYPE getType() const override
         {
             return (irr::scene::ESCENE_NODE_TYPE)IOSP::ESNT_BULLET_WORLD;
@@ -47,5 +50,9 @@ namespace IOSP
         {
             return m_bbox;
         }
+        bool registerUpdatable(BulletUpdatable *);
+        bool unregisterUpdatable(BulletUpdatable *);
+        bool addBody(BulletBodySceneNode *);
+        bool removeBody(BulletBodySceneNode *);
     };
 }

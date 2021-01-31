@@ -4,10 +4,11 @@
 #include <irrlicht.h>
 #include <BulletMotionState.h>
 #include <btBulletDynamicsCommon.h>
+#include <BulletUpdatable.h>
 
 namespace IOSP
 {
-    class BulletBodySceneNode : public irr::scene::ISceneNode
+    class BulletBodySceneNode : public irr::scene::ISceneNode, public BulletUpdatable
     {
         BulletMotionState m_mstate{*this};
         btRigidBody *m_bbody;
@@ -32,6 +33,7 @@ namespace IOSP
         void render() {}
         void syncTransform();
         void syncInertia();
+        void update(time_t) {}
 //         void setPosition(const irr::core::vector3df& pos) override
 //         {
 //             ISceneNode::setPosition(pos);

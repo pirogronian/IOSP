@@ -25,7 +25,8 @@ Simulation *IOSP::TestScene(IrrlichtDevice *dvc)
     auto *bbox = new btBoxShape(btVector3(5, 5, 5));
     auto *brigid = new btRigidBody(1, nullptr, bbox);
     auto *body = new BulletBodySceneNode(smgr->getRootSceneNode(), smgr, brigid);
-    body->setWorld(bworld->bulletWorld());
+    bworld->addBody(body);
+//     body->setWorld(bworld->bulletWorld());
     auto *cube = smgr->addCubeSceneNode(10, body);
     cube->setMaterialFlag(video::EMF_LIGHTING, false);
     auto *bbox2 = new btBoxShape(btVector3(25, 25, 0));
@@ -34,7 +35,8 @@ Simulation *IOSP::TestScene(IrrlichtDevice *dvc)
     wall->setPosition(core::vector3df(0, 0, 20));
     wall->setRotation(core::vector3df(0, 45, 0));
     wall->syncTransform();
-    wall->setWorld(bworld->bulletWorld());
+//     wall->setWorld(bworld->bulletWorld());
+    bworld->addBody(wall);
     wall->setName("BWall");
 //     auto *wallbox = smgr->addCubeSceneNode(1, wall);
     auto *tcpanel = new TestControlPanel(dvc, smgr->getRootSceneNode(), smgr, 1234);
