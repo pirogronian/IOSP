@@ -14,6 +14,9 @@ IOSP::MagicSimpleRocketControlPanel::MagicSimpleRocketControlPanel(
             const irr::core::vector3df& rot)
         : ControlPanelSceneNode(dev, parent, smgr, id, pos, rot)
 {
+    m_rotText.setVerticalAlignment(1);
+    m_rotText.setHorizontalAlignment(0.5);
+
     m_trKeyActions = std::make_shared<SimpleInputKeyTriggeredActionManager>();
     m_stKeyActions = std::make_shared<InputKeyStateActionManager>();
 
@@ -96,10 +99,23 @@ void IOSP::MagicSimpleRocketControlPanel::update()
 //         std::printf("Inv tensor: [%f, %f, %f]\n", it.getX(), it.getY(), it.getZ());
 //         std::printf("Total torque: [%f, %f, %f]\n", t.getX(), t.getY(), t.getZ());
 //         std::printf("Linear vel: [%f, %f, %f]\n", lv.getX(), lv.getY(), lv.getZ());
+        auto r = m_controlTarget->getRotation();
+        auto &t = m_rotText.text();
+        t = "Target rotation: [";
+        t += r.X;
+        t += ", ";
+        t += r.Y;
+        t += ", ";
+        t += r.Z;
+        t += "]";
+        m_rotText.update();
     }
 }
 
-void IOSP::MagicSimpleRocketControlPanel::render() {}
+void IOSP::MagicSimpleRocketControlPanel::render()
+{
+    m_rotText.draw();
+}
 
 void IOSP::MagicSimpleRocketControlPanel::OnRegisterSceneNode()
 {
