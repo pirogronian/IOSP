@@ -28,6 +28,9 @@ void IOSP::ScreenText::update()
 
 void IOSP::ScreenText::draw()
 {
+    auto *drv = driver();
+    if (!drv)  return;
+    drv->draw2DRectangle(video::SColor(128, 128, 64, 32), m_rect);
     gui::IGUIFont *f = font();
     if (!f)  return;
     f->draw(m_text, m_rect, m_color);
