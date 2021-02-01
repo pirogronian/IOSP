@@ -3,6 +3,7 @@ set(SOURCES
     Accumulator.h
     Accumulator.cpp
     AutoIndexer.h
+    Conversions.h
     Dump.h
     Dump.cpp
     IndexEntry.h
@@ -10,8 +11,11 @@ set(SOURCES
     InputKeyActionManager.cpp
     InputKeyBinder.h
     InputKeyBinder.cpp
+    IrrlichtObject.h
+    IrrlichtObject.cpp
     NamedClassInstance.h
     Ownership.h
+    RelativeValue.h
     VectorHelper.h
     XMLNodeWriter.h
     XMLNodeWriter.cpp

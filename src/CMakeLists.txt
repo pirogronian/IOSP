@@ -5,6 +5,7 @@ target_include_directories(IOSP SYSTEM PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 add_subdirectory(thirdparty)
 add_subdirectory(Utils)
+add_subdirectory(HudUtils)
 add_subdirectory(Tests)
 
 set(IOSP_MAIN_SRCS
@@ -21,9 +22,6 @@ set(IOSP_MAIN_SRCS
     Common.h
     ControlPanelSceneNode.h
     ControlPanelSceneNode.cpp
-    Conversions.h
-    IrrlichtObject.h
-    IrrlichtObject.cpp
     main.cpp
     MagicSimpleRocketControlPanel.h
     MagicSimpleRocketControlPanel.cpp

@@ -1,6 +1,7 @@
 
 #include <cstdio>
-
+#include <Utils/IrrlichtObject.h>
+#include <HudUtils/ScreenText.h>
 #include "Application.h"
 
 using namespace IOSP;
@@ -16,6 +17,7 @@ Application::Application()
     );
 
     if (!m_dev)  return;
+    IrrlichtObject::setDefaultDevice(m_dev);
     m_smgr = m_dev->getSceneManager();
     m_drv = m_dev->getVideoDriver();
     m_gui = m_dev->getGUIEnvironment();
@@ -37,6 +39,9 @@ Application::Application()
     m_guiRunStats = m_gui->addStaticText(L"Static text", irr::core::rect<irr::s32>(0, 0, 200, 15));
     m_guiRunStats->setDrawBackground(true);
     m_loadTTFButton = m_gui->addButton(irr::core::rect<irr::s32>(0, 20, 50, 35), 0, OpenTTFButton, L"Load font");
+    
+    m_sampleText.setVerticalAlignment(0.8);
+    m_sampleText.setHorizontalAlignment(0.4);
 }
 
 bool Application::OnEvent(const SEvent& event)
@@ -119,6 +124,8 @@ void IOSP::Application::run()
         ControlPanelSceneNode::thirdPersonCamera.update();
         m_smgr->drawAll();
         m_simulation->drawDebug();
+        m_sampleText.update();
+        m_sampleText.draw();
         m_gui->drawAll();
         m_drv->endScene();
         irr::core::stringw wcaption = L"IOSP [";

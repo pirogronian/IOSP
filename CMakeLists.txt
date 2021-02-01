@@ -30,6 +30,7 @@ add_subdirectory(src)
 
 target_link_libraries(IOSP PRIVATE
     IospUtils
+    IospHudUtils
     Bullet
     #BulletCollision
     LinearMath

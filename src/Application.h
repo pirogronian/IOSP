@@ -7,6 +7,7 @@
 #include <Utils/InputKeyActionManager.h>
 #include <Simulation.h>
 #include <Settings.h>
+#include <HudUtils/ScreenText.h>
 
 namespace IOSP
 {
@@ -36,6 +37,7 @@ namespace IOSP
         SimpleInputKeyTriggeredActionManager m_trKeyActions;
         irr::io::path m_basePath;
         Settings m_settings;
+        ScreenText m_sampleText{"Sample text"};
     public:
         Application();
         ~Application();
