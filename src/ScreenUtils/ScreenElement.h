@@ -21,6 +21,7 @@ namespace IOSP
         float m_hAlign{0};
         bool m_dirty{false}; // Actually, I dont see any useful usage of it for now.
         irr::video::SColor m_bg{128, 0, 0, 0};
+        irr::gui::IGUIFont *m_font{nullptr};
     public:
         ScreenElement(ScreenElement *p = nullptr);
         virtual ~ScreenElement() {}
@@ -34,6 +35,11 @@ namespace IOSP
         void setDirty(bool d) { m_dirty = d; }
         irr::video::SColor& getBackgroundColor() { return m_bg; }
         const irr::video::SColor& getBackgroundColor() const { return m_bg; }
+        irr::gui::IGUIFont *getDefaultFont() { return IrrlichtObject::getFont(); }
+        const irr::gui::IGUIFont *getDefaultFont() const { return IrrlichtObject::getFont(); }
+        irr::gui::IGUIFont *getFont() { return m_font ? m_font : getDefaultFont(); }
+        const irr::gui::IGUIFont *getFont() const { return m_font ? m_font : getDefaultFont(); }
+        void setFont(irr::gui::IGUIFont *f) { m_font = f; }
         virtual bool addChild(ScreenElement *);
         virtual bool removeChild(ScreenElement *);
         virtual void updateChildren();
