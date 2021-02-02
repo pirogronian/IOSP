@@ -10,8 +10,6 @@ namespace IOSP
     {
     protected:
         irr::core::stringw m_text;
-        const irr::gui::IGUIFont *font() const;
-        irr::gui::IGUIFont *font();
         irr::video::SColor m_color{255, 255, 255, 255};
     public:
         ScreenText(ScreenElement *parent = nullptr) : ScreenElement(parent) {}

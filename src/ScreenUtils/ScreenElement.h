@@ -45,7 +45,7 @@ namespace IOSP
         }
         virtual void drawBackground()
         {
-            auto drv = driver();
+            auto drv = getDriver();
             if (!drv)  return;
             drv->draw2DRectangle(m_bg, m_rect);
         }

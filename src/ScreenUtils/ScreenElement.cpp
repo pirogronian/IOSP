@@ -18,7 +18,7 @@ void IOSP::ScreenElement::updateRectangle()
     if (m_parent) rect = m_parent->rectangle();
     else
     {
-        auto drv = driver();
+        auto drv = getDriver();
         if (!drv)  return;
         auto sdim = drv->getCurrentRenderTargetSize();
         rect.UpperLeftCorner.X = 0;
