@@ -65,7 +65,7 @@ namespace IOSP
             if (m_dev)  return m_dev->getSceneManager();
             return getDefaultSceneManager();
         }
-        irr::gui::IGUIFont *getFont();
-        const irr::gui::IGUIFont *getFont() const;
+        irr::gui::IGUIFont *getFont(irr::gui::EGUI_DEFAULT_FONT f = irr::gui::EGDF_DEFAULT);
+        const irr::gui::IGUIFont *getFont(irr::gui::EGUI_DEFAULT_FONT f = irr::gui::EGDF_DEFAULT) const;
     };
 }
