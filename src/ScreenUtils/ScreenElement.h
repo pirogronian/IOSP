@@ -20,7 +20,8 @@ namespace IOSP
         float m_vAlign{0};
         float m_hAlign{0};
         bool m_dirty{false}; // Actually, I dont see any useful usage of it for now.
-        irr::video::SColor m_bg{128, 0, 0, 0};
+        static irr::video::SColor s_bg;
+        irr::video::SColor m_bg{0, 0, 0, 0};
         irr::gui::IGUIFont *m_font{nullptr};
     public:
         ScreenElement(ScreenElement *p = nullptr);
@@ -33,8 +34,10 @@ namespace IOSP
         void setHorizontalAlignment(float a) { m_hAlign = a; }
         bool isDirty() const { return m_dirty; }
         void setDirty(bool d) { m_dirty = d; }
-        irr::video::SColor& getBackgroundColor() { return m_bg; }
-        const irr::video::SColor& getBackgroundColor() const { return m_bg; }
+        irr::video::SColor& getDefaultBackgroundColor() { return s_bg; }
+        const irr::video::SColor& getDefaultBackgroundColor() const { return s_bg; }
+        irr::video::SColor& getBackgroundColor() { return m_bg.getAlpha() ? m_bg : s_bg; }
+        const irr::video::SColor& getBackgroundColor() const { return m_bg.getAlpha() ? m_bg : s_bg; }
         irr::gui::IGUIFont *getDefaultFont() { return IrrlichtObject::getFont(); }
         const irr::gui::IGUIFont *getDefaultFont() const { return IrrlichtObject::getFont(); }
         irr::gui::IGUIFont *getFont() { return m_font ? m_font : getDefaultFont(); }
@@ -53,7 +56,7 @@ namespace IOSP
         {
             auto drv = getDriver();
             if (!drv)  return;
-            drv->draw2DRectangle(m_bg, m_rect);
+            drv->draw2DRectangle(getBackgroundColor(), m_rect);
         }
         virtual void draw()
         {

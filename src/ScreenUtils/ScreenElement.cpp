@@ -6,6 +6,8 @@
 using namespace IOSP;
 using namespace irr;
 
+video::SColor IOSP::ScreenElement::s_bg{128, 0, 0, 0};
+
 IOSP::ScreenElement::ScreenElement(ScreenElement *parent)
 {
     if (!parent)  return;
