@@ -39,8 +39,25 @@ Application::Application()
     m_guiRunStats->setDrawBackground(true);
     m_loadTTFButton = m_gui->addButton(irr::core::rect<irr::s32>(0, 20, 50, 35), 0, OpenTTFButton, L"Load font");
     
-    m_sampleText.setVerticalAlignment(0.8);
-    m_sampleText.setHorizontalAlignment(0.4);
+    auto *tse2 = new ScreenElement(&m_testScreenElement);
+    tse2->setRequestedDimension(50, 25);
+    tse2->setVerticalAlignment(1);
+    tse2->getOwnBackgroundColor().set(128, 128, 64, 32);
+    
+    auto *tse3 = new ScreenText(L"Sample text1", &m_testScreenElement);
+    tse3->getPadding().set(5);
+    
+    auto *tse4 = new ScreenText(L"Sample text2", &m_testScreenElement);
+    tse4->setBackgroundPolicy(ScreenElement::UseParentBackground);
+    tse4->setHorizontalAlignment(1);
+    tse4->getMargin().set(50);
+    
+    m_testScreenElement.setVerticalAlignment(0.8);
+    m_testScreenElement.setHorizontalAlignment(0.4);
+    m_testScreenElement.getOwnBackgroundColor().set(128, 128, 128, 128);
+    m_testScreenElement.setRequestedDimension(300, 100);
+    m_testScreenElement.getPadding().set(10);
+    m_testScreenElement.update();
 }
 
 bool Application::OnEvent(const SEvent& event)
@@ -123,8 +140,7 @@ void IOSP::Application::run()
         ControlPanelSceneNode::thirdPersonCamera.update();
         m_smgr->drawAll();
         m_simulation->drawDebug();
-        m_sampleText.update();
-        m_sampleText.draw();
+        m_testScreenElement.draw();
         m_gui->drawAll();
         m_drv->endScene();
         irr::core::stringw wcaption = L"IOSP [";

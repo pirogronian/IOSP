@@ -66,17 +66,29 @@ namespace IOSP
                 m_rect.LowerRightCorner.X - m_margin[Right],
                 m_rect.LowerRightCorner.Y - m_margin[Bottom]);
         }
-        Dimension fromInner(const Dimension& inner) const
+        Dimension createBaseFromInner(const Dimension& inner) const
         {
             return Dimension(
                 inner.Width + getPadding(Left) + getPadding(Right),
                 inner.Height + getPadding(Top) + getPadding(Bottom));
         }
-        Dimension fromOuter(const Dimension& inner) const
+        Dimension createBaseFromOuter(const Dimension& inner) const
         {
             return Dimension(
                 inner.Width - getMargin(Left) - getMargin(Right),
                 inner.Height - getMargin(Top) - getMargin(Bottom));
+        }
+        Dimension createOuterFromBase(const Dimension& base)
+        {
+            return Dimension(
+                base.Width + getMargin(Left) + getMargin(Right),
+                base.Height + getMargin(Top) + getMargin(Bottom));
+        }
+        Dimension createInnerFromBase(const Dimension& base)
+        {
+            return Dimension(
+                base.Width - getPadding(Left) - getPadding(Right),
+                base.Height - getPadding(Top) - getPadding(Bottom));
         }
     };
 }

@@ -37,7 +37,7 @@ namespace IOSP
         SimpleInputKeyTriggeredActionManager m_trKeyActions;
         irr::io::path m_basePath;
         Settings m_settings;
-        ScreenText m_sampleText{"Sample text"};
+        ScreenElement m_testScreenElement;
     public:
         Application();
         ~Application();

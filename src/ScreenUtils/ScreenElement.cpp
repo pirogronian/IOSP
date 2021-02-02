@@ -17,31 +17,31 @@ IOSP::ScreenElement::ScreenElement(ScreenElement *parent)
 void IOSP::ScreenElement::updateRectangle()
 {
     Rectangle rect;
-    Dimension dim = fromInner(m_reqDim);
+    Dimension dim = createOuterFromBase(m_reqDim);
     if (m_parent) rect = m_parent->getInner();
     else
     {
         auto drv = getDriver();
         if (!drv)  return;
         auto sdim = drv->getCurrentRenderTargetSize();
-        rect.UpperLeftCorner.X = getMargin(Top);
-        rect.UpperLeftCorner.Y = getMargin(Left);
-        rect.LowerRightCorner.X = sdim.Width - getMargin(Right);
-        rect.LowerRightCorner.Y = sdim.Height - getMargin(Bottom);
+        rect.UpperLeftCorner.X = 0;
+        rect.UpperLeftCorner.Y = 0;
+        rect.LowerRightCorner.X = sdim.Width;
+        rect.LowerRightCorner.Y = sdim.Height;
     }
     auto &m_rect = getBase();
-    m_rect.UpperLeftCorner.X = nestedRangeRelativeBegin(
+    m_rect.UpperLeftCorner.X = rect.UpperLeftCorner.X + nestedRangeRelativeBegin(
         (int)rect.UpperLeftCorner.X,
         (int)rect.LowerRightCorner.X,
         (int)dim.Width,
-        m_hAlign);
-    m_rect.UpperLeftCorner.Y = nestedRangeRelativeBegin(
+        m_hAlign) + getMargin(Left);
+    m_rect.UpperLeftCorner.Y = rect.UpperLeftCorner.Y + nestedRangeRelativeBegin(
         (int)rect.UpperLeftCorner.Y,
         (int)rect.LowerRightCorner.Y,
         (int)dim.Height,
-        m_vAlign);
-    m_rect.LowerRightCorner.X = m_rect.UpperLeftCorner.X + dim.Width;
-    m_rect.LowerRightCorner.Y = m_rect.UpperLeftCorner.Y + dim.Height;
+        m_vAlign) + getMargin(Top);
+    m_rect.LowerRightCorner.X = m_rect.UpperLeftCorner.X + m_reqDim.Width;
+    m_rect.LowerRightCorner.Y = m_rect.UpperLeftCorner.Y + m_reqDim.Height;
 }
 
 bool IOSP::ScreenElement::addChild(ScreenElement *c)

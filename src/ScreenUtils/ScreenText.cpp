@@ -8,7 +8,7 @@ void IOSP::ScreenText::update()
 {
     auto f = getFont();
     if (!f)  return;
-    m_reqDim = f->getDimension(m_text.c_str());
+    m_reqDim = createBaseFromInner(f->getDimension(m_text.c_str()));
     ScreenElement::update();
 }
 
