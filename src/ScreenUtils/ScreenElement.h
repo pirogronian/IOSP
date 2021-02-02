@@ -4,17 +4,14 @@
 #include <irrlicht.h>
 #include <Utils/LinkedList.h>
 #include <Utils/IrrlichtObject.h>
+#include <ScreenUtils/ScreenRectangle.h>
 
 namespace IOSP
 {
-    class ScreenElement : public IrrlichtObject
+    class ScreenElement : public IrrlichtObject, public ScreenRectangle
     {
-    public:
-        typedef irr::core::dimension2d<irr::u32> Dimension;
-        typedef irr::core::rect<irr::s32> Rectangle;
     protected:
-        Dimension m_dim;
-        Rectangle m_rect;
+        Dimension m_reqDim;
         LinkedPtrList<ScreenElement> m_children;
         ScreenElement *m_parent{nullptr};
         float m_vAlign{0};
@@ -26,7 +23,7 @@ namespace IOSP
     public:
         ScreenElement(ScreenElement *p = nullptr);
         virtual ~ScreenElement() {}
-        const Rectangle& rectangle() const { return m_rect; }
+        Dimension getRequestedDimension() const { return m_reqDim; }
         void updateRectangle();
         float verticalAlignment() const { return m_vAlign; }
         float horizontalAlignment() const { return m_hAlign; }
