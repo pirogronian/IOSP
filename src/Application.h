@@ -7,7 +7,7 @@
 #include <Utils/InputKeyActionManager.h>
 #include <Simulation.h>
 #include <Settings.h>
-#include <HudUtils/ScreenText.h>
+#include <ScreenUtils/ScreenText.h>
 
 namespace IOSP
 {

@@ -1,7 +1,6 @@
 
 #include <cstdio>
 #include <Utils/IrrlichtObject.h>
-#include <HudUtils/ScreenText.h>
 #include "Application.h"
 
 using namespace IOSP;

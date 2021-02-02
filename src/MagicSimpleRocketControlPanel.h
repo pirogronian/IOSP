@@ -3,7 +3,7 @@
 
 #include <ControlPanelSceneNode.h>
 #include <BulletBodySceneNode.h>
-#include <HudUtils/ScreenText.h>
+#include <ScreenUtils/ScreenText.h>
 
 namespace IOSP
 {

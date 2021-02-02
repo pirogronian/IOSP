@@ -2,7 +2,7 @@
 #pragma once
 
 #include <irrlicht.h>
-#include <HudUtils/ScreenElement.h>
+#include <ScreenUtils/ScreenElement.h>
 
 namespace IOSP
 {
