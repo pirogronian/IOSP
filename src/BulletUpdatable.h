@@ -17,6 +17,8 @@ namespace IOSP
     public:
         std::size_t worldIndex() { return m_WorldIndex; }
         const std::size_t worldIndex() const { return m_WorldIndex; }
+        BulletWorldSceneNode *getWorldNode() { return m_world; }
+        const BulletWorldSceneNode *getWorldNode() const { return m_world; }
         virtual void update(time_t) = 0;
         friend BulletWorldSceneNode;
         virtual ~BulletUpdatable()
