@@ -50,7 +50,8 @@ Application::Application()
     auto *tse4 = new ScreenText(L"Sample text2", &m_testScreenElement);
     tse4->setBackgroundPolicy(ScreenElement::UseParentBackground);
     tse4->setHorizontalAlignment(1);
-    tse4->getMargin().set(50);
+//     tse4->getMargin().set(50);
+    tse4->setShift(-10, 25);
     
     m_testScreenElement.setVerticalAlignment(0.8);
     m_testScreenElement.setHorizontalAlignment(0.4);

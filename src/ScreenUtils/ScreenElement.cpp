@@ -36,12 +36,12 @@ void IOSP::ScreenElement::updateRectangle()
         (int)rect.UpperLeftCorner.X,
         (int)rect.LowerRightCorner.X,
         (int)dim.Width,
-        m_hAlign) + getMargin(Left);
+        m_hAlign) + getMargin(Left) + m_hShift;
     m_rect.UpperLeftCorner.Y = rect.UpperLeftCorner.Y + nestedRangeRelativeBegin(
         (int)rect.UpperLeftCorner.Y,
         (int)rect.LowerRightCorner.Y,
         (int)dim.Height,
-        m_vAlign) + getMargin(Top);
+        m_vAlign) + getMargin(Top) + m_vShift;
     m_rect.LowerRightCorner.X = m_rect.UpperLeftCorner.X + m_reqDim.Width;
     m_rect.LowerRightCorner.Y = m_rect.UpperLeftCorner.Y + m_reqDim.Height;
 }

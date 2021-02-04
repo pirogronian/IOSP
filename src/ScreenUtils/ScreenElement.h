@@ -23,6 +23,8 @@ namespace IOSP
         ScreenElement *m_parent{nullptr};
         float m_vAlign{0};
         float m_hAlign{0};
+        int m_vShift{0};
+        int m_hShift{0};
         bool m_dirty{false}; // Actually, I dont see any useful usage of it for now.
         static irr::video::SColor s_bg;
         irr::video::SColor m_bg{0, 0, 0, 0};
@@ -39,6 +41,12 @@ namespace IOSP
         float horizontalAlignment() const { return m_hAlign; }
         void setVerticalAlignment(float a) { m_vAlign = a; }
         void setHorizontalAlignment(float a) { m_hAlign = a; }
+        void setAlignment(float h, float v) { m_hAlign = h; m_vAlign = v; }
+        int getVerticalShift() const { return m_vShift; }
+        int getHorizontalShift() const { return m_hShift; }
+        void setVerticalShift(int v) { m_vShift = v; }
+        void setHorizontalShift(int h) { m_hShift = h; }
+        void setShift(int h, int v) { m_hShift = h; m_vShift = v; }
         bool isDirty() const { return m_dirty; }
         void setDirty(bool d) { m_dirty = d; }
         irr::video::SColor& getDefaultBackgroundColor() { return s_bg; }
