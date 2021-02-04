@@ -18,7 +18,7 @@ IOSP::MagicSimpleRocketControlPanel::MagicSimpleRocketControlPanel(
     m_rotText.setHorizontalAlignment(0.5);
     m_rotText.getPadding().set(10);
     m_rotText.setUpdateDelta(200);
-    m_rotText.setFormat("Rotation: [%f, %f, %f]");
+    m_rotText.setFormat("Rotation: [%10f, %10f, %10f]");
 
     m_trKeyActions = std::make_shared<SimpleInputKeyTriggeredActionManager>();
     m_stKeyActions = std::make_shared<InputKeyStateActionManager>();
