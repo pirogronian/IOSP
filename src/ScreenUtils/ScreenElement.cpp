@@ -10,25 +10,6 @@ using namespace irr;
 
 video::SColor IOSP::ScreenElement::s_bg{128, 0, 0, 0};
 
-u32 IOSP::ScreenElement::s_updateDelta{0};
-
-bool IOSP::ScreenElement::needsUpdate()
-{
-    bool ret = false;
-//     std::printf("Ref delta: %i\n", m_updAcc.referenceDelta());
-    if (!m_updAcc.referenceDelta()) return true;
-    s32 ct = getTimer()->getTime();
-//     std::printf("Remaining time: %i\n", m_updAcc.left());
-    if (m_updAcc.appendDelta(ct - m_lastUpdate) <= 0)
-    {
-        m_updAcc.reset();
-        ret = true;
-//         std::puts("Needs update!");
-    }
-    m_lastUpdate = ct;
-    return ret;
-}
-
 IOSP::ScreenElement::ScreenElement(ScreenElement *parent)
 {
     if (!parent)  return;

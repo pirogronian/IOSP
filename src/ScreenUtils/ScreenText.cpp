@@ -15,13 +15,6 @@ void IOSP::ScreenText::updateRectangle()
     ScreenElement::updateRectangle();
 }
 
-void IOSP::ScreenText::update()
-{
-    if (!needsUpdate())  return;
-    updateRectangle();
-    updateChildren();
-}
-
 void IOSP::ScreenText::draw()
 {
     drawBackground();
@@ -49,14 +42,11 @@ void IOSP::ScreenFormattedText::setValues(va_list args)
     m_text = ft;
 }
 
-void IOSP::ScreenFormattedText::updateValues(int n, ...)
+void IOSP::ScreenFormattedText::update(int n, ...)
 {
-    if (!needsUpdate())  return;
-//     std::puts("updateValues");
     va_list args;
-    va_start(args, n);
+    va_start (args, n);
     va_end(args);
     setValues(args);
-    updateRectangle();
-    updateChildren();
+    ScreenElement::update();
 }

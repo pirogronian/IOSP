@@ -5,7 +5,6 @@
 #include <Utils/LinkedList.h>
 #include <Utils/IrrlichtObject.h>
 #include <ScreenUtils/ScreenRectangle.h>
-#include <Utils/Accumulator.h>
 
 namespace IOSP
 {
@@ -29,17 +28,13 @@ namespace IOSP
         irr::video::SColor m_bg{0, 0, 0, 0};
         BackgroundPolicy m_bgPolicy{UseOwnBackground};
         irr::gui::IGUIFont *m_font{nullptr};
-        static irr::u32 s_updateDelta;
-        irr::s32 m_lastUpdate{0};
-        Accumulator<irr::s32> m_updAcc{s_updateDelta};
-        bool needsUpdate();
     public:
         ScreenElement(ScreenElement *p = nullptr);
         virtual ~ScreenElement() {}
         Dimension getRequestedDimension() const { return m_reqDim; }
         void setRequestedDimension(const Dimension& d) { m_reqDim; }
         void setRequestedDimension(irr::u32 w, irr::u32 h) { m_reqDim.Width = w; m_reqDim.Height = h; }
-        void updateRectangle();
+        virtual void updateRectangle();
         float verticalAlignment() const { return m_vAlign; }
         float horizontalAlignment() const { return m_hAlign; }
         void setVerticalAlignment(float a) { m_vAlign = a; }
@@ -57,16 +52,12 @@ namespace IOSP
         irr::gui::IGUIFont *getFont() { return m_font ? m_font : getDefaultFont(); }
         const irr::gui::IGUIFont *getFont() const { return m_font ? m_font : getDefaultFont(); }
         void setFont(irr::gui::IGUIFont *f) { m_font = f; }
-        irr::s32 getUpdateDelta() const { return m_updAcc.referenceDelta(); }
-        void setUpdateDelta(irr::s32 d) { m_updAcc.referenceDelta() = d; }
-        bool isUpdateTime() const { return m_updAcc.accumulatedDelta() == 0; }
         virtual bool addChild(ScreenElement *);
         virtual bool removeChild(ScreenElement *);
         virtual void updateChildren();
         virtual void drawChildren();
         virtual void update()
         {
-            if (!needsUpdate()) return;
             updateRectangle();
             updateChildren();
         }
