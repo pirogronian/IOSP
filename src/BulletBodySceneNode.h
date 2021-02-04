@@ -13,6 +13,8 @@ namespace IOSP
         BulletMotionState m_mstate{*this};
         btRigidBody *m_bbody;
         irr::core::aabbox3d<irr::f32> m_bbox;
+        btVector3 m_lVel, m_lAccel;
+        btScalar m_lastDelta;
     public:
         BulletBodySceneNode(irr::scene::ISceneNode *,
                             irr::scene::ISceneManager *,
@@ -27,13 +29,16 @@ namespace IOSP
         {
             w.addRigidBody(m_bbody);
         }
+        btVector3 getLinearVelocity() const { return m_bbody->getLinearVelocity(); }
+        btVector3 getLinearAcceleration() const { return m_lAccel; }
+        btScalar getLastDelta() const { return m_lastDelta; }
         btRigidBody* bulletRigidBody() { return m_bbody; }
         const btRigidBody* bulletRigidBody() const { return m_bbody; }
         const irr::core::aabbox3d<irr::f32>& getBoundingBox() const { return m_bbox; }
         void render() {}
         void syncTransform();
         void syncInertia();
-        void update(time_t) {}
+        virtual void update(irr::u32) override;
         btScalar getMass() const { return m_bbody ? m_bbody->getMass() : 0; }
         void setMass(btScalar);
 //         void setPosition(const irr::core::vector3df& pos) override

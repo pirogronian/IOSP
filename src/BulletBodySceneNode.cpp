@@ -57,3 +57,13 @@ void IOSP::BulletBodySceneNode::setMass(btScalar m)
     if (!m_bbody)  return;
     m_bbody->setMassProps(m, btVector3(m, m, m));
 }
+
+void IOSP::BulletBodySceneNode::update(irr::u32 ud)
+{
+    m_lastDelta = static_cast<btScalar>(ud) / 1000;
+    btScalar d = m_lastDelta;
+    auto lv = m_bbody->getLinearVelocity();
+    auto la = (lv - m_lVel)/d;
+    m_lVel = lv;
+    m_lAccel = la;
+}

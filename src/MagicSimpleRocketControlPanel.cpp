@@ -20,7 +20,15 @@ IOSP::MagicSimpleRocketControlPanel::MagicSimpleRocketControlPanel(
 
     m_massText.setAlignment(0.5, 1);
     m_massText.getPadding().set(10);
-    m_massText.setFormat("Mass: %4f");
+    m_massText.setFormat("Mass: %4f, delta: %10f");
+
+    m_velText.setAlignment(0.5, 1);
+    m_velText.getPadding().set(10);
+    m_velText.setFormat("Linear vel: [%10f, %10f, %10f]");
+
+    m_accText.setAlignment(0.5, 1);
+    m_accText.getPadding().set(10);
+    m_accText.setFormat("Linear acc: [%10f, %10f, %10f]");
 
     m_trKeyActions = std::make_shared<SimpleInputKeyTriggeredActionManager>();
     m_stKeyActions = std::make_shared<InputKeyStateActionManager>();
@@ -108,18 +116,32 @@ void IOSP::MagicSimpleRocketControlPanel::update()
 
 void IOSP::MagicSimpleRocketControlPanel::updateUI()
 {
+    auto *node = dynamic_cast<BulletBodySceneNode*>(m_controlTarget);
+    auto H = m_rotText.getRequestedDimension(ScreenRectangle::Outer).Height;
     auto r = m_controlTarget->getRotation();
     m_rotText.setValues(3, r.X, r.Y, r.Z);
-    m_rotText.setShift(0, -m_rotText.getRequestedDimension(ScreenRectangle::Outer).Height);
+    m_rotText.setShift(0, -3 * H);
     m_rotText.update();
-    auto mass = ((BulletBodySceneNode*)m_controlTarget)->getMass();
-    m_massText.update(1, mass);
+    auto mass = node->getMass();
+    auto delta = node->getLastDelta();
+    m_massText.update(2, mass, delta);
+    m_massText.setShift(0, -2 * H);
+    auto lv = node->getLinearVelocity();
+    m_velText.setValues(3, lv.getX(), lv.getY(), lv.getZ());
+    m_velText.setShift(0, -H);
+    m_velText.update();
+    auto la = node->getLinearAcceleration();
+    m_accText.setValues(3, la.getX(), la.getY(), la.getZ());
+//     m_accText.setShift(0, -H);
+    m_accText.update();
 }
 
 void IOSP::MagicSimpleRocketControlPanel::render()
 {
     m_rotText.draw();
     m_massText.draw();
+    m_velText.draw();
+    m_accText.draw();
 }
 
 void IOSP::MagicSimpleRocketControlPanel::OnRegisterSceneNode()

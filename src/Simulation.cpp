@@ -40,10 +40,10 @@ void IOSP::Simulation::init()
     m_timeCurrent = m_idev->getTimer()->getTime();
 }
 
-void IOSP::Simulation::stepSimulation(btScalar d)
+void IOSP::Simulation::stepSimulation(irr::u32 d)
 {
     for (auto &w : m_worlds)
-        w->stepSimulation(d);
+        w->update(d);
 
     if (m_activePanel)
         m_activePanel->update();
@@ -54,7 +54,7 @@ void IOSP::Simulation::update()
     m_timeLast = m_timeCurrent;
     m_timeCurrent = m_idev->getTimer()->getTime();
     m_timeLastDelta = m_timeCurrent - m_timeLast;
-    stepSimulation(static_cast<btScalar>(m_timeMult * m_timeLastDelta) / 1000);
+    stepSimulation(m_timeMult * m_timeLastDelta);
 }
 
 void IOSP::Simulation::drawDebug()

@@ -30,7 +30,7 @@ namespace IOSP
         bool removeWorld(BulletWorldSceneNode *);
         bool hasWorld(const BulletWorldSceneNode *) const;
         void init();
-        void stepSimulation(btScalar);
+        void stepSimulation(irr::u32);
         void update();
         void drawDebug();
         BulletDebugDrawer& debugDrawer() { return m_ddrawer; }

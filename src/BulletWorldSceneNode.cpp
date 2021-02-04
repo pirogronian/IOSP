@@ -23,13 +23,18 @@ void IOSP::BulletWorldSceneNode::OnRegisterSceneNode()
     ISceneNode::OnRegisterSceneNode();
 }
 
-void IOSP::BulletWorldSceneNode::stepSimulation(btScalar d)
+void IOSP::BulletWorldSceneNode::update(irr::u32 d)
 {
     for(std::size_t i = 0; i < m_updatableIndex.size(); i++)
     {
         if (m_updatableIndex.contains(i))
             m_updatableIndex.get(i)->update(d);
     }
+    stepSimulation(((btScalar)d) / 1000);
+}
+
+void IOSP::BulletWorldSceneNode::stepSimulation(btScalar d)
+{
     m_world.stepSimulation(d, m_maxSubSteps, m_minStepDelta);
 }
 

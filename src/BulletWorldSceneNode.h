@@ -50,6 +50,7 @@ namespace IOSP
         {
             return m_bbox;
         }
+        void update(irr::u32);
         bool registerUpdatable(BulletUpdatable *);
         bool unregisterUpdatable(BulletUpdatable *);
         bool addBody(BulletBodySceneNode *);
