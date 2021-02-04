@@ -21,7 +21,9 @@ namespace IOSP
         enum TriggeredActions
         {
             StartThrustAction = 1,
-            StopThrustAction
+            StopThrustAction,
+            IncreaseMassAction,
+            DecreaseMassAction
         };
         enum StateActions
         {

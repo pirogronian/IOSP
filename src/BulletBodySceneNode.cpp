@@ -51,3 +51,9 @@ void IOSP::BulletBodySceneNode::syncInertia()
     auto m = m_bbody->getMass();
     m_bbody->setMassProps(m, btVector3(m, m, m));
 }
+
+void IOSP::BulletBodySceneNode::setMass(btScalar m)
+{
+    if (!m_bbody)  return;
+    m_bbody->setMassProps(m, btVector3(m, m, m));
+}

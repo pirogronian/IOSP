@@ -35,6 +35,7 @@ namespace IOSP
         void syncInertia();
         void update(time_t) {}
         btScalar getMass() const { return m_bbody ? m_bbody->getMass() : 0; }
+        void setMass(btScalar);
 //         void setPosition(const irr::core::vector3df& pos) override
 //         {
 //             ISceneNode::setPosition(pos);

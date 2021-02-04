@@ -32,6 +32,9 @@ IOSP::MagicSimpleRocketControlPanel::MagicSimpleRocketControlPanel(
     m_stKeyActions->bind(RollAnticlockwiseAction, irr::KEY_KEY_D);
     m_stKeyActions->bind(YawLeftAction, irr::KEY_KEY_Q);
     m_stKeyActions->bind(YawRightAction, irr::KEY_KEY_E);
+
+    m_trKeyActions->bind(IncreaseMassAction, irr::KEY_KEY_8);
+    m_trKeyActions->bind(DecreaseMassAction, irr::KEY_KEY_2);
 }
 
 void IOSP::MagicSimpleRocketControlPanel::update()
@@ -85,6 +88,19 @@ void IOSP::MagicSimpleRocketControlPanel::update()
 //             body->bulletRigidBody()->applyTorque(btVector3(0, 0, -1));
             body->applyTorqueLocal(btVector3(0, -1, 0));
         }
+        auto *tr = dynamic_cast<SimpleInputKeyTriggeredActionManager*>(m_trKeyActions.get());
+        auto *node = dynamic_cast<BulletBodySceneNode*>(m_controlTarget);
+        if (tr->isTriggered(IncreaseMassAction))
+        {
+//             std::puts("Increase mass!");
+            node->setMass(node->getMass() + 1);
+        }
+        if (tr->isTriggered(DecreaseMassAction))
+        {
+//             std::puts("Decrease mass!");
+            node->setMass(node->getMass() - 1);
+        }
+        tr->reset();
 
         ControlPanelSceneNode::update();
     }
