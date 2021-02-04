@@ -48,5 +48,5 @@ void IOSP::ScreenFormattedText::update(int n, ...)
     va_start (args, n);
     va_end(args);
     setValues(args);
-    ScreenElement::update();
+    update();
 }

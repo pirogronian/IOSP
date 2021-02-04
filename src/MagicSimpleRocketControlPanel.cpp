@@ -14,10 +14,13 @@ IOSP::MagicSimpleRocketControlPanel::MagicSimpleRocketControlPanel(
             const irr::core::vector3df& rot)
         : ControlPanelSceneNode(dev, parent, smgr, id, pos, rot)
 {
-    m_rotText.setVerticalAlignment(1);
-    m_rotText.setHorizontalAlignment(0.5);
+    m_rotText.setAlignment(0.5, 1);
     m_rotText.getPadding().set(10);
     m_rotText.setFormat("Rotation: [%10f, %10f, %10f]");
+
+    m_massText.setAlignment(0.5, 1);
+    m_massText.getPadding().set(10);
+    m_massText.setFormat("Mass: %4f");
 
     m_trKeyActions = std::make_shared<SimpleInputKeyTriggeredActionManager>();
     m_stKeyActions = std::make_shared<InputKeyStateActionManager>();
@@ -82,25 +85,7 @@ void IOSP::MagicSimpleRocketControlPanel::update()
 //             body->bulletRigidBody()->applyTorque(btVector3(0, 0, -1));
             body->applyTorqueLocal(btVector3(0, -1, 0));
         }
-//         body->bulletRigidBody()->integrateVelocities(1);
-//         auto it = body->bulletRigidBody()->getInvInertiaTensor();
-        auto av = body->bulletRigidBody()->getAngularVelocity();
-        auto tr = body->bulletRigidBody()->getWorldTransform();
-        auto rot = tr.getBasis();
-        auto v1 = rot.getRow(0);
-        auto v2 = rot.getRow(1);
-        auto v3 = rot.getRow(2);
-//         auto lv = body->bulletRigidBody()->getLinearVelocity();
-//         auto t = body->bulletRigidBody()->getTotalTorque();
-//         auto af = body->bulletRigidBody()->getAngularFactor();
-//         std::printf("Ang damping: %f\n", ad);
-//         std::printf("Ang vel: [%f, %f, %f]\n", av.getX(), av.getY(), av.getZ());
-//         std::printf("Rot transf: [%f, %f, %f]\n", v1.getX(), v1.getY(), v1.getZ());
-//         std::printf("Rot transf: [%f, %f, %f]\n", v2.getX(), v2.getY(), v2.getZ());
-//         std::printf("Rot transf: [%f, %f, %f]\n", v3.getX(), v3.getY(), v3.getZ());
-//         std::printf("Inv tensor: [%f, %f, %f]\n", it.getX(), it.getY(), it.getZ());
-//         std::printf("Total torque: [%f, %f, %f]\n", t.getX(), t.getY(), t.getZ());
-//         std::printf("Linear vel: [%f, %f, %f]\n", lv.getX(), lv.getY(), lv.getZ());
+
         ControlPanelSceneNode::update();
     }
 }
@@ -108,12 +93,17 @@ void IOSP::MagicSimpleRocketControlPanel::update()
 void IOSP::MagicSimpleRocketControlPanel::updateUI()
 {
     auto r = m_controlTarget->getRotation();
-    m_rotText.update(3, r.X, r.Y, r.Z);
+    m_rotText.setValues(3, r.X, r.Y, r.Z);
+    m_rotText.setShift(0, -m_rotText.getRequestedDimension(ScreenRectangle::Outer).Height);
+    m_rotText.update();
+    auto mass = ((BulletBodySceneNode*)m_controlTarget)->getMass();
+    m_massText.update(1, mass);
 }
 
 void IOSP::MagicSimpleRocketControlPanel::render()
 {
     m_rotText.draw();
+    m_massText.draw();
 }
 
 void IOSP::MagicSimpleRocketControlPanel::OnRegisterSceneNode()

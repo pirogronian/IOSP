@@ -29,9 +29,11 @@ namespace IOSP
 
     class ScreenFormattedText : public ScreenText
     {
+    protected:
         const char *m_f{nullptr};
         std::size_t m_maxLen{1024};
     public:
+        using ScreenElement::update;
         const char *getFormat() const { return m_f; }
         void setFormat(const char *f) { m_f = f; }
         std::size_t getMaxLen() const { return m_maxLen; }

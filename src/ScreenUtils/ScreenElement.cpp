@@ -1,4 +1,6 @@
 
+#include <cassert>
+
 #include <Utils/RelativeValue.h>
 
 #include "ScreenElement.h"
@@ -14,6 +16,25 @@ IOSP::ScreenElement::ScreenElement(ScreenElement *parent)
 {
     if (!parent)  return;
     parent->addChild(this);
+}
+
+ScreenRectangle::Dimension IOSP::ScreenElement::getRequestedDimension(ScreenRectangle::Layer layer) const
+{
+    if (layer == Base)  return m_reqDim;
+    auto dim = m_reqDim;
+    if (layer == Inner)
+    {
+        dim.Width += (getPadding(Left) + getPadding(Right));
+        dim.Height += (getPadding(Top) + getPadding(Bottom));
+        return dim;
+    }
+    if (layer == Outer)
+    {
+        dim.Width += (getMargin(Left) + getMargin(Right));
+        dim.Height += (getMargin(Top) + getMargin(Bottom));
+        return dim;
+    }
+    assert((true, "Invalid layer for requested dimension!"));
 }
 
 void IOSP::ScreenElement::updateRectangle()

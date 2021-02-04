@@ -33,7 +33,7 @@ namespace IOSP
     public:
         ScreenElement(ScreenElement *p = nullptr);
         virtual ~ScreenElement() {}
-        Dimension getRequestedDimension() const { return m_reqDim; }
+        Dimension getRequestedDimension(Layer l = Base) const;
         void setRequestedDimension(const Dimension& d) { m_reqDim; }
         void setRequestedDimension(irr::u32 w, irr::u32 h) { m_reqDim.Width = w; m_reqDim.Height = h; }
         virtual void updateRectangle();

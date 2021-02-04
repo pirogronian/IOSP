@@ -16,6 +16,12 @@ namespace IOSP
             Right = 2,
             Bottom = 3
         };
+        enum Layer
+        {
+            Inner = 0,
+            Base,
+            Outer
+        };
         class Spacers : public std::array<int, 4>
         {
         public:
