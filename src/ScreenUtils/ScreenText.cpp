@@ -1,15 +1,25 @@
 
+#include <cstdio>
+#include <cstdarg>
+
 #include "ScreenText.h"
 
 using namespace irr;
 using namespace IOSP;
 
-void IOSP::ScreenText::update()
+void IOSP::ScreenText::updateRectangle()
 {
     auto f = getFont();
     if (!f)  return;
     m_reqDim = createBaseFromInner(f->getDimension(m_text.c_str()));
-    ScreenElement::update();
+    ScreenElement::updateRectangle();
+}
+
+void IOSP::ScreenText::update()
+{
+    if (!needsUpdate())  return;
+    updateRectangle();
+    updateChildren();
 }
 
 void IOSP::ScreenText::draw()
@@ -18,5 +28,35 @@ void IOSP::ScreenText::draw()
     gui::IGUIFont *f = getFont();
     if (!f)  return;
     f->draw(m_text, getInner(), m_color);
+//     std::printf("draw: %ls\n", m_text.c_str());
     drawChildren();
+}
+
+void IOSP::ScreenFormattedText::setValues(int n, ...)
+{
+    va_list args;
+    va_start(args, n);
+    va_end(args);
+    char ft[m_maxLen];
+    vsnprintf(ft, m_maxLen, m_f, args);
+    m_text = ft;
+}
+
+void IOSP::ScreenFormattedText::setValues(va_list args)
+{
+    char ft[m_maxLen];
+    vsnprintf(ft, m_maxLen, m_f, args);
+    m_text = ft;
+}
+
+void IOSP::ScreenFormattedText::updateValues(int n, ...)
+{
+    if (!needsUpdate())  return;
+//     std::puts("updateValues");
+    va_list args;
+    va_start(args, n);
+    va_end(args);
+    setValues(args);
+    updateRectangle();
+    updateChildren();
 }

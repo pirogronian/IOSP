@@ -15,8 +15,10 @@ u32 IOSP::ScreenElement::s_updateDelta{0};
 bool IOSP::ScreenElement::needsUpdate()
 {
     bool ret = false;
+//     std::printf("Ref delta: %i\n", m_updAcc.referenceDelta());
     if (!m_updAcc.referenceDelta()) return true;
-    u32 ct = getTimer()->getTime();
+    s32 ct = getTimer()->getTime();
+//     std::printf("Remaining time: %i\n", m_updAcc.left());
     if (m_updAcc.appendDelta(ct - m_lastUpdate) <= 0)
     {
         m_updAcc.reset();

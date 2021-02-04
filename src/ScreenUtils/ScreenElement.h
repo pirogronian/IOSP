@@ -30,7 +30,7 @@ namespace IOSP
         BackgroundPolicy m_bgPolicy{UseOwnBackground};
         irr::gui::IGUIFont *m_font{nullptr};
         static irr::u32 s_updateDelta;
-        irr::u32 m_lastUpdate{0};
+        irr::s32 m_lastUpdate{0};
         Accumulator<irr::s32> m_updAcc{s_updateDelta};
         bool needsUpdate();
     public:
@@ -59,6 +59,7 @@ namespace IOSP
         void setFont(irr::gui::IGUIFont *f) { m_font = f; }
         irr::s32 getUpdateDelta() const { return m_updAcc.referenceDelta(); }
         void setUpdateDelta(irr::s32 d) { m_updAcc.referenceDelta() = d; }
+        bool isUpdateTime() const { return m_updAcc.accumulatedDelta() == 0; }
         virtual bool addChild(ScreenElement *);
         virtual bool removeChild(ScreenElement *);
         virtual void updateChildren();
