@@ -65,6 +65,26 @@ namespace IOSP
             if (m_dev)  return m_dev->getSceneManager();
             return getDefaultSceneManager();
         }
+        irr::ITimer *getDefaultTimer()
+        {
+            if (s_dev)  return s_dev->getTimer();
+            return nullptr;
+        }
+        const irr::ITimer *getDefaultTimer() const
+        {
+            if (s_dev)  return s_dev->getTimer();
+            return nullptr;
+        }
+        irr::ITimer *getTimer()
+        {
+            if (m_dev)  return m_dev->getTimer();
+            return getDefaultTimer();
+        }
+        const irr::ITimer *getTimer() const
+        {
+            if (m_dev)  return m_dev->getTimer();
+            return getDefaultTimer();
+        }
         irr::gui::IGUIFont *getFont(irr::gui::EGUI_DEFAULT_FONT f = irr::gui::EGDF_DEFAULT);
         const irr::gui::IGUIFont *getFont(irr::gui::EGUI_DEFAULT_FONT f = irr::gui::EGDF_DEFAULT) const;
     };

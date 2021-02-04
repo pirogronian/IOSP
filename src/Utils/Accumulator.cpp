@@ -1,6 +1,6 @@
 
 #include "Accumulator.h"
 
-using namespace MOSP::Utils;
+using namespace IOSP;
 
 template class Accumulator<double>;
