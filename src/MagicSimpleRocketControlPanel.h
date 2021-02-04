@@ -41,6 +41,7 @@ namespace IOSP
             const irr::core::vector3df& pos = irr::core::vector3df(0, 0, 0),
             const irr::core::vector3df& rot = irr::core::vector3df(0, 0, 0));
         void update() override;
+        void updateUI() override;
         void render() override;
         void OnRegisterSceneNode() override;
         void setTarget(BulletBodySceneNode *b) { ControlPanelSceneNode::setTarget(b); }

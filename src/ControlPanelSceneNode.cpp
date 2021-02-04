@@ -46,3 +46,9 @@ bool IOSP::ControlPanelSceneNode::OnEvent(const irr::SEvent& event)
 //     std::printf("Control panel event accepted: %i, %i\n", trRet, stRet);
     return trRet || stRet;
 }
+
+void IOSP::ControlPanelSceneNode::update()
+{
+    if (m_uiTimer.update(getTimer()->getTime()))
+        updateUI();
+}

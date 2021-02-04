@@ -5,12 +5,14 @@
 #include <irrlicht.h>
 
 #include <Common.h>
+#include <Utils/IrrlichtObject.h>
 #include <Utils/InputKeyActionManager.h>
 #include <ThirdPersonCamera.h>
+#include <Utils/IntervalTimer.h>
 
 namespace IOSP
 {
-    class ControlPanelSceneNode : public irr::scene::ISceneNode, public irr::IEventReceiver
+    class ControlPanelSceneNode : public irr::scene::ISceneNode, public irr::IEventReceiver, public IrrlichtObject
     {
     protected:
         irr::core::aabbox3d<irr::f32> m_bbox;
@@ -19,6 +21,7 @@ namespace IOSP
         irr::scene::ISceneNode *m_controlTarget{nullptr};
         std::shared_ptr<AbstractInputKeyTriggeredActionManager> m_trKeyActions;
         std::shared_ptr<InputKeyStateActionManager> m_stKeyActions;
+        IntervalTimer m_uiTimer{100};
     public:
         static ThirdPersonCamera thirdPersonCamera;
         ControlPanelSceneNode(
@@ -33,7 +36,8 @@ namespace IOSP
         {
             return m_bbox;
         }
-        virtual void update() = 0;
+        virtual void update();
+        virtual void updateUI() = 0;
         void setVisible(bool v) override;
         bool OnEvent(const irr::SEvent&) override;
         void grabEvents() { m_dev->setEventReceiver(this); }

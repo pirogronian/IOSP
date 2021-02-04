@@ -125,17 +125,23 @@ bool IOSP::Application::OnGuiEvent(const irr::SEvent::SGUIEvent& ge)
     return false;
 }
 
+void IOSP::Application::updateUI()
+{
+    irr::core::stringw dtext = "Delta time: ";
+    dtext += m_simulation->lastDelta();
+    dtext += ", mult: ";
+    dtext += m_simulation->timeMultiplier();
+    m_guiRunStats->setText(dtext.c_str());
+}
+
 void IOSP::Application::run()
 {
     while(m_dev->run())
     {
         m_simulation->update();
-        irr::core::stringw dtext = "Delta time: ";
-        dtext += m_simulation->lastDelta();
-        dtext += ", mult: ";
-        dtext += m_simulation->timeMultiplier();
-        m_guiRunStats->setText(dtext.c_str());
 
+        if (m_uiTimer.update(m_dev->getTimer()->getTime()))
+            updateUI();
         m_drv->beginScene(true, true, irr::video::SColor(0,50,50,50));
         ControlPanelSceneNode::thirdPersonCamera.update();
         m_smgr->drawAll();

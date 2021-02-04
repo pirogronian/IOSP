@@ -17,7 +17,7 @@ IOSP::MagicSimpleRocketControlPanel::MagicSimpleRocketControlPanel(
     m_rotText.setVerticalAlignment(1);
     m_rotText.setHorizontalAlignment(0.5);
     m_rotText.getPadding().set(10);
-    m_rotText.setUpdateDelta(200);
+//     m_rotText.setUpdateDelta(200);
     m_rotText.setFormat("Rotation: [%10f, %10f, %10f]");
 
     m_trKeyActions = std::make_shared<SimpleInputKeyTriggeredActionManager>();
@@ -102,18 +102,14 @@ void IOSP::MagicSimpleRocketControlPanel::update()
 //         std::printf("Inv tensor: [%f, %f, %f]\n", it.getX(), it.getY(), it.getZ());
 //         std::printf("Total torque: [%f, %f, %f]\n", t.getX(), t.getY(), t.getZ());
 //         std::printf("Linear vel: [%f, %f, %f]\n", lv.getX(), lv.getY(), lv.getZ());
-        auto r = m_controlTarget->getRotation();
-//         auto &t = m_rotText.text();
-//         t = "Target rotation: [";
-//         t += r.X;
-//         t += ", ";
-//         t += r.Y;
-//         t += ", ";
-//         t += r.Z;
-//         t += "]";
-        m_rotText.updateValues(3, r.X, r.Y, r.Z);
-//         m_rotText.update();
+        ControlPanelSceneNode::update();
     }
+}
+
+void IOSP::MagicSimpleRocketControlPanel::updateUI()
+{
+    auto r = m_controlTarget->getRotation();
+    m_rotText.updateValues(3, r.X, r.Y, r.Z);
 }
 
 void IOSP::MagicSimpleRocketControlPanel::render()

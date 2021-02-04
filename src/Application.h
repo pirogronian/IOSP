@@ -8,6 +8,7 @@
 #include <Simulation.h>
 #include <Settings.h>
 #include <ScreenUtils/ScreenText.h>
+#include <Utils/IntervalTimer.h>
 
 namespace IOSP
 {
@@ -38,6 +39,7 @@ namespace IOSP
         irr::io::path m_basePath;
         Settings m_settings;
         ScreenElement m_testScreenElement;
+        IntervalTimer m_uiTimer{100};
     public:
         Application();
         ~Application();
@@ -49,6 +51,7 @@ namespace IOSP
         bool OnEvent(const irr::SEvent&) override;
         bool OnGuiEvent(const irr::SEvent::SGUIEvent&);
 //         bool OnKeyInput(const irr::SEvent::SKeyInput&);
+        void updateUI();
         void run();
         bool loadTTF(const irr::io::path&, const irr::u32);
         bool openTTFLoadFileDialog()
