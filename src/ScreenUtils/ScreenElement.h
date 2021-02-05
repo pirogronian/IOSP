@@ -68,6 +68,7 @@ namespace IOSP
         void setCanExpand(bool);
         void setCanShrink(bool);
         void fitRequestedDimension();
+        void adjustGeometry();
         irr::gui::IGUIFont *getDefaultFont() { return IrrlichtObject::getFont(); }
         const irr::gui::IGUIFont *getDefaultFont() const { return IrrlichtObject::getFont(); }
         irr::gui::IGUIFont *getFont() { return m_font ? m_font : getDefaultFont(); }

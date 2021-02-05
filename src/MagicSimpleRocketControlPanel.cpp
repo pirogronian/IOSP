@@ -46,9 +46,7 @@ IOSP::MagicSimpleRocketControlPanel::MagicSimpleRocketControlPanel(
 
     m_infoRoot.setCanShrink(true);
     m_infoRoot.setCanExpand(true);
-    m_infoRoot.updateRectangle();
-    m_infoRoot.fitRequestedDimension();
-    m_infoRoot.updateRectangle();
+    m_infoRoot.adjustGeometry();
 
     m_trKeyActions = std::make_shared<SimpleInputKeyTriggeredActionManager>();
     m_stKeyActions = std::make_shared<InputKeyStateActionManager>();

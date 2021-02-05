@@ -62,6 +62,13 @@ void IOSP::ScreenElement::fitRequestedDimension()
     if (m_reqDim.Height > cdim.Height && canShrink())  m_reqDim.Height = cdim.Height;
 }
 
+void IOSP::ScreenElement::adjustGeometry()
+{
+    updateRectangle();
+    fitRequestedDimension();
+    updateRectangle();
+}
+
 void IOSP::ScreenElement::updateRectangle(bool children)
 {
     Rectangle rect;
