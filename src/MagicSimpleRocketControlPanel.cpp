@@ -17,18 +17,30 @@ IOSP::MagicSimpleRocketControlPanel::MagicSimpleRocketControlPanel(
     m_rotText.setAlignment(0.5, 1);
     m_rotText.getPadding().set(10);
     m_rotText.setFormat("Rotation: [%10f, %10f, %10f]");
+    m_rotText.updateContent(false, 0, 0, 0);
+    auto H = m_rotText.getRequestedDimension(ScreenRectangle::Outer).Height;
+    m_rotText.setShift(0, -3 * H);
+    m_rotText.updateRectangle();
 
     m_massText.setAlignment(0.5, 1);
     m_massText.getPadding().set(10);
     m_massText.setFormat("Mass: %4f, delta: %10f");
+    m_massText.updateContent(false, 0, 0);
+    m_massText.setShift(0, -2 * H);
+    m_massText.updateRectangle();
 
     m_velText.setAlignment(0.5, 1);
     m_velText.getPadding().set(10);
     m_velText.setFormat("Linear vel: [%10f, %10f, %10f]");
+    m_velText.updateContent(false, 0, 0, 0);
+    m_velText.setShift(0, -H);
+    m_velText.updateRectangle();
 
     m_accText.setAlignment(0.5, 1);
     m_accText.getPadding().set(10);
     m_accText.setFormat("Linear acc: [%10f, %10f, %10f]");
+    m_accText.updateContent(false, 0, 0, 0);
+    m_accText.updateRectangle();
 
     m_trKeyActions = std::make_shared<SimpleInputKeyTriggeredActionManager>();
     m_stKeyActions = std::make_shared<InputKeyStateActionManager>();
@@ -117,23 +129,15 @@ void IOSP::MagicSimpleRocketControlPanel::update()
 void IOSP::MagicSimpleRocketControlPanel::updateUI()
 {
     auto *node = dynamic_cast<BulletBodySceneNode*>(m_controlTarget);
-    auto H = m_rotText.getRequestedDimension(ScreenRectangle::Outer).Height;
     auto r = m_controlTarget->getRotation();
-    m_rotText.setValues(3, r.X, r.Y, r.Z);
-    m_rotText.setShift(0, -3 * H);
-    m_rotText.update();
+    m_rotText.updateContent(false, r.X, r.Y, r.Z);
     auto mass = node->getMass();
     auto delta = node->getLastDelta();
-    m_massText.update(2, mass, delta);
-    m_massText.setShift(0, -2 * H);
+    m_massText.updateContent(false, mass, delta);
     auto lv = node->getLinearVelocity();
-    m_velText.setValues(3, lv.getX(), lv.getY(), lv.getZ());
-    m_velText.setShift(0, -H);
-    m_velText.update();
+    m_velText.updateContent(false, lv.getX(), lv.getY(), lv.getZ());
     auto la = node->getLinearAcceleration();
-    m_accText.setValues(3, la.getX(), la.getY(), la.getZ());
-//     m_accText.setShift(0, -H);
-    m_accText.update();
+    m_accText.updateContent(false, la.getX(), la.getY(), la.getZ());
 }
 
 void IOSP::MagicSimpleRocketControlPanel::render()

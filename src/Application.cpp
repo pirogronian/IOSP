@@ -58,7 +58,7 @@ Application::Application()
     m_testScreenElement.getOwnBackgroundColor().set(128, 128, 128, 128);
     m_testScreenElement.setRequestedDimension(300, 100);
     m_testScreenElement.getPadding().set(10);
-    m_testScreenElement.update();
+    m_testScreenElement.updateContent();
 }
 
 bool Application::OnEvent(const SEvent& event)

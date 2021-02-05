@@ -36,7 +36,6 @@ namespace IOSP
         Dimension getRequestedDimension(Layer l = Base) const;
         void setRequestedDimension(const Dimension& d) { m_reqDim; }
         void setRequestedDimension(irr::u32 w, irr::u32 h) { m_reqDim.Width = w; m_reqDim.Height = h; }
-        virtual void updateRectangle();
         float verticalAlignment() const { return m_vAlign; }
         float horizontalAlignment() const { return m_hAlign; }
         void setVerticalAlignment(float a) { m_vAlign = a; }
@@ -62,13 +61,14 @@ namespace IOSP
         void setFont(irr::gui::IGUIFont *f) { m_font = f; }
         virtual bool addChild(ScreenElement *);
         virtual bool removeChild(ScreenElement *);
-        virtual void updateChildren();
-        virtual void drawChildren();
-        virtual void update()
+        virtual void updateChildrenContent(bool children = true);
+        virtual void updateContent(bool children = true)
         {
-            updateRectangle();
-            updateChildren();
+            if (children)
+                updateChildrenContent(children);
         }
+        virtual void updateRectangle(bool children = true);
+        virtual void updateChildrenRectangle(bool children = true);
         virtual void drawBackground()
         {
             if (m_bgPolicy == NoBackground || (m_bgPolicy == UseParentBackground && m_parent))  return;
@@ -76,10 +76,12 @@ namespace IOSP
             if (!drv)  return;
             drv->draw2DRectangle(getBackgroundColor(), m_rect);
         }
-        virtual void draw()
+        virtual void drawChildren(bool children = true);
+        virtual void draw(bool children = true)
         {
             drawBackground();
-            drawChildren();
+            if (children)
+                drawChildren(children);
         }
     };
 };

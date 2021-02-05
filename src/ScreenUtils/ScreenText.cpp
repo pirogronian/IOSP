@@ -7,22 +7,23 @@
 using namespace irr;
 using namespace IOSP;
 
-void IOSP::ScreenText::updateRectangle()
+void IOSP::ScreenText::updateContent(bool children)
 {
     auto f = getFont();
     if (!f)  return;
     m_reqDim = createBaseFromInner(f->getDimension(m_text.c_str()));
-    ScreenElement::updateRectangle();
+//     ScreenElement::updateRectangle();
+    if (children)  updateChildrenContent();
 }
 
-void IOSP::ScreenText::draw()
+void IOSP::ScreenText::draw(bool children)
 {
     drawBackground();
     gui::IGUIFont *f = getFont();
     if (!f)  return;
     f->draw(m_text, getInner(), m_color);
 //     std::printf("draw: %ls\n", m_text.c_str());
-    drawChildren();
+    if (children) drawChildren();
 }
 
 void IOSP::ScreenFormattedText::setValues(int n, ...)
@@ -42,11 +43,11 @@ void IOSP::ScreenFormattedText::setValues(va_list args)
     m_text = ft;
 }
 
-void IOSP::ScreenFormattedText::update(int n, ...)
+void IOSP::ScreenFormattedText::updateContent(bool children, ...)
 {
     va_list args;
-    va_start (args, n);
+    va_start (args, children);
     va_end(args);
     setValues(args);
-    update();
+    ScreenText::updateContent(children);
 }

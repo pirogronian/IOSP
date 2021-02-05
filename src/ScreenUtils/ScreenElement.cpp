@@ -37,7 +37,7 @@ ScreenRectangle::Dimension IOSP::ScreenElement::getRequestedDimension(ScreenRect
     assert((true, "Invalid layer for requested dimension!"));
 }
 
-void IOSP::ScreenElement::updateRectangle()
+void IOSP::ScreenElement::updateRectangle(bool children)
 {
     Rectangle rect;
     Dimension dim = createOuterFromBase(m_reqDim);
@@ -65,6 +65,7 @@ void IOSP::ScreenElement::updateRectangle()
         m_vAlign) + getMargin(Top) + m_vShift;
     m_rect.LowerRightCorner.X = m_rect.UpperLeftCorner.X + m_reqDim.Width;
     m_rect.LowerRightCorner.Y = m_rect.UpperLeftCorner.Y + m_reqDim.Height;
+    if (children)  updateChildrenRectangle(children);
 }
 
 bool IOSP::ScreenElement::addChild(ScreenElement *c)
@@ -85,14 +86,20 @@ bool IOSP::ScreenElement::removeChild(ScreenElement *c)
     return false;
 }
 
-void IOSP::ScreenElement::updateChildren()
+void IOSP::ScreenElement::updateChildrenContent(bool children)
 {
     for(auto& child: m_children)
-        child->update();
+        child->updateContent(children);
 }
 
-void IOSP::ScreenElement::drawChildren()
+void IOSP::ScreenElement::updateChildrenRectangle(bool children)
 {
     for(auto& child: m_children)
-        child->draw();
+        child->updateRectangle(children);
+}
+
+void IOSP::ScreenElement::drawChildren(bool children)
+{
+    for(auto& child: m_children)
+        child->draw(children);
 }
