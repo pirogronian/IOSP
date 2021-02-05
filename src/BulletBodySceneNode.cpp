@@ -40,6 +40,7 @@ IOSP::BulletBodySceneNode::~BulletBodySceneNode()
 
 void IOSP::BulletBodySceneNode::syncTransform()
 {
+    if (!m_bbody)  return;
     auto& pos = getPosition();
     auto rot = degToRad(getRotation());
     btTransform tr(btQuaternion(rot.X, rot.Y, rot.Z), btVector3(pos.X, pos.Y, pos.Z));
@@ -48,6 +49,7 @@ void IOSP::BulletBodySceneNode::syncTransform()
 
 void IOSP::BulletBodySceneNode::syncInertia()
 {
+    if (!m_bbody)  return;
     auto m = m_bbody->getMass();
     m_bbody->setMassProps(m, btVector3(m, m, m));
 }
@@ -60,6 +62,7 @@ void IOSP::BulletBodySceneNode::setMass(btScalar m)
 
 void IOSP::BulletBodySceneNode::update(irr::u32 ud)
 {
+    if (!m_bbody)  return;
     m_lastDelta = static_cast<btScalar>(ud) / 1000;
     btScalar d = m_lastDelta;
     auto lv = m_bbody->getLinearVelocity();

@@ -11,10 +11,10 @@ namespace IOSP
     class BulletBodySceneNode : public irr::scene::ISceneNode, public BulletUpdatable
     {
         BulletMotionState m_mstate{*this};
-        btRigidBody *m_bbody;
+        btRigidBody *m_bbody{nullptr};
         irr::core::aabbox3d<irr::f32> m_bbox;
-        btVector3 m_lVel, m_lAccel;
-        btScalar m_lastDelta;
+        btVector3 m_lVel{0, 0, 0}, m_lAccel{0, 0, 0};
+        btScalar m_lastDelta{0};
     public:
         BulletBodySceneNode(irr::scene::ISceneNode *,
                             irr::scene::ISceneManager *,
@@ -29,7 +29,7 @@ namespace IOSP
         {
             w.addRigidBody(m_bbody);
         }
-        btVector3 getLinearVelocity() const { return m_bbody->getLinearVelocity(); }
+        btVector3 getLinearVelocity() const { return m_bbody ? m_bbody->getLinearVelocity() : btVector3(0, 0, 0); }
         btVector3 getLinearAcceleration() const { return m_lAccel; }
         btScalar getLastDelta() const { return m_lastDelta; }
         btRigidBody* bulletRigidBody() { return m_bbody; }
@@ -53,10 +53,12 @@ namespace IOSP
 //         }
         void applyTorqueLocal(const btVector3& rot)
         {
+            if (!m_bbody)  return;
             m_bbody->applyTorque(m_bbody->getWorldTransform().getBasis() * rot);
         }
         void applyForceLocal(const btVector3& f, const btVector3& offset = btVector3(0, 0, 0))
         {
+            if (!m_bbody)  return;
             auto &tr = m_bbody->getWorldTransform().getBasis();
             m_bbody->applyForce(tr * f, tr * offset);
         }
