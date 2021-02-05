@@ -37,6 +37,31 @@ ScreenRectangle::Dimension IOSP::ScreenElement::getRequestedDimension(ScreenRect
     assert((true, "Invalid layer for requested dimension!"));
 }
 
+void IOSP::ScreenElement::setCanExpand(bool f)
+{
+    if (f)
+        m_resizePolicy |= CanExpand;
+    else
+        m_resizePolicy &= ~CanExpand;
+}
+
+void IOSP::ScreenElement::setCanShrink(bool f)
+{
+    if (f)
+        m_resizePolicy |= CanShrink;
+    else
+        m_resizePolicy &= ~CanShrink;
+}
+
+void IOSP::ScreenElement::fitRequestedDimension()
+{
+    auto cdim = calculateTotalChildrenDimension();
+    if (m_reqDim.Width < cdim.Width && canExpand())  m_reqDim.Width = cdim.Width;
+    if (m_reqDim.Width > cdim.Width && canShrink())  m_reqDim.Width = cdim.Width;
+    if (m_reqDim.Height < cdim.Height && canExpand())  m_reqDim.Height = cdim.Height;
+    if (m_reqDim.Height > cdim.Height && canShrink())  m_reqDim.Height = cdim.Height;
+}
+
 void IOSP::ScreenElement::updateRectangle(bool children)
 {
     Rectangle rect;

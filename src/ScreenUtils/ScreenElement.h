@@ -18,6 +18,11 @@ namespace IOSP
             UseParentBackground,
             UseOwnBackground
         };
+        enum ResizePolicy
+        {
+            CanExpand = 1,
+            CanShrink = 2
+        };
     protected:
         Dimension m_reqDim;
         LinkedPtrList<ScreenElement> m_children;
@@ -30,6 +35,7 @@ namespace IOSP
         static irr::video::SColor s_bg;
         irr::video::SColor m_bg{0, 0, 0, 0};
         BackgroundPolicy m_bgPolicy{UseOwnBackground};
+        int m_resizePolicy{3};
         irr::gui::IGUIFont *m_font{nullptr};
     public:
         ScreenElement(ScreenElement *p = nullptr);
@@ -55,6 +61,13 @@ namespace IOSP
         const irr::video::SColor& getBackgroundColor() const { return m_bg.getAlpha() ? m_bg : s_bg; }
         BackgroundPolicy getBackgroundPolicy() const { return m_bgPolicy; }
         void setBackgroundPolicy(BackgroundPolicy bp) { m_bgPolicy = bp; }
+        int getResizePolicy() const { return m_resizePolicy; }
+        void setResizePolicy(int f) { m_resizePolicy = f; }
+        bool canExpand() const { return m_resizePolicy & CanExpand; }
+        bool canShrink() const { return m_resizePolicy & CanShrink; }
+        void setCanExpand(bool);
+        void setCanShrink(bool);
+        void fitRequestedDimension();
         irr::gui::IGUIFont *getDefaultFont() { return IrrlichtObject::getFont(); }
         const irr::gui::IGUIFont *getDefaultFont() const { return IrrlichtObject::getFont(); }
         irr::gui::IGUIFont *getFont() { return m_font ? m_font : getDefaultFont(); }
