@@ -21,7 +21,7 @@ namespace IOSP
         irr::scene::ISceneNode *m_controlTarget{nullptr};
         std::shared_ptr<AbstractInputKeyTriggeredActionManager> m_trKeyActions;
         std::shared_ptr<InputKeyStateActionManager> m_stKeyActions;
-        IntervalTimer m_uiTimer{100};
+        IntervalTimer m_uiTimer{50};
     public:
         static ThirdPersonCamera thirdPersonCamera;
         ControlPanelSceneNode(

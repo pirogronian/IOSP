@@ -20,7 +20,7 @@ IOSP::MagicSimpleRocketControlPanel::MagicSimpleRocketControlPanel(
     m_rotText.setAlignment(0.5, 1);
     m_rotText.getPadding().set(10);
     m_rotText.setFormat(9, 4, "Rotation");
-    m_rotText.updateContent(false, 0, 0, 0);
+    m_rotText.updateContent(0, 0, 0);
     auto H = m_rotText.getRequestedDimension(ScreenRectangle::Outer).Height;
     m_rotText.setShift(0, -3 * H);
 
@@ -136,7 +136,7 @@ void IOSP::MagicSimpleRocketControlPanel::updateUI()
 {
     auto *node = dynamic_cast<BulletBodySceneNode*>(m_controlTarget);
     auto r = m_controlTarget->getRotation();
-    m_rotText.updateContent(false, r.X, r.Y, r.Z);
+    m_rotText.updateContent(r.X, r.Y, r.Z);
     auto mass = node->getMass();
     auto delta = node->getLastDelta();
     m_massText.updateContent(false, mass, delta);
@@ -144,6 +144,7 @@ void IOSP::MagicSimpleRocketControlPanel::updateUI()
     m_velText.updateContent(false, lv.getX(), lv.getY(), lv.getZ());
     auto la = node->getLinearAcceleration();
     m_accText.updateContent(false, la.getX(), la.getY(), la.getZ());
+    m_infoRoot.updateRectangle();
 }
 
 void IOSP::MagicSimpleRocketControlPanel::render()
