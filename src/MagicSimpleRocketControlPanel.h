@@ -16,7 +16,8 @@ namespace IOSP
     protected:
         bool m_isThrust{false};
         void setTarget(irr::scene::ISceneNode*);
-        ScreenFormattedText m_rotText, m_massText, m_velText, m_accText;
+        ScreenElement m_infoRoot;
+        ScreenFormattedText m_rotText{&m_infoRoot}, m_massText{&m_infoRoot}, m_velText{&m_infoRoot}, m_accText{&m_infoRoot};
     public:
         enum TriggeredActions
         {

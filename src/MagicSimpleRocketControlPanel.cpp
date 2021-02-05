@@ -14,33 +14,44 @@ IOSP::MagicSimpleRocketControlPanel::MagicSimpleRocketControlPanel(
             const irr::core::vector3df& rot)
         : ControlPanelSceneNode(dev, parent, smgr, id, pos, rot)
 {
+    m_infoRoot.setAlignment(0.5, 1);
+
+    m_rotText.setBackgroundPolicy(ScreenElement::UseParentBackground);
     m_rotText.setAlignment(0.5, 1);
     m_rotText.getPadding().set(10);
     m_rotText.setFormat("Rotation: [%10f, %10f, %10f]");
     m_rotText.updateContent(false, 0, 0, 0);
     auto H = m_rotText.getRequestedDimension(ScreenRectangle::Outer).Height;
     m_rotText.setShift(0, -3 * H);
-    m_rotText.updateRectangle();
+//     m_rotText.updateRectangle();
 
+    m_massText.setBackgroundPolicy(ScreenElement::UseParentBackground);
     m_massText.setAlignment(0.5, 1);
     m_massText.getPadding().set(10);
     m_massText.setFormat("Mass: %4f, delta: %10f");
     m_massText.updateContent(false, 0, 0);
     m_massText.setShift(0, -2 * H);
-    m_massText.updateRectangle();
+//     m_massText.updateRectangle();
 
+    m_velText.setBackgroundPolicy(ScreenElement::UseParentBackground);
     m_velText.setAlignment(0.5, 1);
     m_velText.getPadding().set(10);
     m_velText.setFormat("Linear vel: [%10f, %10f, %10f]");
     m_velText.updateContent(false, 0, 0, 0);
     m_velText.setShift(0, -H);
-    m_velText.updateRectangle();
+//     m_velText.updateRectangle();
 
+    m_accText.setBackgroundPolicy(ScreenElement::UseParentBackground);
     m_accText.setAlignment(0.5, 1);
     m_accText.getPadding().set(10);
     m_accText.setFormat("Linear acc: [%10f, %10f, %10f]");
     m_accText.updateContent(false, 0, 0, 0);
-    m_accText.updateRectangle();
+//     m_accText.updateRectangle();
+    m_infoRoot.updateRectangle();
+    auto dim = m_infoRoot.calculateTotalChildrenDimension();
+    std::printf("Req dim: %i, %i\n", dim.Width, dim.Height);
+    m_infoRoot.setRequestedDimension(dim);
+    m_infoRoot.updateRectangle();
 
     m_trKeyActions = std::make_shared<SimpleInputKeyTriggeredActionManager>();
     m_stKeyActions = std::make_shared<InputKeyStateActionManager>();
@@ -142,10 +153,11 @@ void IOSP::MagicSimpleRocketControlPanel::updateUI()
 
 void IOSP::MagicSimpleRocketControlPanel::render()
 {
-    m_rotText.draw();
-    m_massText.draw();
-    m_velText.draw();
-    m_accText.draw();
+    m_infoRoot.draw();
+//     m_rotText.draw();
+//     m_massText.draw();
+//     m_velText.draw();
+//     m_accText.draw();
 }
 
 void IOSP::MagicSimpleRocketControlPanel::OnRegisterSceneNode()

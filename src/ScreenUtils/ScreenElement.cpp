@@ -1,6 +1,6 @@
 
 #include <cassert>
-
+#include <algorithm>
 #include <Utils/RelativeValue.h>
 
 #include "ScreenElement.h"
@@ -86,6 +86,29 @@ bool IOSP::ScreenElement::removeChild(ScreenElement *c)
     return false;
 }
 
+ScreenRectangle::Rectangle IOSP::ScreenElement::calculateTotalChildrenRectangle() const
+{
+    bool empty = true;
+    Rectangle ret;
+    for (auto &child: m_children)
+    {
+        Rectangle cr = child->getOuter();
+        if (empty)
+        {
+            ret = cr;
+            empty = false;
+        }
+        else
+        {
+            ret.UpperLeftCorner.X = std::min(cr.UpperLeftCorner.X, ret.UpperLeftCorner.X);
+            ret.UpperLeftCorner.Y = std::min(cr.UpperLeftCorner.Y, ret.UpperLeftCorner.Y);
+            ret.LowerRightCorner.X = std::max(cr.LowerRightCorner.X, ret.LowerRightCorner.X);
+            ret.LowerRightCorner.Y = std::max(cr.LowerRightCorner.Y, ret.LowerRightCorner.Y);
+        }
+    }
+    return ret;
+}
+
 void IOSP::ScreenElement::updateChildrenContent(bool children)
 {
     for(auto& child: m_children)
@@ -96,6 +119,20 @@ void IOSP::ScreenElement::updateChildrenRectangle(bool children)
 {
     for(auto& child: m_children)
         child->updateRectangle(children);
+}
+
+void IOSP::ScreenElement::drawBackground()
+{
+    if (m_bgPolicy == NoBackground || (m_bgPolicy == UseParentBackground && m_parent))  return;
+    auto drv = getDriver();
+    if (!drv)  return;
+//     std::printf(
+//         "Draw background at: [%i, %i, %i, %i]\n",
+//         m_rect.UpperLeftCorner.X,
+//         m_rect.UpperLeftCorner.Y,
+//         m_rect.LowerRightCorner.X,
+//         m_rect.LowerRightCorner.Y);
+    drv->draw2DRectangle(getBackgroundColor(), m_rect);
 }
 
 void IOSP::ScreenElement::drawChildren(bool children)

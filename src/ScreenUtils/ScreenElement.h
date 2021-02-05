@@ -2,6 +2,7 @@
 #pragma once
 
 #include <irrlicht.h>
+#include <Utils/Conversions.h>
 #include <Utils/LinkedList.h>
 #include <Utils/IrrlichtObject.h>
 #include <ScreenUtils/ScreenRectangle.h>
@@ -34,7 +35,7 @@ namespace IOSP
         ScreenElement(ScreenElement *p = nullptr);
         virtual ~ScreenElement() {}
         Dimension getRequestedDimension(Layer l = Base) const;
-        void setRequestedDimension(const Dimension& d) { m_reqDim; }
+        void setRequestedDimension(const Dimension& d) { m_reqDim = d; }
         void setRequestedDimension(irr::u32 w, irr::u32 h) { m_reqDim.Width = w; m_reqDim.Height = h; }
         float verticalAlignment() const { return m_vAlign; }
         float horizontalAlignment() const { return m_hAlign; }
@@ -61,6 +62,11 @@ namespace IOSP
         void setFont(irr::gui::IGUIFont *f) { m_font = f; }
         virtual bool addChild(ScreenElement *);
         virtual bool removeChild(ScreenElement *);
+        Rectangle calculateTotalChildrenRectangle() const;
+        Dimension calculateTotalChildrenDimension() const
+        {
+            return toUnsigned(calculateTotalChildrenRectangle().getSize());
+        }
         virtual void updateChildrenContent(bool children = true);
         virtual void updateContent(bool children = true)
         {
@@ -69,13 +75,7 @@ namespace IOSP
         }
         virtual void updateRectangle(bool children = true);
         virtual void updateChildrenRectangle(bool children = true);
-        virtual void drawBackground()
-        {
-            if (m_bgPolicy == NoBackground || (m_bgPolicy == UseParentBackground && m_parent))  return;
-            auto drv = getDriver();
-            if (!drv)  return;
-            drv->draw2DRectangle(getBackgroundColor(), m_rect);
-        }
+        virtual void drawBackground();
         virtual void drawChildren(bool children = true);
         virtual void draw(bool children = true)
         {

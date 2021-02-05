@@ -147,7 +147,7 @@ void IOSP::Application::run()
         ControlPanelSceneNode::thirdPersonCamera.update();
         m_smgr->drawAll();
         m_simulation->drawDebug();
-        m_testScreenElement.draw();
+//         m_testScreenElement.draw();
         m_gui->drawAll();
         m_drv->endScene();
         irr::core::stringw wcaption = L"IOSP [";

@@ -3,9 +3,15 @@
 
 #include <irrlicht.h>
 #include <btBulletDynamicsCommon.h>
+#include <cstdlib>
 
 namespace IOSP
 {
+    inline irr::core::dimension2d<irr::u32> toUnsigned(const irr::core::dimension2d<irr::s32>& other)
+    {
+        return irr::core::dimension2d<irr::u32>(std::abs(other.Width), std::abs(other.Height));
+    }
+
     template<typename T>
     T radToDeg(T a)
     {
