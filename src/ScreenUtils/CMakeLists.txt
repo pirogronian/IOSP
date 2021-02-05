@@ -2,6 +2,8 @@
 set(SOURCES
     ScreenElement.h
     ScreenElement.cpp
+    ScreenFloatDisplay.h
+    ScreenFloatDisplay.cpp
     ScreenRectangle.h
     ScreenRectangle.cpp
     ScreenText.h

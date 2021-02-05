@@ -4,6 +4,7 @@
 #include <ControlPanelSceneNode.h>
 #include <BulletBodySceneNode.h>
 #include <ScreenUtils/ScreenText.h>
+#include <ScreenUtils/ScreenFloatDisplay.h>
 
 namespace IOSP
 {
@@ -17,7 +18,8 @@ namespace IOSP
         bool m_isThrust{false};
         void setTarget(irr::scene::ISceneNode*);
         ScreenElement m_infoRoot;
-        ScreenFormattedText m_rotText{&m_infoRoot}, m_massText{&m_infoRoot}, m_velText{&m_infoRoot}, m_accText{&m_infoRoot};
+        ScreenFormattedText m_massText{&m_infoRoot}, m_velText{&m_infoRoot}, m_accText{&m_infoRoot};
+        SimpleVector3Display m_rotText{&m_infoRoot};
     public:
         enum TriggeredActions
         {

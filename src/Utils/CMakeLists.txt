@@ -6,6 +6,7 @@ set(SOURCES
     Conversions.h
     Dump.h
     Dump.cpp
+    FloatFormatString.h
     IndexEntry.h
     InputKeyActionManager.h
     InputKeyActionManager.cpp

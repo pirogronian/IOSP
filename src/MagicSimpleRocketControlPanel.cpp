@@ -19,7 +19,7 @@ IOSP::MagicSimpleRocketControlPanel::MagicSimpleRocketControlPanel(
     m_rotText.setBackgroundPolicy(ScreenElement::UseParentBackground);
     m_rotText.setAlignment(0.5, 1);
     m_rotText.getPadding().set(10);
-    m_rotText.setFormat("Rotation: [%10f, %10f, %10f]");
+    m_rotText.setFormat(9, 4, "Rotation");
     m_rotText.updateContent(false, 0, 0, 0);
     auto H = m_rotText.getRequestedDimension(ScreenRectangle::Outer).Height;
     m_rotText.setShift(0, -3 * H);
