@@ -35,6 +35,7 @@ namespace IOSP
         static irr::video::SColor s_bg;
         irr::video::SColor m_bg{0, 0, 0, 0};
         BackgroundPolicy m_bgPolicy{UseOwnBackground};
+        irr::video::SColor m_color{255, 255, 255, 255};
         int m_resizePolicy{3};
         irr::gui::IGUIFont *m_font{nullptr};
     public:
@@ -61,6 +62,8 @@ namespace IOSP
         const irr::video::SColor& getBackgroundColor() const { return m_bg.getAlpha() ? m_bg : s_bg; }
         BackgroundPolicy getBackgroundPolicy() const { return m_bgPolicy; }
         void setBackgroundPolicy(BackgroundPolicy bp) { m_bgPolicy = bp; }
+        irr::video::SColor& getColor() { return m_color; }
+        const irr::video::SColor& getColor() const { return m_color; }
         int getResizePolicy() const { return m_resizePolicy; }
         void setResizePolicy(int f) { m_resizePolicy = f; }
         bool canExpand() const { return m_resizePolicy & CanExpand; }

@@ -48,6 +48,14 @@ IOSP::MagicSimpleRocketControlPanel::MagicSimpleRocketControlPanel(
     m_infoRoot.setCanExpand(true);
     m_infoRoot.adjustGeometry();
 
+    m_sfDisplay.setValueScale(10);
+    m_sfDisplay.setVisualScale(5);
+    m_sfDisplay.setFormat(8, 2);
+    m_sfDisplay.setRequestedDimension(75, 200);
+    m_sfDisplay.setAlignment(0.5, 0.5);
+    m_sfDisplay.getText().setBackgroundPolicy(ScreenElement::NoBackground);
+    m_sfDisplay.updateRectangle();
+
     m_trKeyActions = std::make_shared<SimpleInputKeyTriggeredActionManager>();
     m_stKeyActions = std::make_shared<InputKeyStateActionManager>();
 
@@ -145,11 +153,14 @@ void IOSP::MagicSimpleRocketControlPanel::updateUI()
     auto la = node->getLinearAcceleration();
     m_accText.updateContent(false, la.getX(), la.getY(), la.getZ());
     m_infoRoot.updateRectangle();
+    m_sfDisplay.setValue(r.X);
+    m_sfDisplay.updateRectangle();
 }
 
 void IOSP::MagicSimpleRocketControlPanel::render()
 {
     m_infoRoot.draw();
+    m_sfDisplay.draw();
 //     m_rotText.draw();
 //     m_massText.draw();
 //     m_velText.draw();

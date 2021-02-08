@@ -22,9 +22,12 @@ namespace IOSP
     public:
         SimpleFloatDisplay(ScreenElement *p = nullptr) : AbstractScreenFloatDisplay(p) {}
         void setFormat(unsigned char, unsigned char, const char * = nullptr) override;
-        void setValues(double v)
+        void setValue(double v)
         {
             ScreenFormattedText::setValues(1, v);
+        }
+        void updateContent(bool c = true) override {
+            ScreenFormattedText::updateContent(c);
         }
         void updateContent(double v, bool children = true)
         {
@@ -45,5 +48,42 @@ namespace IOSP
         {
             ScreenFormattedText::updateContent(c, x, y, z);
         }
+    };
+
+    class ScaleFloatDisplay : public ScreenElement
+    {
+    protected:
+        float m_valScale{1};
+        float m_valShift{0};
+        float m_visScale{1};
+        double m_value{0};
+        SimpleFloatDisplay m_sfd{this};
+    public:
+        ScaleFloatDisplay(ScreenElement *p = nullptr) : ScreenElement(p) {}
+        float getValueScale() const { return m_valScale; }
+        void setValueScale(float s) { m_valScale = s; }
+        float getValueShift() const { return m_valShift; }
+        void setValueShift(float v) { m_valShift = v; }
+        double getValue() const { return m_valScale; }
+        void setValue(double v) { m_value = v; }
+        float getVisualScale() const { return m_visScale; }
+        void setVisualScale(float s) { m_visScale = s; }
+        SimpleFloatDisplay& getText() { return m_sfd; }
+        const SimpleFloatDisplay& getText() const { return m_sfd; }
+        double getLineValue(double i) const { return i * m_valScale + m_valShift; }
+        double getRelativeLinePosition(double i) const { return -(getLineValue(i) - m_value) * m_visScale; }
+        double getAbsoluteLinePosition(double i) const {
+            return getInner().getCenter().Y + getRelativeLinePosition(i);
+        }
+        double getLineNumberFromValue(double v) const { return (v - m_valShift)/m_valScale; }
+        double getRelativeFromAbsolutePosition(double abs) const { return abs - getBase().getCenter().Y; }
+        double getLineNumberFromRelativePosition(double pos) const {
+            return -getLineNumberFromValue((pos) / m_visScale - m_value);
+        }
+        double getLineNumberFromAbsolutePosition(double pos) const {
+            return getLineNumberFromRelativePosition(getRelativeFromAbsolutePosition(pos));
+        }
+        void setFormat(unsigned char total, unsigned char frac) { m_sfd.setFormat(total, frac); }
+        void draw(bool children = true) override;
     };
 }

@@ -33,6 +33,6 @@ target_link_libraries(IOSP PRIVATE
     IospScreenUtils
     Bullet
     #BulletCollision
-    LinearMath
+    #LinearMath
     Irrlicht
     IrrlichtI18n)

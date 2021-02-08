@@ -11,7 +11,6 @@ namespace IOSP
     {
     protected:
         irr::core::stringw m_text;
-        irr::video::SColor m_color{255, 255, 255, 255};
     public:
         using ScreenElement::updateContent;
         using ScreenElement::draw;
@@ -19,13 +18,10 @@ namespace IOSP
         ScreenText(const irr::core::stringw& text, ScreenElement *parent = nullptr)
         : m_text{text}, ScreenElement(parent) {}
         ~ScreenText() {}
-        irr::video::SColor& color() { return m_color; }
-        const irr::video::SColor& color() const { return m_color; }
-        irr::core::stringw& text() { return m_text; }
         const irr::core::stringw& text() const { return m_text; }
         void setText(const irr::core::stringw& t) { m_text = t; }
         void setText(const wchar_t *t) { m_text = t; }
-//         void updateRectangle() override;
+        const irr::core::stringw& getText() const { return m_text; }
         void updateContent(bool children = true) override;
         void draw(bool children = true) override;
     };

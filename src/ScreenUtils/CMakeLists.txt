@@ -15,3 +15,5 @@ target_include_directories(IospScreenUtils PRIVATE ${IRRLICHT_INCLUDE_DIR})
 
 target_include_directories(IospScreenUtils PRIVATE ${PROJECT_SOURCE_DIR}/src/)
 target_include_directories(IospScreenUtils PRIVATE ${PROJECT_SOURCE_DIR}/src/thirdparty/Bullet/src/)
+
+target_link_libraries(IospScreenUtils PRIVATE IospUtils)
