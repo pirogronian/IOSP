@@ -14,6 +14,8 @@ set(SOURCES
     InputKeyBinder.cpp
     IntervalTimer.h
     IntervalTimer.cpp
+    IrrCommonObject.h
+    IrrCommonObject.cpp
     IrrlichtObject.h
     IrrlichtObject.cpp
     NamedClassInstance.h
