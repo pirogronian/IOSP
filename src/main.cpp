@@ -16,7 +16,7 @@ int main()
     irr::gui::IGUIEnvironment *gui = app.device()->getGUIEnvironment();
 //     app.loadTTF("/usr/share/fonts/gnu-free/FreeMono.otf", 14);
 
-    auto *sim = IOSP::TestScene(app.device());
+    auto *sim = IOSP::TestScene();
     sim->debugDrawer().setDebugMode(btIDebugDraw::DBG_DrawWireframe|btIDebugDraw::DBG_DrawAabb);
     app.setSimulation(sim);
 

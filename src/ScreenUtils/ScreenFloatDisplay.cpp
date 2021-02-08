@@ -37,7 +37,7 @@ void IOSP::SimpleFloat3Display::setFormat(unsigned char total, unsigned char fra
 
 void IOSP::ScaleFloatDisplay::draw(bool children)
 {
-    auto *drv = getDriver();
+    auto *drv = getVideoDriver();
     auto color = getColor();
     int top = getInner().UpperLeftCorner.Y;
     int bottom = getInner().LowerRightCorner.Y;

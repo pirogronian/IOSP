@@ -12,9 +12,9 @@
 using namespace IOSP;
 using namespace irr;
 
-Simulation *IOSP::TestScene(IrrlichtDevice *dvc)
+Simulation *IOSP::TestScene()
 {
-    auto *smgr = dvc->getSceneManager();
+    auto *smgr = IrrCommonObject::getSceneManager();
     auto *cam = smgr->addCameraSceneNodeMaya();
     cam->setTarget(core::vector3df(0, 0, 0));
 //     auto *light = smgr->addLightSceneNode();
@@ -39,11 +39,11 @@ Simulation *IOSP::TestScene(IrrlichtDevice *dvc)
     bworld->addBody(wall);
     wall->setName("BWall");
 //     auto *wallbox = smgr->addCubeSceneNode(1, wall);
-    auto *tcpanel = new MagicSimpleRocketControlPanel(dvc, smgr->getRootSceneNode(), smgr, 1234);
+    auto *tcpanel = new MagicSimpleRocketControlPanel(smgr->getRootSceneNode(), smgr, 1234);
     tcpanel->setTarget(body);
     ControlPanelSceneNode::thirdPersonCamera.setCamera(cam);
     ControlPanelSceneNode::thirdPersonCamera.setTarget(body);
-    auto *sim = new Simulation(dvc);
+    auto *sim = new Simulation();
     sim->addWorld(bworld);
     sim->setActivePanel(tcpanel);
     return sim;

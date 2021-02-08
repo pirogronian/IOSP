@@ -5,18 +5,17 @@
 #include <irrlicht.h>
 
 #include <Common.h>
-#include <Utils/IrrlichtObject.h>
+#include <Utils/IrrCommonObject.h>
 #include <Utils/InputKeyActionManager.h>
 #include <ThirdPersonCamera.h>
 #include <Utils/IntervalTimer.h>
 
 namespace IOSP
 {
-    class ControlPanelSceneNode : public irr::scene::ISceneNode, public irr::IEventReceiver, public IrrlichtObject
+    class ControlPanelSceneNode : public irr::scene::ISceneNode, public irr::IEventReceiver, public IrrCommonObject
     {
     protected:
         irr::core::aabbox3d<irr::f32> m_bbox;
-        irr::IrrlichtDevice *m_dev{nullptr};
         irr::gui::IGUIElement *m_rootGui{nullptr};
         irr::scene::ISceneNode *m_controlTarget{nullptr};
         std::shared_ptr<AbstractInputKeyTriggeredActionManager> m_trKeyActions;
@@ -25,7 +24,6 @@ namespace IOSP
     public:
         static ThirdPersonCamera thirdPersonCamera;
         ControlPanelSceneNode(
-            irr::IrrlichtDevice *,
             irr::scene::ISceneNode *,
             irr::scene::ISceneManager *,
             irr::s32 id = -1,
@@ -40,7 +38,7 @@ namespace IOSP
         virtual void updateUI() = 0;
         void setVisible(bool v) override;
         bool OnEvent(const irr::SEvent&) override;
-        void grabEvents() { m_dev->setEventReceiver(this); }
+        void grabEvents() { getDevice()->setEventReceiver(this); }
         void setTarget(irr::scene::ISceneNode *t)
         {
             if (m_controlTarget)

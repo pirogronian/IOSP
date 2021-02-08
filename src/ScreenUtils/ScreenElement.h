@@ -4,12 +4,12 @@
 #include <irrlicht.h>
 #include <Utils/Conversions.h>
 #include <Utils/LinkedList.h>
-#include <Utils/IrrlichtObject.h>
+#include <Utils/IrrCommonObject.h>
 #include <ScreenUtils/ScreenRectangle.h>
 
 namespace IOSP
 {
-    class ScreenElement : public IrrlichtObject, public ScreenRectangle
+    class ScreenElement : public IrrCommonObject, public ScreenRectangle
     {
     public:
         enum BackgroundPolicy
@@ -72,8 +72,8 @@ namespace IOSP
         void setCanShrink(bool);
         void fitRequestedDimension();
         void adjustGeometry();
-        irr::gui::IGUIFont *getDefaultFont() { return IrrlichtObject::getFont(); }
-        const irr::gui::IGUIFont *getDefaultFont() const { return IrrlichtObject::getFont(); }
+        irr::gui::IGUIFont *getDefaultFont() { return IrrCommonObject::getFont(); }
+        const irr::gui::IGUIFont *getDefaultFont() const { return IrrCommonObject::getFont(); }
         irr::gui::IGUIFont *getFont() { return m_font ? m_font : getDefaultFont(); }
         const irr::gui::IGUIFont *getFont() const { return m_font ? m_font : getDefaultFont(); }
         void setFont(irr::gui::IGUIFont *f) { m_font = f; }

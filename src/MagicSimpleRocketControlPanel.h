@@ -40,7 +40,6 @@ namespace IOSP
             YawRightAction
         };
         MagicSimpleRocketControlPanel(
-            irr::IrrlichtDevice *dev,
             irr::scene::ISceneNode *parent,
             irr::scene::ISceneManager *smgr,
             irr::s32 id = -1,

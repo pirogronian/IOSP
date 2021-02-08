@@ -6,14 +6,14 @@
 // #include <Utils/AutoIndexer.h>
 #include <BulletWorldSceneNode.h>
 #include <BulletDebugDrawer.h>
+#include <Utils/IrrCommonObject.h>
 #include <ControlPanelSceneNode.h>
 // #include <Updatable.h>
 
 namespace IOSP
 {
-    class Simulation : public irr::IEventReceiver
+    class Simulation : public irr::IEventReceiver, IrrCommonObject
     {
-        irr::IrrlichtDevice *m_idev;
         LinkedPtrList<BulletWorldSceneNode> m_worlds;
         BulletDebugDrawer m_ddrawer;
         ControlPanelSceneNode *m_activePanel{nullptr};
@@ -25,7 +25,7 @@ namespace IOSP
             m_timePassed{0},
             m_maxTimeMult{100};
     public:
-        Simulation(irr::IrrlichtDevice *d) : m_idev{d}, m_ddrawer{m_idev->getVideoDriver()} {}
+        Simulation() : m_ddrawer{ getVideoDriver() } {}
         bool addWorld(BulletWorldSceneNode *);
         bool removeWorld(BulletWorldSceneNode *);
         bool hasWorld(const BulletWorldSceneNode *) const;

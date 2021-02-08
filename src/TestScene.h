@@ -7,5 +7,5 @@
 
 namespace IOSP
 {
-    Simulation* TestScene(irr::IrrlichtDevice *);
+    Simulation* TestScene();
 }

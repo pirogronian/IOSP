@@ -1,6 +1,7 @@
 
 #include <cstdio>
-#include <Utils/IrrlichtObject.h>
+// #include <Utils/IrrlichtObject.h>
+#include <Utils/IrrCommonObject.h>
 #include "Application.h"
 
 using namespace IOSP;
@@ -9,6 +10,7 @@ using namespace irr;
 
 Application::Application()
 {
+    IrrCommonObject::setThrowOnNull(true);
     m_dev = irr::createDevice(
         irr::video::EDT_OPENGL,
         irr::core::dimension2d<irr::u32>(800, 600),
@@ -16,7 +18,8 @@ Application::Application()
     );
 
     if (!m_dev)  return;
-    IrrlichtObject::setDefaultDevice(m_dev);
+    IrrCommonObject::setDevice(m_dev);
+//     IrrlichtObject::setDefaultDevice(m_dev);
     m_smgr = m_dev->getSceneManager();
     m_drv = m_dev->getVideoDriver();
     m_gui = m_dev->getGUIEnvironment();

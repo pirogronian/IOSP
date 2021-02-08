@@ -6,13 +6,12 @@
 using namespace IOSP;
 
 IOSP::MagicSimpleRocketControlPanel::MagicSimpleRocketControlPanel(
-            irr::IrrlichtDevice *dev,
             irr::scene::ISceneNode *parent,
             irr::scene::ISceneManager *smgr,
             irr::s32 id,
             const irr::core::vector3df& pos,
             const irr::core::vector3df& rot)
-        : ControlPanelSceneNode(dev, parent, smgr, id, pos, rot)
+        : ControlPanelSceneNode(parent, smgr, id, pos, rot)
 {
     m_infoRoot.setAlignment(0.5, 1);
 

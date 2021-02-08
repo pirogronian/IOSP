@@ -76,7 +76,7 @@ void IOSP::ScreenElement::updateRectangle(bool children)
     if (m_parent) rect = m_parent->getInner();
     else
     {
-        auto drv = getDriver();
+        auto drv = getVideoDriver();
         if (!drv)  return;
         auto sdim = drv->getCurrentRenderTargetSize();
         rect.UpperLeftCorner.X = 0;
@@ -156,7 +156,7 @@ void IOSP::ScreenElement::updateChildrenRectangle(bool children)
 void IOSP::ScreenElement::drawBackground()
 {
     if (m_bgPolicy == NoBackground || (m_bgPolicy == UseParentBackground && m_parent))  return;
-    auto drv = getDriver();
+    auto drv = getVideoDriver();
     if (!drv)  return;
 //     std::printf(
 //         "Draw background at: [%i, %i, %i, %i]\n",
