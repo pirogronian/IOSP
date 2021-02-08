@@ -16,14 +16,7 @@ Type *IrrCommonObject::Name() { \
     return m; \
 }
 
-IEventReceiver *IrrCommonObject::getEventReceiver()
-{
-    auto dev = getDevice();
-    if (!dev)  return nullptr;
-    auto er = dev->getEventReceiver();
-    if (!er && s_throwOnNull)  throw std::runtime_error("Event receiver is null!");
-    return er;
-}
+getObjectType(IEventReceiver, getEventReceiver)
 
 getObjectType(ITimer, getTimer)
 

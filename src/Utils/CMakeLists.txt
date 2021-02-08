@@ -16,8 +16,6 @@ set(SOURCES
     IntervalTimer.cpp
     IrrCommonObject.h
     IrrCommonObject.cpp
-    IrrlichtObject.h
-    IrrlichtObject.cpp
     NamedClassInstance.h
     Ownership.h
     RelativeValue.h
