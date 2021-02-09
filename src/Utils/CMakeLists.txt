@@ -3,6 +3,8 @@ set(SOURCES
     Accumulator.h
     Accumulator.cpp
     AutoIndexer.h
+    BulletShapes.h
+    BulletShapes.cpp
     Conversions.h
     Dump.h
     Dump.cpp
@@ -28,5 +30,6 @@ set(SOURCES
 add_library(IospUtils STATIC ${SOURCES})
 
 target_include_directories(IospUtils PRIVATE ${IRRLICHT_INCLUDE_DIR})
+target_include_directories(IospUtils PRIVATE ${BULLET_INCLUDE_DIR})
 
 target_include_directories(IospUtils PRIVATE ${PROJECT_SOURCE_DIR}/src/)

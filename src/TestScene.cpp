@@ -16,7 +16,10 @@ Simulation *IOSP::TestScene()
 {
     auto *smgr = IrrCommonObject::getSceneManager();
     auto *cam = smgr->addCameraSceneNodeMaya();
-    cam->setTarget(core::vector3df(0, 0, 0));
+    cam->setTarget(core::vector3df(0, 0, -1));
+    cam->setUpVector(core::vector3df(0, 0, -1));
+    auto upv = cam->getUpVector();
+    std::printf("Up vector: [%f, %f, %f]\n", upv.X, upv.Y, upv.Z);
 //     auto *light = smgr->addLightSceneNode();
     auto *bworld = new BulletWorldSceneNode(smgr->getRootSceneNode(), smgr);
     bworld->setGlobalGravity(btVector3(0, 0, 0));
