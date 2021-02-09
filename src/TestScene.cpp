@@ -12,6 +12,17 @@
 using namespace IOSP;
 using namespace irr;
 
+BulletBodySceneNode *createTestCube()
+{
+    auto *smgr = IrrCommonObject::getSceneManager();
+    auto *bbox = new btBoxShape(btVector3(5, 5, 5));
+    auto *brigid = new btRigidBody(1, nullptr, bbox);
+    auto *body = new BulletBodySceneNode(smgr->getRootSceneNode(), smgr, brigid);
+    auto *cube = smgr->addCubeSceneNode(10, body);
+    cube->setMaterialFlag(video::EMF_LIGHTING, false);
+    return body;
+}
+
 Simulation *IOSP::TestScene()
 {
     auto *smgr = IrrCommonObject::getSceneManager();
@@ -25,13 +36,10 @@ Simulation *IOSP::TestScene()
     bworld->setGlobalGravity(btVector3(0, 0, 0));
     bworld->setName("BulletWorld");
     auto *bsphere = new btSphereShape(5);
-    auto *bbox = new btBoxShape(btVector3(5, 5, 5));
-    auto *brigid = new btRigidBody(1, nullptr, bbox);
-    auto *body = new BulletBodySceneNode(smgr->getRootSceneNode(), smgr, brigid);
-    bworld->addBody(body);
+    
+    auto testCube = createTestCube();
+    bworld->addBody(testCube);
 //     body->setWorld(bworld->bulletWorld());
-    auto *cube = smgr->addCubeSceneNode(10, body);
-    cube->setMaterialFlag(video::EMF_LIGHTING, false);
     auto *bbox2 = new btBoxShape(btVector3(25, 25, 0));
     auto *bwall = new btRigidBody(0, nullptr, bbox2);
     auto *wall = new BulletBodySceneNode(smgr->getRootSceneNode(), smgr, bwall);
@@ -43,9 +51,9 @@ Simulation *IOSP::TestScene()
     wall->setName("BWall");
 //     auto *wallbox = smgr->addCubeSceneNode(1, wall);
     auto *tcpanel = new MagicSimpleRocketControlPanel(smgr->getRootSceneNode(), smgr, 1234);
-    tcpanel->setTarget(body);
+    tcpanel->setTarget(testCube);
     ControlPanelSceneNode::thirdPersonCamera.setCamera(cam);
-    ControlPanelSceneNode::thirdPersonCamera.setTarget(body);
+    ControlPanelSceneNode::thirdPersonCamera.setTarget(testCube);
     auto *sim = new Simulation();
     sim->addWorld(bworld);
     sim->setActivePanel(tcpanel);
