@@ -2,15 +2,30 @@
 #include <BulletWorldSceneNode.h>
 #include <BulletBodySceneNode.h>
 #include <BulletDebugDrawer.h>
+
+#include <Utils/BulletShapes.h>
 #include <TestScene.h>
 
-#include <Tests/NodeSearchTest.h>
 #include <MagicSimpleRocketControlPanel.h>
 
 #include <cstdio>
 
 using namespace IOSP;
 using namespace irr;
+
+BulletBodySceneNode *createTestModel()
+{
+    auto *smgr = IrrCommonObject::getSceneManager();
+    auto *am = smgr->getMesh("testmodel.dae");
+    if (!am)  return nullptr;
+    auto *model = smgr->addMeshSceneNode(am->getMesh(0), 0);
+    auto *convex = createConvexHullShape(model);
+    auto *brigid = new btRigidBody(1, nullptr, convex);
+    auto *body = new BulletBodySceneNode(smgr->getRootSceneNode(), smgr, brigid);
+    model->setParent(body);
+    model->setMaterialFlag(video::EMF_LIGHTING, false);
+    return body;
+}
 
 BulletBodySceneNode *createTestCube()
 {
@@ -36,9 +51,16 @@ Simulation *IOSP::TestScene()
     bworld->setGlobalGravity(btVector3(0, 0, 0));
     bworld->setName("BulletWorld");
     auto *bsphere = new btSphereShape(5);
-    
+
     auto testCube = createTestCube();
     bworld->addBody(testCube);
+    auto testModel = createTestModel();
+    if (testModel)
+    {
+        testModel->setPosition(core::vector3df(0, 0, -20));
+        testModel->syncTransform();
+        bworld->addBody(testModel);
+    }
 //     body->setWorld(bworld->bulletWorld());
     auto *bbox2 = new btBoxShape(btVector3(25, 25, 0));
     auto *bwall = new btRigidBody(0, nullptr, bbox2);

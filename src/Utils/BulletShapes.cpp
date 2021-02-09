@@ -6,7 +6,7 @@
 using namespace irr;
 using namespace IOSP;
 
-void ConvexHullAddVertices(
+void IOSP::ConvexHullAddVertices(
     btConvexHullShape *cshape,
     const scene::IMeshBuffer *mbuf,
     const core::vector3df& scale)
@@ -32,7 +32,7 @@ void ConvexHullAddVertices(
     }
 }
 
-void ConvexHullAddVertices(
+void IOSP::ConvexHullAddVertices(
     btConvexHullShape *cshape,
     const scene::IMesh *mesh,
     const core::vector3df& scale)
