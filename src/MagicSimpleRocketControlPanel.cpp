@@ -1,6 +1,7 @@
 
 #include <cstdio>
 
+#include <Utils/Conversions.h>
 #include "MagicSimpleRocketControlPanel.h"
 
 using namespace IOSP;
@@ -13,6 +14,9 @@ IOSP::MagicSimpleRocketControlPanel::MagicSimpleRocketControlPanel(
             const irr::core::vector3df& rot)
         : ControlPanelSceneNode(parent, smgr, id, pos, rot)
 {
+    m_rayStart.setValue(0, 0, 0);
+    m_rayStop.setValue(0, 0, 10);
+
     m_infoRoot.setAlignment(0.5, 1);
 
     m_rotText.setBackgroundPolicy(ScreenElement::UseParentBackground);
@@ -81,7 +85,7 @@ void IOSP::MagicSimpleRocketControlPanel::update()
         {
 //             std::puts("Thrust On!");
 //             body->bulletRigidBody()->applyForce(btVector3(0, 0, -3), btVector3(0, 0, 0));
-            body->applyForceLocal(btVector3(0, 0, -3), btVector3(0, 0, 0));
+            body->applyForceLocal(btVector3(0, 0, 3), btVector3(0, 0, 0));
         }
         if (m_stKeyActions->isActive(PitchUpAction))
         {
@@ -152,7 +156,7 @@ void IOSP::MagicSimpleRocketControlPanel::updateUI()
     auto la = node->getLinearAcceleration();
     m_accText.updateContent(false, la.getX(), la.getY(), la.getZ());
     m_infoRoot.updateRectangle();
-    m_sfDisplay.setValue(r.X);
+    m_sfDisplay.setValue(-r.X);
     m_sfDisplay.updateRectangle();
 }
 
@@ -160,10 +164,16 @@ void IOSP::MagicSimpleRocketControlPanel::render()
 {
     m_infoRoot.draw();
     m_sfDisplay.draw();
-//     m_rotText.draw();
-//     m_massText.draw();
-//     m_velText.draw();
-//     m_accText.draw();
+    auto node = dynamic_cast<BulletBodySceneNode*>(m_controlTarget);
+    if (node)
+    {
+        auto tr = node->getBodyTransform();
+        auto start = tr * m_rayStart;
+        auto stop = tr * m_rayStop;
+        auto *drv = getVideoDriver();
+        drv->setTransform(irr::video::ETS_WORLD, irr::core::matrix4());
+        drv->draw3DLine(fromBullet(start), fromBullet(stop));
+    }
 }
 
 void IOSP::MagicSimpleRocketControlPanel::OnRegisterSceneNode()

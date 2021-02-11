@@ -21,6 +21,7 @@ namespace IOSP
         ScreenFormattedText m_massText{&m_infoRoot}, m_velText{&m_infoRoot}, m_accText{&m_infoRoot};
         SimpleFloat3Display m_rotText{&m_infoRoot};
         ScaleFloatDisplay m_sfDisplay;
+        btVector3 m_rayStart, m_rayStop;
     public:
         enum TriggeredActions
         {

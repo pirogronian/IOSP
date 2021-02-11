@@ -41,6 +41,7 @@ namespace IOSP
         virtual void update(irr::u32) override;
         btScalar getMass() const { return m_bbody ? m_bbody->getMass() : 0; }
         void setMass(btScalar);
+        btTransform getBodyTransform() const { return m_bbody ? m_bbody->getWorldTransform() : btTransform(); }
 //         void setPosition(const irr::core::vector3df& pos) override
 //         {
 //             ISceneNode::setPosition(pos);
