@@ -23,6 +23,7 @@ namespace IOSP
         ScaleFloatDisplay m_sfDisplay;
         btVector3 m_rayStart, m_rayStop;
         bool m_hit{false};
+        const irr::c8 *m_hitName{nullptr};
     public:
         enum TriggeredActions
         {

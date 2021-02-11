@@ -30,7 +30,7 @@ IOSP::MagicSimpleRocketControlPanel::MagicSimpleRocketControlPanel(
     m_massText.setBackgroundPolicy(ScreenElement::UseParentBackground);
     m_massText.setAlignment(0.5, 1);
     m_massText.getPadding().set(10);
-    m_massText.setFormat("Mass: %4f, hit: %i");
+    m_massText.setFormat("Mass: %4f, hit: %i, hit name: %s");
     m_massText.updateContent(false, 0, 0);
     m_massText.setShift(0, -2 * H);
 
@@ -148,6 +148,11 @@ void IOSP::MagicSimpleRocketControlPanel::update()
             btCollisionWorld::ClosestRayResultCallback rayResult(start, end);
             world->rayTest(start, end, rayResult);
             m_hit = rayResult.hasHit();
+            if (m_hit)
+            {
+                auto target = BulletBodySceneNode::getNode(dynamic_cast<const btRigidBody*>(rayResult.m_collisionObject));
+                m_hitName = target->getName();
+            }
         }
         ControlPanelSceneNode::update();
     }
@@ -160,7 +165,7 @@ void IOSP::MagicSimpleRocketControlPanel::updateUI()
     m_rotText.updateContent(r.X, r.Y, r.Z);
     auto mass = node->getMass();
     auto delta = node->getLastDelta();
-    m_massText.updateContent(false, mass, m_hit);
+    m_massText.updateContent(false, mass, m_hit, m_hitName);
     auto lv = node->getLinearVelocity();
     m_velText.updateContent(false, lv.getX(), lv.getY(), lv.getZ());
     auto la = node->getLinearAcceleration();

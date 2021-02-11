@@ -24,6 +24,7 @@ BulletBodySceneNode *createTestModel()
     auto *body = new BulletBodySceneNode(smgr->getRootSceneNode(), smgr, brigid);
     model->setParent(body);
     model->setMaterialFlag(video::EMF_LIGHTING, false);
+    model->setName("TestModel");
     return body;
 }
 
@@ -35,6 +36,7 @@ BulletBodySceneNode *createTestCube()
     auto *body = new BulletBodySceneNode(smgr->getRootSceneNode(), smgr, brigid);
     auto *cube = smgr->addCubeSceneNode(10, body);
     cube->setMaterialFlag(video::EMF_LIGHTING, false);
+    body->setName("TestCube");
     return body;
 }
 

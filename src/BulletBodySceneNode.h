@@ -18,7 +18,7 @@ namespace IOSP
         btScalar m_lastDelta{0};
         btDynamicsWorld *m_world{nullptr};
     public:
-        static BulletBodySceneNode *getBody(const btRigidBody *rb) {
+        static BulletBodySceneNode *getNode(const btRigidBody *rb) {
             return static_cast<BulletBodySceneNode*>(rb->getUserPointer());
         }
         BulletBodySceneNode(irr::scene::ISceneNode *,
