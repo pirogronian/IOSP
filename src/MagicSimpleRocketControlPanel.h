@@ -22,6 +22,7 @@ namespace IOSP
         SimpleFloat3Display m_rotText{&m_infoRoot};
         ScaleFloatDisplay m_sfDisplay;
         btVector3 m_rayStart, m_rayStop;
+        bool m_hit{false};
     public:
         enum TriggeredActions
         {

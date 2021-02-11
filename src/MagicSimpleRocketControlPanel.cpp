@@ -30,7 +30,7 @@ IOSP::MagicSimpleRocketControlPanel::MagicSimpleRocketControlPanel(
     m_massText.setBackgroundPolicy(ScreenElement::UseParentBackground);
     m_massText.setAlignment(0.5, 1);
     m_massText.getPadding().set(10);
-    m_massText.setFormat("Mass: %4f, delta: %10f");
+    m_massText.setFormat("Mass: %4f, hit: %i");
     m_massText.updateContent(false, 0, 0);
     m_massText.setShift(0, -2 * H);
 
@@ -91,7 +91,7 @@ void IOSP::MagicSimpleRocketControlPanel::update()
         {
 //             std::puts("Pitch up On!");
 //             body->bulletRigidBody()->applyTorque(btVector3(1, 0, 0));
-            body->applyTorqueLocal(btVector3(1, 0, 0));
+            body->applyTorqueLocal(btVector3(-1, 0, 0));
 //             auto av = body->bulletRigidBody()->getAngularVelocity();
 //             std::printf("Ang vel: [%f, %f, %f]\n", av.getX(), av.getY(), av.getZ());
         }
@@ -99,7 +99,7 @@ void IOSP::MagicSimpleRocketControlPanel::update()
         {
 //             std::puts("Pitch down On!");
 //             body->bulletRigidBody()->applyTorque(btVector3(-1, 0, 0));
-            body->applyTorqueLocal(btVector3(-1, 0, 0));
+            body->applyTorqueLocal(btVector3(1, 0, 0));
         }
         if (m_stKeyActions->isActive(RollClockwiseAction))
         {
@@ -111,13 +111,13 @@ void IOSP::MagicSimpleRocketControlPanel::update()
         {
 //             std::puts("Roll anticlockwise On!");
 //             body->bulletRigidBody()->applyTorque(btVector3(0, 0, -1));
-            body->applyTorqueLocal(btVector3(0, 0, -1));
+            body->applyTorqueLocal(btVector3(0, 0, 1));
         }
         if (m_stKeyActions->isActive(YawLeftAction))
         {
 //             std::puts("Roll clockwise On!");
 //             body->bulletRigidBody()->applyTorque(btVector3(0, 0, 1));
-            body->applyTorqueLocal(btVector3(0, 1, 0));
+            body->applyTorqueLocal(btVector3(0, -1, 0));
         }
         else if (m_stKeyActions->isActive(YawRightAction))
         {
@@ -139,6 +139,16 @@ void IOSP::MagicSimpleRocketControlPanel::update()
         }
         tr->reset();
 
+        auto world = node->getWorld();
+        if (world)
+        {
+            auto tr = node->getBodyTransform();
+            auto start = tr * m_rayStart;
+            auto end = tr * m_rayStop;
+            btCollisionWorld::ClosestRayResultCallback rayResult(start, end);
+            world->rayTest(start, end, rayResult);
+            m_hit = rayResult.hasHit();
+        }
         ControlPanelSceneNode::update();
     }
 }
@@ -150,7 +160,7 @@ void IOSP::MagicSimpleRocketControlPanel::updateUI()
     m_rotText.updateContent(r.X, r.Y, r.Z);
     auto mass = node->getMass();
     auto delta = node->getLastDelta();
-    m_massText.updateContent(false, mass, delta);
+    m_massText.updateContent(false, mass, m_hit);
     auto lv = node->getLinearVelocity();
     m_velText.updateContent(false, lv.getX(), lv.getY(), lv.getZ());
     auto la = node->getLinearAcceleration();
