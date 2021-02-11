@@ -163,12 +163,13 @@ void IOSP::MagicSimpleRocketControlPanel::update()
             {
                 std::printf("Creating joint!\n");
                 auto tr2 = btTransform::getIdentity();
+                auto rtr2 = node->getBodyTransform() * m_hitBody->getWorldTransform().inverse();
                 tr2.setOrigin(btVector3(0, 0, -10));
                 m_joint = new btFixedConstraint(
                     *node->getRigidBody(),
                     *m_hitBody,
                     btTransform::getIdentity(),
-                    tr2);
+                    rtr2);
                 m_world->addConstraint(m_joint, true);
             }
             else if (m_joint)
