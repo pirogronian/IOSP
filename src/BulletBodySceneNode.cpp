@@ -5,6 +5,36 @@
 
 using namespace IOSP;
 
+void IOSP::BulletBodySceneNode::setRigidBody(btRigidBody *body)
+{
+    clearRigidBody();
+    m_bbody = body;
+    m_bbody->setUserPointer(this);
+    m_bbody->setActivationState(DISABLE_DEACTIVATION);
+    m_bbody->setMotionState(&m_mstate);
+    syncInertia();
+    syncTransform();
+    if (m_world)  m_world->addRigidBody(m_bbody);
+}
+
+void IOSP::BulletBodySceneNode::clearRigidBody()
+{
+    if (m_bbody)
+    {
+        m_bbody->setUserPointer(nullptr);
+        m_bbody->setMotionState(nullptr);
+        if (m_world) m_world->removeRigidBody(m_bbody);
+        m_bbody = nullptr;
+    }
+}
+
+void IOSP::BulletBodySceneNode::setWorld(btDynamicsWorld *w)
+{
+    if (m_world && m_bbody)  m_world->removeRigidBody(m_bbody);
+    m_world = w;
+    if (m_world && m_bbody)  m_world->addRigidBody(m_bbody);
+}
+
 IOSP::BulletBodySceneNode::BulletBodySceneNode(
     irr::scene::ISceneNode *parent,
     irr::scene::ISceneManager *smgr,
@@ -13,10 +43,8 @@ IOSP::BulletBodySceneNode::BulletBodySceneNode(
 : irr::scene::ISceneNode(parent, smgr, id)
 {
 //     assert(getSceneManager() == smgr);
-    m_bbody = new btRigidBody(info);
-    syncInertia();
-    m_bbody->setActivationState(DISABLE_DEACTIVATION);
-    m_bbody->setMotionState(&m_mstate);
+    auto rb = new btRigidBody(info);
+    setRigidBody(rb);
 }
 
 IOSP::BulletBodySceneNode::BulletBodySceneNode(
@@ -27,10 +55,7 @@ IOSP::BulletBodySceneNode::BulletBodySceneNode(
 : irr::scene::ISceneNode(parent, smgr, id)
 {
 //     assert(getSceneManager() == smgr);
-    m_bbody = body;
-    syncInertia();
-    m_bbody->setActivationState(DISABLE_DEACTIVATION);
-    m_bbody->setMotionState(&m_mstate);
+    setRigidBody(body);
 }
 
 IOSP::BulletBodySceneNode::~BulletBodySceneNode()

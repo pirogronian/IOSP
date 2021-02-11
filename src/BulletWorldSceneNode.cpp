@@ -58,12 +58,12 @@ bool IOSP::BulletWorldSceneNode::unregisterUpdatable(BulletUpdatable *u)
 
 bool IOSP::BulletWorldSceneNode::addBody(BulletBodySceneNode *b)
 {
-    m_world.addRigidBody(b->bulletRigidBody());
+    b->setWorld(&m_world);
     return registerUpdatable(b);
 }
 
 bool IOSP::BulletWorldSceneNode::removeBody(BulletBodySceneNode *b)
 {
-    m_world.removeRigidBody(b->bulletRigidBody());
+    b->setWorld(nullptr);
     return unregisterUpdatable(b);
 }
