@@ -111,7 +111,7 @@ void IOSP::MagicSimpleRocketControlPanel::update()
         {
 //             std::puts("Roll anticlockwise On!");
 //             body->bulletRigidBody()->applyTorque(btVector3(0, 0, -1));
-            body->applyTorqueLocal(btVector3(0, 0, 1));
+            body->applyTorqueLocal(btVector3(0, 0, -1));
         }
         if (m_stKeyActions->isActive(YawLeftAction))
         {
@@ -123,7 +123,7 @@ void IOSP::MagicSimpleRocketControlPanel::update()
         {
 //             std::puts("Roll anticlockwise On!");
 //             body->bulletRigidBody()->applyTorque(btVector3(0, 0, -1));
-            body->applyTorqueLocal(btVector3(0, -1, 0));
+            body->applyTorqueLocal(btVector3(0, 1, 0));
         }
         auto *tr = dynamic_cast<SimpleInputKeyTriggeredActionManager*>(m_trKeyActions.get());
         auto *node = dynamic_cast<BulletBodySceneNode*>(m_controlTarget);
@@ -153,6 +153,7 @@ void IOSP::MagicSimpleRocketControlPanel::update()
                 auto target = BulletBodySceneNode::getNode(dynamic_cast<const btRigidBody*>(rayResult.m_collisionObject));
                 m_hitName = target->getName();
             }
+            else m_hitName = nullptr;
         }
         ControlPanelSceneNode::update();
     }
