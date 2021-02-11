@@ -72,6 +72,7 @@ IOSP::MagicSimpleRocketControlPanel::MagicSimpleRocketControlPanel(
 
     m_trKeyActions->bind(IncreaseMassAction, irr::KEY_KEY_8);
     m_trKeyActions->bind(DecreaseMassAction, irr::KEY_KEY_2);
+    m_trKeyActions->bind(ToggleGrasp, irr::KEY_KEY_1);
 }
 
 void IOSP::MagicSimpleRocketControlPanel::update()
@@ -137,7 +138,6 @@ void IOSP::MagicSimpleRocketControlPanel::update()
 //             std::puts("Decrease mass!");
             node->setMass(node->getMass() - 1);
         }
-        tr->reset();
 
         auto world = node->getWorld();
         if (world)
@@ -150,11 +150,41 @@ void IOSP::MagicSimpleRocketControlPanel::update()
             m_hit = rayResult.hasHit();
             if (m_hit)
             {
-                auto target = BulletBodySceneNode::getNode(dynamic_cast<const btRigidBody*>(rayResult.m_collisionObject));
+                m_hitBody = (btRigidBody*)(rayResult.m_collisionObject);
+                auto target = BulletBodySceneNode::getNode(m_hitBody);
                 m_hitName = target->getName();
             }
-            else m_hitName = nullptr;
+            else { m_hitName = nullptr; m_hitBody = nullptr; }
         }
+        if (tr->isTriggered(ToggleGrasp))
+        {
+            auto m_world = node->getWorld();
+            if (m_hitBody && !m_joint)
+            {
+                std::printf("Creating joint!\n");
+                auto tr2 = btTransform::getIdentity();
+                tr2.setOrigin(btVector3(0, 0, -10));
+                m_joint = new btFixedConstraint(
+                    *node->getRigidBody(),
+                    *m_hitBody,
+                    btTransform::getIdentity(),
+                    tr2);
+                m_world->addConstraint(m_joint, true);
+            }
+            else if (m_joint)
+            {
+                std::printf("Deleting joint!\n");
+                m_world->removeConstraint(m_joint);
+                delete m_joint;
+                m_joint = nullptr;
+            }
+        }
+        if (m_joint)
+        {
+//             std::printf("Joint impulse: %f\n", m_joint->getAppliedImpulse());
+        }
+        
+        tr->reset();
         ControlPanelSceneNode::update();
     }
 }

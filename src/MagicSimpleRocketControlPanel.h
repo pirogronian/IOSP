@@ -24,13 +24,16 @@ namespace IOSP
         btVector3 m_rayStart, m_rayStop;
         bool m_hit{false};
         const irr::c8 *m_hitName{nullptr};
+        btTypedConstraint *m_joint{nullptr};
+        btRigidBody *m_hitBody{nullptr};
     public:
         enum TriggeredActions
         {
             StartThrustAction = 1,
             StopThrustAction,
             IncreaseMassAction,
-            DecreaseMassAction
+            DecreaseMassAction,
+            ToggleGrasp
         };
         enum StateActions
         {
