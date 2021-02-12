@@ -141,53 +141,30 @@ void IOSP::MagicSimpleRocketControlPanel::update()
         }
 
         auto world = node->getWorld();
-        if (world)
+        auto wnode = BulletWorldSceneNode::getNode(node->getWorld());
+        auto rayResult = node->rayTestClosest(m_rayStart, m_rayStop);
+        m_hit = rayResult.hasHit();
+        if (m_hit)
         {
-            auto tr = node->getBodyTransform();
-            auto start = tr * m_rayStart;
-            auto end = tr * m_rayStop;
-            btCollisionWorld::ClosestRayResultCallback rayResult(start, end);
-            world->rayTest(start, end, rayResult);
-            m_hit = rayResult.hasHit();
-            if (m_hit)
-            {
-                m_hitBody = (btRigidBody*)(rayResult.m_collisionObject);
-                auto target = BulletBodySceneNode::getNode(m_hitBody);
-                m_hitName = target->getName();
-            }
-            else { m_hitName = nullptr; m_hitBody = nullptr; }
+            m_hitBody = (btRigidBody*)(rayResult.m_collisionObject);
+            auto target = BulletBodySceneNode::getNode(m_hitBody);
+            m_hitName = target->getName();
         }
+        else { m_hitName = nullptr; m_hitBody = nullptr; }
+
         if (tr->isTriggered(ToggleGrasp))
         {
-            auto wnode = BulletWorldSceneNode::getNode(node->getWorld());
             if (m_hitBody && !m_joint)
             {
-//                 std::printf("Creating joint!\n");
-//                 auto tr2 = btTransform::getIdentity();
-//                 auto rtr2 = node->getBodyTransform() * m_hitBody->getWorldTransform().inverse();
-//                 tr2.setOrigin(btVector3(0, 0, -10));
-//                 m_joint = new btFixedConstraint(
-//                     *node->getRigidBody(),
-//                     *m_hitBody,
-//                     btTransform::getIdentity(),
-//                     rtr2);
-//                 m_world->addConstraint(m_joint, true);
                 m_joint = wnode->createFixedConstraint(node->getRigidBody(), m_hitBody);
             }
             else if (m_joint)
             {
-//                 std::printf("Deleting joint!\n");
-//                 m_world->removeConstraint(m_joint);
-//                 delete m_joint;
                 wnode->deleteConstraint(m_joint);
                 m_joint = nullptr;
             }
         }
-        if (m_joint)
-        {
-//             std::printf("Joint impulse: %f\n", m_joint->getAppliedImpulse());
-        }
-        
+
         tr->reset();
         ControlPanelSceneNode::update();
     }

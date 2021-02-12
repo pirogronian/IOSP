@@ -82,5 +82,11 @@ namespace IOSP
             m_world.removeConstraint(j);
             delete j;
         }
+        btCollisionWorld::ClosestRayResultCallback rayTestClosest(const btVector3& start, const btVector3& stop) const
+        {
+            btCollisionWorld::ClosestRayResultCallback callback(start, stop);
+            m_world.rayTest(start, stop, callback);
+            return callback;
+        }
     };
 }

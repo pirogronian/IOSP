@@ -48,16 +48,6 @@ namespace IOSP
         btScalar getMass() const { return m_bbody ? m_bbody->getMass() : 0; }
         void setMass(btScalar);
         btTransform getBodyTransform() const { return m_bbody ? m_bbody->getWorldTransform() : btTransform(); }
-//         void setPosition(const irr::core::vector3df& pos) override
-//         {
-//             ISceneNode::setPosition(pos);
-//             syncTransform();
-//         }
-//         void setRotation(const irr::core::vector3df& pos) override
-//         {
-//             ISceneNode::setRotation(pos);
-//             syncTransform();
-//         }
         void applyTorqueLocal(const btVector3& rot)
         {
             if (!m_bbody)  return;
@@ -68,6 +58,14 @@ namespace IOSP
             if (!m_bbody)  return;
             auto &tr = m_bbody->getWorldTransform().getBasis();
             m_bbody->applyForce(tr * f, tr * offset);
+        }
+        btCollisionWorld::ClosestRayResultCallback rayTestClosest(const btVector3& start,
+                            const btVector3& stop) const
+        {
+            auto tr = getBodyTransform();
+            auto wnode = getWorldNode();
+            if (!wnode)  return btCollisionWorld::ClosestRayResultCallback(btVector3(), btVector3());
+            return wnode->rayTestClosest(tr * start, tr * stop);
         }
     };
 }
