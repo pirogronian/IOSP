@@ -14,6 +14,7 @@ IOSP::BulletWorldSceneNode::BulletWorldSceneNode(
     const irr::core::vector3df& scale)
 : irr::scene::ISceneNode(parent, smgr, id, position, rotation, scale)
 {
+    m_world.setWorldUserInfo(this);
 }
 
 void IOSP::BulletWorldSceneNode::OnRegisterSceneNode()
@@ -66,4 +67,26 @@ bool IOSP::BulletWorldSceneNode::removeBody(BulletBodySceneNode *b)
 {
     b->setWorld(nullptr);
     return unregisterUpdatable(b);
+}
+
+btFixedConstraint *IOSP::BulletWorldSceneNode::createFixedJoint(BulletBodySceneNode *body1,
+                                                  BulletBodySceneNode *body2,
+                                                  const btTransform& tr1,
+                                                  const btTransform& tr2)
+{
+    return createFixedConstraint(body1->getRigidBody(), body2->getRigidBody(), tr1, tr2);
+}
+
+btFixedConstraint *IOSP::BulletWorldSceneNode::createFixedConstraint(btRigidBody *body1, btRigidBody *body2)
+{
+    auto tr1 = btTransform::getIdentity();
+    auto tr2 = body1->getWorldTransform() * body2->getWorldTransform().inverse();
+    return createFixedConstraint(body1, body2, tr1, tr2);
+}
+
+btFixedConstraint *IOSP::BulletWorldSceneNode::createFixedJoint(
+    BulletBodySceneNode *body1,
+    BulletBodySceneNode *body2)
+{
+    return createFixedConstraint(body1->getRigidBody(), body2->getRigidBody());
 }

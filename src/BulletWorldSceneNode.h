@@ -24,6 +24,9 @@ namespace IOSP
         irr::core::aabbox3d<irr::f32> m_bbox;
         AutoIndexer<BulletUpdatable*> m_updatableIndex;
     public:
+        static BulletWorldSceneNode* getNode(btDynamicsWorld *w) {
+            return static_cast<BulletWorldSceneNode*>(w->getWorldUserInfo());
+        }
         BulletWorldSceneNode(
             irr::scene::ISceneNode *,
             irr::scene::ISceneManager *,
@@ -55,5 +58,29 @@ namespace IOSP
         bool unregisterUpdatable(BulletUpdatable *);
         bool addBody(BulletBodySceneNode *);
         bool removeBody(BulletBodySceneNode *);
+        btFixedConstraint *createFixedConstraint(btRigidBody *body1,
+                                                btRigidBody *body2, 
+                                                const btTransform& tr1,
+                                                const btTransform& tr2)
+        {
+            auto cnt = new btFixedConstraint(*body1, *body2, tr1, tr2);
+            if (cnt)
+                m_world.addConstraint(cnt, true);
+            return cnt;
+        }
+        btFixedConstraint *createFixedJoint(
+            BulletBodySceneNode *,
+            BulletBodySceneNode *,
+            const btTransform&,
+            const btTransform&);
+        btFixedConstraint *createFixedConstraint(btRigidBody *, btRigidBody *);
+        btFixedConstraint *createFixedJoint(
+            BulletBodySceneNode *,
+            BulletBodySceneNode *);
+        void deleteConstraint(btTypedConstraint *j)
+        {
+            m_world.removeConstraint(j);
+            delete j;
+        }
     };
 }

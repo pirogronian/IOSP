@@ -2,6 +2,7 @@
 #include <cstdio>
 
 #include <Utils/Conversions.h>
+#include <BulletWorldSceneNode.h>
 #include "MagicSimpleRocketControlPanel.h"
 
 using namespace IOSP;
@@ -158,25 +159,27 @@ void IOSP::MagicSimpleRocketControlPanel::update()
         }
         if (tr->isTriggered(ToggleGrasp))
         {
-            auto m_world = node->getWorld();
+            auto wnode = BulletWorldSceneNode::getNode(node->getWorld());
             if (m_hitBody && !m_joint)
             {
-                std::printf("Creating joint!\n");
-                auto tr2 = btTransform::getIdentity();
-                auto rtr2 = node->getBodyTransform() * m_hitBody->getWorldTransform().inverse();
-                tr2.setOrigin(btVector3(0, 0, -10));
-                m_joint = new btFixedConstraint(
-                    *node->getRigidBody(),
-                    *m_hitBody,
-                    btTransform::getIdentity(),
-                    rtr2);
-                m_world->addConstraint(m_joint, true);
+//                 std::printf("Creating joint!\n");
+//                 auto tr2 = btTransform::getIdentity();
+//                 auto rtr2 = node->getBodyTransform() * m_hitBody->getWorldTransform().inverse();
+//                 tr2.setOrigin(btVector3(0, 0, -10));
+//                 m_joint = new btFixedConstraint(
+//                     *node->getRigidBody(),
+//                     *m_hitBody,
+//                     btTransform::getIdentity(),
+//                     rtr2);
+//                 m_world->addConstraint(m_joint, true);
+                m_joint = wnode->createFixedConstraint(node->getRigidBody(), m_hitBody);
             }
             else if (m_joint)
             {
-                std::printf("Deleting joint!\n");
-                m_world->removeConstraint(m_joint);
-                delete m_joint;
+//                 std::printf("Deleting joint!\n");
+//                 m_world->removeConstraint(m_joint);
+//                 delete m_joint;
+                wnode->deleteConstraint(m_joint);
                 m_joint = nullptr;
             }
         }
