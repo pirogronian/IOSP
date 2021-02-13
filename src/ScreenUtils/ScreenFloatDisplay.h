@@ -44,6 +44,14 @@ namespace IOSP
         {
             ScreenFormattedText::setValues(3, x, y, z);
         }
+        void setValue(const btVector3& v)
+        {
+            setValues(v.getX(), v.getY(), v.getZ());
+        }
+        void setValue(const irr::core::vector3df& v)
+        {
+            setValues(v.X, v.Y, v.Z);
+        }
         void updateContent(double x, double y, double z, bool c = true)
         {
             ScreenFormattedText::updateContent(c, x, y, z);
@@ -56,6 +64,18 @@ namespace IOSP
         {
             updateContent(v.X, v.Y, v.Z, c);
         }
+    };
+
+    class SimpleTransformDisplay : public ScreenElement
+    {
+    protected:
+        SimpleFloat3Display m_pos{this}, m_rot{this};
+        static btVector3 getRotation(const btTransform&);
+    public:
+        SimpleTransformDisplay(ScreenElement *p = 0);
+        void setFormat(unsigned char, unsigned char);
+        void setValue(const btTransform&);
+        void updateContent(const btTransform&);
     };
 
     class ScaleFloatDisplay : public ScreenElement

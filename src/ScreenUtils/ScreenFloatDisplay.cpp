@@ -35,6 +35,49 @@ void IOSP::SimpleFloat3Display::setFormat(unsigned char total, unsigned char fra
     ScreenFormattedText::setFormat(m_format.c_str());
 }
 
+btVector3 IOSP::SimpleTransformDisplay::getRotation(const btTransform& tr)
+{
+    btScalar x, y, z;
+    tr.getRotation().getEulerZYX(z, y, x);
+    return btVector3(x, y, z);
+}
+
+IOSP::SimpleTransformDisplay::SimpleTransformDisplay(ScreenElement *p) : ScreenElement(p)
+{
+    setCanShrink(true);
+    setCanExpand(true);
+    setFormat(9, 4);
+    updateContent(btTransform::getIdentity());
+    m_pos.setAlignment(0.5, 0);
+    m_rot.setAlignment(0.5, 0);
+    auto H = m_pos.getRequestedDimension(ScreenRectangle::Outer).Height;
+    m_rot.setShift(0, H);
+    adjustGeometry();
+}
+
+void IOSP::SimpleTransformDisplay::setFormat(unsigned char total, unsigned char fraction)
+{
+    m_pos.setFormat(total, fraction, "Position");
+    m_rot.setFormat(total, fraction, "Rotation");
+}
+
+void IOSP::SimpleTransformDisplay::setValue(const btTransform &tr)
+{
+    auto p = tr.getOrigin();
+    auto r = getRotation(tr);
+    m_pos.setValue(p);
+    m_rot.setValue(r);
+}
+
+void IOSP::SimpleTransformDisplay::updateContent(const btTransform &tr)
+{
+    auto p = tr.getOrigin();
+    auto r = getRotation(tr);
+    m_pos.updateContent(p);
+    m_rot.updateContent(r);
+    
+}
+
 void IOSP::ScaleFloatDisplay::draw(bool children)
 {
     auto *drv = getVideoDriver();

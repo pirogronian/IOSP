@@ -18,6 +18,9 @@ IOSP::MagicSimpleRocketControlPanel::MagicSimpleRocketControlPanel(
     m_rayStart.setValue(0, 0, 0);
     m_rayStop.setValue(0, 0, 10);
 
+    m_trDisplay.setAlignment(0.5, 0);
+    m_trDisplay.getPadding().set(5);
+
     m_infoRoot.setAlignment(0.5, 1);
 
     m_rotText.setBackgroundPolicy(ScreenElement::UseParentBackground);
@@ -174,6 +177,8 @@ void IOSP::MagicSimpleRocketControlPanel::update()
 void IOSP::MagicSimpleRocketControlPanel::updateUI()
 {
     auto *node = dynamic_cast<BulletBodySceneNode*>(m_controlTarget);
+    m_trDisplay.updateContent(node->getBodyTransform());
+    m_trDisplay.updateRectangle();
     auto r = m_controlTarget->getRotation();
     m_rotText.updateContent(r);
     auto mass = node->getMass();
@@ -190,6 +195,7 @@ void IOSP::MagicSimpleRocketControlPanel::updateUI()
 
 void IOSP::MagicSimpleRocketControlPanel::render()
 {
+    m_trDisplay.draw();
     m_infoRoot.draw();
     m_sfDisplay.draw();
     auto node = dynamic_cast<BulletBodySceneNode*>(m_controlTarget);
