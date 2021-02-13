@@ -32,6 +32,7 @@ namespace IOSP
         int m_vShift{0};
         int m_hShift{0};
         bool m_dirty{false}; // Actually, I dont see any useful usage of it for now.
+        bool m_frame{true};
         static irr::video::SColor s_bg;
         irr::video::SColor m_bg{0, 0, 0, 0};
         BackgroundPolicy m_bgPolicy{UseOwnBackground};
@@ -56,6 +57,8 @@ namespace IOSP
         void setShift(int h, int v) { m_hShift = h; m_vShift = v; }
         bool isDirty() const { return m_dirty; }
         void setDirty(bool d) { m_dirty = d; }
+        bool drawFrame() const { return m_frame; }
+        void setdrawFrame(bool f) { m_frame = f; }
         irr::video::SColor& getDefaultBackgroundColor() { return s_bg; }
         const irr::video::SColor& getDefaultBackgroundColor() const { return s_bg; }
         irr::video::SColor& getOwnBackgroundColor() { return m_bg; }

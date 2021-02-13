@@ -165,6 +165,7 @@ void IOSP::ScreenElement::drawBackground()
 //         m_rect.LowerRightCorner.X,
 //         m_rect.LowerRightCorner.Y);
     drv->draw2DRectangle(getBackgroundColor(), m_rect);
+    if (m_frame)  drv->draw2DRectangleOutline(getBase(), getColor());
 }
 
 void IOSP::ScreenElement::drawChildren(bool children)
