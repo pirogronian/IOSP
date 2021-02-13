@@ -64,8 +64,14 @@ namespace IOSP
         {
             auto tr = getBodyTransform();
             auto wnode = getWorldNode();
-            if (!wnode)  return btCollisionWorld::ClosestRayResultCallback(btVector3(), btVector3());
+            if (!wnode)  return btCollisionWorld::ClosestRayResultCallback(start, stop);
             return wnode->rayTestClosest(tr * start, tr * stop);
         }
+        btCollisionWorld::ClosestRayResultCallback rayTestClosest(const btVector3& stop) const
+        {
+            return rayTestClosest(btVector3(0, 0, 0), stop);
+        }
+        btFixedConstraint *attachFixed(btRigidBody *);
+        btFixedConstraint *attachFixed(BulletBodySceneNode *);
     };
 }

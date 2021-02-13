@@ -95,3 +95,19 @@ void IOSP::BulletBodySceneNode::update(irr::u32 ud)
     m_lVel = lv;
     m_lAccel = la;
 }
+
+btFixedConstraint *IOSP::BulletBodySceneNode::attachFixed(btRigidBody *body)
+{
+    if (!m_world)  return nullptr;
+    auto wnode = BulletWorldSceneNode::getNode(m_world);
+    if (!wnode)  return nullptr;
+    return wnode->createFixedConstraint(getRigidBody(), body);
+}
+
+btFixedConstraint *IOSP::BulletBodySceneNode::attachFixed(BulletBodySceneNode *node)
+{
+    if (!m_world)  return nullptr;
+    auto wnode = BulletWorldSceneNode::getNode(m_world);
+    if (!wnode)  return nullptr;
+    return wnode->createFixedJoint(this, node);
+}

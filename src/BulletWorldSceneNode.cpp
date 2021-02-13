@@ -81,6 +81,7 @@ btFixedConstraint *IOSP::BulletWorldSceneNode::createFixedConstraint(btRigidBody
 {
     auto tr1 = btTransform::getIdentity();
     auto tr2 = body1->getWorldTransform() * body2->getWorldTransform().inverse();
+//     auto tr2 = body1->getWorldTransform() * body2->getWorldTransform();
     return createFixedConstraint(body1, body2, tr1, tr2);
 }
 

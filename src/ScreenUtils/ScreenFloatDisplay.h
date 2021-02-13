@@ -48,6 +48,14 @@ namespace IOSP
         {
             ScreenFormattedText::updateContent(c, x, y, z);
         }
+        void updateContent(const btVector3& v, bool c = true)
+        {
+            updateContent(v.getX(), v.getY(), v.getZ(), c);
+        }
+        void updateContent(const irr::core::vector3df& v, bool c = true)
+        {
+            updateContent(v.X, v.Y, v.Z, c);
+        }
     };
 
     class ScaleFloatDisplay : public ScreenElement

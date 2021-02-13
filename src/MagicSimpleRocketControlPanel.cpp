@@ -38,15 +38,15 @@ IOSP::MagicSimpleRocketControlPanel::MagicSimpleRocketControlPanel(
     m_velText.setBackgroundPolicy(ScreenElement::UseParentBackground);
     m_velText.setAlignment(0.5, 1);
     m_velText.getPadding().set(10);
-    m_velText.setFormat("Linear vel: [%10f, %10f, %10f]");
-    m_velText.updateContent(false, 0, 0, 0);
+    m_velText.setFormat(9, 4, "Linear vel");
+    m_velText.updateContent(0, 0, 0);
     m_velText.setShift(0, -H);
 
     m_accText.setBackgroundPolicy(ScreenElement::UseParentBackground);
     m_accText.setAlignment(0.5, 1);
     m_accText.getPadding().set(10);
-    m_accText.setFormat("Linear acc: [%10f, %10f, %10f]");
-    m_accText.updateContent(false, 0, 0, 0);
+    m_accText.setFormat(9, 4, "Linear acc");
+    m_accText.updateContent(0, 0, 0);
 
     m_infoRoot.setCanShrink(true);
     m_infoRoot.setCanExpand(true);
@@ -156,7 +156,8 @@ void IOSP::MagicSimpleRocketControlPanel::update()
         {
             if (m_hitBody && !m_joint)
             {
-                m_joint = wnode->createFixedConstraint(node->getRigidBody(), m_hitBody);
+//                 m_joint = wnode->createFixedConstraint(node->getRigidBody(), m_hitBody);
+                m_joint = node->attachFixed(m_hitBody);
             }
             else if (m_joint)
             {
@@ -174,14 +175,14 @@ void IOSP::MagicSimpleRocketControlPanel::updateUI()
 {
     auto *node = dynamic_cast<BulletBodySceneNode*>(m_controlTarget);
     auto r = m_controlTarget->getRotation();
-    m_rotText.updateContent(r.X, r.Y, r.Z);
+    m_rotText.updateContent(r);
     auto mass = node->getMass();
     auto delta = node->getLastDelta();
     m_massText.updateContent(false, mass, m_hit, m_hitName);
     auto lv = node->getLinearVelocity();
-    m_velText.updateContent(false, lv.getX(), lv.getY(), lv.getZ());
+    m_velText.updateContent(lv);
     auto la = node->getLinearAcceleration();
-    m_accText.updateContent(false, la.getX(), la.getY(), la.getZ());
+    m_accText.updateContent(la);
     m_infoRoot.updateRectangle();
     m_sfDisplay.setValue(-r.X);
     m_sfDisplay.updateRectangle();
