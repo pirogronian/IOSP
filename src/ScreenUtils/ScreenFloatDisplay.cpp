@@ -75,7 +75,6 @@ void IOSP::SimpleTransformDisplay::updateContent(const btTransform &tr)
     auto r = getRotation(tr);
     m_pos.updateContent(p);
     m_rot.updateContent(r);
-    
 }
 
 void IOSP::ScaleFloatDisplay::draw(bool children)

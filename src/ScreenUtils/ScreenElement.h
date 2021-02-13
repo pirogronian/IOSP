@@ -96,10 +96,12 @@ namespace IOSP
         virtual void updateRectangle(bool children = true);
         virtual void updateChildrenRectangle(bool children = true);
         virtual void drawBackground();
+        virtual void drawFrame();
         virtual void drawChildren(bool children = true);
         virtual void draw(bool children = true)
         {
             drawBackground();
+            drawFrame();
             if (children)
                 drawChildren(children);
         }
