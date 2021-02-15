@@ -37,7 +37,6 @@ bool IOSP::ControlPanelSceneNode::OnEvent(const irr::SEvent& event)
         trRet = m_trKeyActions->OnKeyInput(event.KeyInput);
     if (m_stKeyActions)
         stRet = m_stKeyActions->OnKeyInput(event.KeyInput);
-//     std::printf("Control panel event accepted: %i, %i\n", trRet, stRet);
     return trRet || stRet;
 }
 

@@ -81,65 +81,52 @@ IOSP::MagicSimpleRocketControlPanel::MagicSimpleRocketControlPanel(
 
 void IOSP::MagicSimpleRocketControlPanel::update()
 {
-//     if (!m_controlTarget)  std::puts("No control target!");
     if (m_controlTarget)
     {
         auto *body = (BulletBodySceneNode*)m_controlTarget;
-//         body->bulletRigidBody()->setAngularFactor(btVector3(1, 1, 1));
         if (m_stKeyActions->isActive(ThrustAction))
         {
 //             std::puts("Thrust On!");
-//             body->bulletRigidBody()->applyForce(btVector3(0, 0, -3), btVector3(0, 0, 0));
             body->applyForceLocal(btVector3(0, 0, 3), btVector3(0, 0, 0));
         }
         if (m_stKeyActions->isActive(PitchUpAction))
         {
 //             std::puts("Pitch up On!");
-//             body->bulletRigidBody()->applyTorque(btVector3(1, 0, 0));
             body->applyTorqueLocal(btVector3(-1, 0, 0));
-//             auto av = body->bulletRigidBody()->getAngularVelocity();
-//             std::printf("Ang vel: [%f, %f, %f]\n", av.getX(), av.getY(), av.getZ());
         }
         else if (m_stKeyActions->isActive(PitchDownAction))
         {
 //             std::puts("Pitch down On!");
-//             body->bulletRigidBody()->applyTorque(btVector3(-1, 0, 0));
             body->applyTorqueLocal(btVector3(1, 0, 0));
         }
         if (m_stKeyActions->isActive(RollClockwiseAction))
         {
 //             std::puts("Roll clockwise On!");
-//             body->bulletRigidBody()->applyTorque(btVector3(0, 0, 1));
             body->applyTorqueLocal(btVector3(0, 0, 1));
         }
         else if (m_stKeyActions->isActive(RollAnticlockwiseAction))
         {
 //             std::puts("Roll anticlockwise On!");
-//             body->bulletRigidBody()->applyTorque(btVector3(0, 0, -1));
             body->applyTorqueLocal(btVector3(0, 0, -1));
         }
         if (m_stKeyActions->isActive(YawLeftAction))
         {
 //             std::puts("Roll clockwise On!");
-//             body->bulletRigidBody()->applyTorque(btVector3(0, 0, 1));
             body->applyTorqueLocal(btVector3(0, -1, 0));
         }
         else if (m_stKeyActions->isActive(YawRightAction))
         {
 //             std::puts("Roll anticlockwise On!");
-//             body->bulletRigidBody()->applyTorque(btVector3(0, 0, -1));
             body->applyTorqueLocal(btVector3(0, 1, 0));
         }
         auto *tr = dynamic_cast<SimpleInputKeyTriggeredActionManager*>(m_trKeyActions.get());
         auto *node = dynamic_cast<BulletBodySceneNode*>(m_controlTarget);
         if (tr->isTriggered(IncreaseMassAction))
         {
-//             std::puts("Increase mass!");
             node->setMass(node->getMass() + 1);
         }
         if (tr->isTriggered(DecreaseMassAction))
         {
-//             std::puts("Decrease mass!");
             node->setMass(node->getMass() - 1);
         }
 
@@ -159,14 +146,11 @@ void IOSP::MagicSimpleRocketControlPanel::update()
         {
             if (m_hitBody && !m_joint)
             {
-//                 m_joint = wnode->createFixedConstraint(node->getRigidBody(), m_hitBody);
                 m_joint = node->attachFixed(m_hitBody);
-//                 std::printf("Control target constr num: %i\n", node->getRigidBody()->getNumConstraintRefs());
             }
             else if (m_joint)
             {
                 wnode->deleteConstraint(m_joint);
-//                 std::printf("Control target constr num: %i\n", node->getRigidBody()->getNumConstraintRefs());
                 m_joint = nullptr;
             }
         }
