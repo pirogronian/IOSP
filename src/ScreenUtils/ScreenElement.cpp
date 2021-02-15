@@ -24,8 +24,8 @@ ScreenRectangle::Dimension IOSP::ScreenElement::getRequestedDimension(ScreenRect
     auto dim = m_reqDim;
     if (layer == Inner)
     {
-        dim.Width += (getPadding(Left) + getPadding(Right));
-        dim.Height += (getPadding(Top) + getPadding(Bottom));
+        dim.Width -= (getPadding(Left) + getPadding(Right));
+        dim.Height -= (getPadding(Top) + getPadding(Bottom));
         return dim;
     }
     if (layer == Outer)
@@ -67,6 +67,12 @@ void IOSP::ScreenElement::adjustGeometry()
     updateRectangle();
     fitRequestedDimension();
     updateRectangle();
+}
+
+void IOSP::ScreenElement::setBelow(const ScreenElement *neighbour)
+{
+    setVerticalAlignment(neighbour->getVerticalAlignment());
+    setVerticalShift(neighbour->getVerticalShift() + neighbour->getRequestedDimension(ScreenRectangle::Outer).Height);
 }
 
 void IOSP::ScreenElement::updateRectangle(bool children)

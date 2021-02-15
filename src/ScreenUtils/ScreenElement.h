@@ -45,8 +45,8 @@ namespace IOSP
         Dimension getRequestedDimension(Layer l = Base) const;
         void setRequestedDimension(const Dimension& d) { m_reqDim = d; }
         void setRequestedDimension(irr::u32 w, irr::u32 h) { m_reqDim.Width = w; m_reqDim.Height = h; }
-        float verticalAlignment() const { return m_vAlign; }
-        float horizontalAlignment() const { return m_hAlign; }
+        float getVerticalAlignment() const { return m_vAlign; }
+        float getHorizontalAlignment() const { return m_hAlign; }
         void setVerticalAlignment(float a) { m_vAlign = a; }
         void setHorizontalAlignment(float a) { m_hAlign = a; }
         void setAlignment(float h, float v) { m_hAlign = h; m_vAlign = v; }
@@ -75,6 +75,7 @@ namespace IOSP
         void setCanShrink(bool);
         void fitRequestedDimension();
         void adjustGeometry();
+        void setBelow(const ScreenElement*);
         irr::gui::IGUIFont *getDefaultFont() { return IrrCommonObject::getFont(); }
         const irr::gui::IGUIFont *getDefaultFont() const { return IrrCommonObject::getFont(); }
         irr::gui::IGUIFont *getFont() { return m_font ? m_font : getDefaultFont(); }

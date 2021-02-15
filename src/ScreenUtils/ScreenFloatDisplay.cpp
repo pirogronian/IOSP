@@ -49,9 +49,11 @@ IOSP::SimpleTransformDisplay::SimpleTransformDisplay(ScreenElement *p) : ScreenE
     setFormat(9, 4);
     updateContent(btTransform::getIdentity());
     m_pos.setAlignment(0.5, 0);
-    m_rot.setAlignment(0.5, 0);
-    auto H = m_pos.getRequestedDimension(ScreenRectangle::Outer).Height;
-    m_rot.setShift(0, H);
+//     m_rot.setAlignment(0.5, 0);
+//     auto H = m_pos.getRequestedDimension(ScreenRectangle::Outer).Height;
+//     m_rot.setShift(0, H);
+    m_rot.setHorizontalAlignment(0.5);
+    m_rot.setBelow(&m_pos);
     adjustGeometry();
 }
 
