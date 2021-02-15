@@ -2,6 +2,7 @@
 #include <cstdio>
 // #include <Utils/IrrlichtObject.h>
 #include <Utils/IrrCommonObject.h>
+#include <ThirdPersonCamera.h>
 #include "Application.h"
 
 using namespace IOSP;
@@ -147,7 +148,7 @@ void IOSP::Application::run()
         if (m_uiTimer.update(m_dev->getTimer()->getTime()))
             updateUI();
         m_drv->beginScene(true, true, irr::video::SColor(0,50,50,50));
-        ControlPanelSceneNode::thirdPersonCamera.update();
+        ThirdPersonCamera::updateAll();
         m_smgr->drawAll();
         m_simulation->drawDebug();
 //         m_testScreenElement.draw();

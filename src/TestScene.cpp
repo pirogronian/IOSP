@@ -3,6 +3,7 @@
 #include <BulletBodySceneNode.h>
 #include <BulletDebugDrawer.h>
 
+#include <ThirdPersonCamera.h>
 #include <Utils/BulletShapes.h>
 #include <TestScene.h>
 
@@ -76,8 +77,7 @@ Simulation *IOSP::TestScene()
 //     auto *wallbox = smgr->addCubeSceneNode(1, wall);
     auto *tcpanel = new MagicSimpleRocketControlPanel(smgr->getRootSceneNode(), smgr, 1234);
     tcpanel->setTarget(testModel);
-    ControlPanelSceneNode::thirdPersonCamera.setCamera(cam);
-    ControlPanelSceneNode::thirdPersonCamera.setTarget(testModel);
+    ThirdPersonCamera::create(cam, testModel);
     auto *sim = new Simulation();
     sim->addWorld(bworld);
     sim->setActivePanel(tcpanel);

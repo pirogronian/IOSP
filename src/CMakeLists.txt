@@ -31,7 +31,8 @@ set(IOSP_MAIN_SRCS
     Simulation.cpp
     TestScene.h
     TestScene.cpp
-    ThirdPersonCamera.h)
+    ThirdPersonCamera.h
+    ThirdPersonCamera.cpp)
 
 list(TRANSFORM IOSP_MAIN_SRCS PREPEND "${CMAKE_CURRENT_SOURCE_DIR}/")
 

@@ -7,7 +7,6 @@
 #include <Common.h>
 #include <Utils/IrrCommonObject.h>
 #include <Utils/InputKeyActionManager.h>
-#include <ThirdPersonCamera.h>
 #include <Utils/IntervalTimer.h>
 
 namespace IOSP
@@ -22,7 +21,6 @@ namespace IOSP
         std::shared_ptr<InputKeyStateActionManager> m_stKeyActions;
         IntervalTimer m_uiTimer{50};
     public:
-        static ThirdPersonCamera thirdPersonCamera;
         ControlPanelSceneNode(
             irr::scene::ISceneNode *,
             irr::scene::ISceneManager *,

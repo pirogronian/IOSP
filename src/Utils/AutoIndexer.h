@@ -91,7 +91,11 @@ namespace IOSP
             }
             return false;
         }
-        VType get(std::size_t i) const
+        const VType get(std::size_t i) const
+        {
+            return m_vector[i].value();
+        }
+        VType get(std::size_t i)
         {
             return m_vector[i].value();
         }

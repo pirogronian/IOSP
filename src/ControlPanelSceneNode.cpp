@@ -4,8 +4,6 @@
 
 using namespace IOSP;
 
-IOSP::ThirdPersonCamera IOSP::ControlPanelSceneNode::thirdPersonCamera;
-
 IOSP::ControlPanelSceneNode::ControlPanelSceneNode(
             irr::scene::ISceneNode *parent,
             irr::scene::ISceneManager *smgr,
