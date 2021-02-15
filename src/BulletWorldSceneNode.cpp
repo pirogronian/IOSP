@@ -1,4 +1,5 @@
 
+#include <Utils/Dump.h>
 #include <BulletUpdatable.h>
 #include <BulletBodySceneNode.h>
 #include "BulletWorldSceneNode.h"
@@ -80,9 +81,15 @@ btFixedConstraint *IOSP::BulletWorldSceneNode::createFixedJoint(BulletBodySceneN
 btFixedConstraint *IOSP::BulletWorldSceneNode::createFixedConstraint(btRigidBody *body1, btRigidBody *body2)
 {
     auto tr1 = btTransform::getIdentity();
-    auto tr2 = body1->getWorldTransform() * body2->getWorldTransform().inverse();
+//     auto tr2 = body1->getWorldTransform() * body2->getWorldTransform().inverse();
+    auto tr2 = body2->getWorldTransform().inverse() * body1->getWorldTransform();
+//     dump(tr1);
+//     dump(tr2);
 //     auto tr2 = body1->getWorldTransform() * body2->getWorldTransform();
-    return createFixedConstraint(body1, body2, tr1, tr2);
+    auto cnt = createFixedConstraint(body1, body2, tr1, tr2);
+//     dump(cnt->getFrameOffsetA());
+//     dump(cnt->getFrameOffsetB());
+    return cnt;
 }
 
 btFixedConstraint *IOSP::BulletWorldSceneNode::createFixedJoint(

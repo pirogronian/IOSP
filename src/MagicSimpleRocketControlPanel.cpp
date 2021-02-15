@@ -161,10 +161,12 @@ void IOSP::MagicSimpleRocketControlPanel::update()
             {
 //                 m_joint = wnode->createFixedConstraint(node->getRigidBody(), m_hitBody);
                 m_joint = node->attachFixed(m_hitBody);
+//                 std::printf("Control target constr num: %i\n", node->getRigidBody()->getNumConstraintRefs());
             }
             else if (m_joint)
             {
                 wnode->deleteConstraint(m_joint);
+//                 std::printf("Control target constr num: %i\n", node->getRigidBody()->getNumConstraintRefs());
                 m_joint = nullptr;
             }
         }
