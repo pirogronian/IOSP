@@ -9,10 +9,11 @@
 #include <Settings.h>
 #include <ScreenUtils/ScreenText.h>
 #include <Utils/IntervalTimer.h>
+#include <Utils/IrrCommonObject.h>
 
 namespace IOSP
 {
-    class Application : public irr::IEventReceiver
+    class Application : public irr::IEventReceiver, public IrrCommonObject
     {
     public:
         enum Actions
@@ -27,24 +28,16 @@ namespace IOSP
             OpenTTFFileDialog
         };
     protected:
-        irr::IrrlichtDevice *m_dev{nullptr};
-        irr::video::IVideoDriver *m_drv{nullptr};
-        irr::scene::ISceneManager *m_smgr{nullptr};
-        irr::io::IFileSystem *m_fs{nullptr};
-        irr::gui::IGUIEnvironment *m_gui{nullptr};
         Simulation *m_simulation{nullptr};
         irr::gui::IGUIStaticText *m_guiRunStats{nullptr};
         irr::gui::IGUIButton *m_loadTTFButton{nullptr};
         SimpleInputKeyTriggeredActionManager m_trKeyActions;
         irr::io::path m_basePath;
         Settings m_settings;
-        ScreenElement m_testScreenElement;
         IntervalTimer m_uiTimer{100};
     public:
         Application();
         ~Application();
-        irr::IrrlichtDevice *device() { return m_dev; }
-        const irr::IrrlichtDevice *device() const { return m_dev; }
         Simulation *simulation() { return m_simulation; }
         const Simulation *simulation() const { return m_simulation; }
         void setSimulation(Simulation *s) { m_simulation = s; }
@@ -56,7 +49,7 @@ namespace IOSP
         bool loadTTF(const irr::io::path&, const irr::u32);
         bool openTTFLoadFileDialog()
         {
-            m_gui->addFileOpenDialog(L"Load TTF file", true, nullptr, OpenTTFFileDialog);
+            getGUIEnvironment()->addFileOpenDialog(L"Load TTF file", true, nullptr, OpenTTFFileDialog);
             return true;
         }
     };

@@ -2,12 +2,12 @@
 #pragma once
 
 #include <irrlicht.h>
-
+#include <Utils/IrrCommonObject.h>
 #include <Utils/Variant.h>
 
 namespace IOSP
 {
-    class Settings
+    class Settings : public IrrCommonObject
     {
     public:
         struct Font
@@ -25,13 +25,10 @@ namespace IOSP
     protected:
         bool m_dirty{false};
         bool m_loading{false};
-        irr::io::IFileSystem *m_fs{nullptr};
         irr::io::path m_fpath;
         irr::core::map<irr::core::stringw, Font> m_fonts;
     public:
-        Settings() = default;
-        Settings(irr::io::IFileSystem *fs, const irr::io::path& fpath = "") : m_fs(fs), m_fpath(fpath) {}
-        irr::io::IFileSystem *filesystem() { return m_fs; }
+        Settings(const irr::io::path& fpath = "") : m_fpath(fpath) {}
         bool isLoading() const { return m_loading; }
         void setLoading(bool t) { m_loading = t; }
         bool isDirty() const { return m_dirty; }
@@ -40,8 +37,6 @@ namespace IOSP
             if (!isLoading() || f)
                 m_dirty = t;
         }
-        const irr::io::IFileSystem *filesystem() const { return m_fs; }
-        void setFilesystem(irr::io::IFileSystem *fs) { m_fs = fs; }
         bool load(const irr::io::path& fpath = "");
         bool save(const irr::io::path& fpath = "");
         irr::io::path& path() { return m_fpath; }

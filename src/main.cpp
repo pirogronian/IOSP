@@ -8,12 +8,12 @@
 int main()
 {
     IOSP::Application app;
-    if (!app.device())
+    if (!app.getDevice())
         return 1;
 
-    irr::video::IVideoDriver *driver = app.device()->getVideoDriver();
-    irr::scene::ISceneManager* smgr = app.device()->getSceneManager();
-    irr::gui::IGUIEnvironment *gui = app.device()->getGUIEnvironment();
+//     irr::video::IVideoDriver *driver = app.getVideoDriver();
+//     irr::scene::ISceneManager* smgr = app.getSceneManager();
+//     irr::gui::IGUIEnvironment *gui = app.getGUIEnvironment();
 //     app.loadTTF("/usr/share/fonts/gnu-free/FreeMono.otf", 14);
 
     auto *sim = IOSP::TestScene();

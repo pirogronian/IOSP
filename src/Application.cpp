@@ -11,22 +11,16 @@ using namespace irr;
 Application::Application()
 {
     IrrCommonObject::setThrowOnNull(true);
-    m_dev = irr::createDevice(
+    auto dev = irr::createDevice(
         irr::video::EDT_OPENGL,
         irr::core::dimension2d<irr::u32>(800, 600),
         16, false, true, true, this
     );
 
-    if (!m_dev)  return;
-    IrrCommonObject::setDevice(m_dev);
-    m_smgr = m_dev->getSceneManager();
-    m_drv = m_dev->getVideoDriver();
-    m_gui = m_dev->getGUIEnvironment();
-    m_fs = m_dev->getFileSystem();
+    if (!dev)  return;
+    IrrCommonObject::setDevice(dev);
 
-    m_basePath = m_fs->getWorkingDirectory();
-
-    m_settings.setFilesystem(m_fs);
+    m_basePath = getFileSystem()->getWorkingDirectory();
 
     m_settings.path() = m_basePath + "/Config.xml";
     m_settings.load();
@@ -37,9 +31,10 @@ Application::Application()
     m_trKeyActions.bind(TimeFaster, irr::KEY_PRIOR);
     m_trKeyActions.bind(TimeSlower, irr::KEY_NEXT);
 
-    m_guiRunStats = m_gui->addStaticText(L"Static text", irr::core::rect<irr::s32>(0, 0, 200, 15));
+    auto gui = getGUIEnvironment();
+    m_guiRunStats = gui->addStaticText(L"Static text", irr::core::rect<irr::s32>(0, 0, 200, 15));
     m_guiRunStats->setDrawBackground(true);
-    m_loadTTFButton = m_gui->addButton(irr::core::rect<irr::s32>(0, 20, 50, 35), 0, OpenTTFButton, L"Load font");
+    m_loadTTFButton = gui->addButton(irr::core::rect<irr::s32>(0, 20, 50, 35), 0, OpenTTFButton, L"Load font");
 }
 
 bool Application::OnEvent(const SEvent& event)
@@ -83,7 +78,7 @@ bool IOSP::Application::OnGuiEvent(const irr::SEvent::SGUIEvent& ge)
                     {
                         irr::core::stringw text("Cannot load TrueType font from file: ");
                         text += fname;
-                        m_gui->addMessageBox(L"Cannot load font!", text.c_str());
+                        getGUIEnvironment()->addMessageBox(L"Cannot load font!", text.c_str());
                     }
                     else m_settings.setFont(L"Default", fname, 14);
                 }
@@ -117,36 +112,38 @@ void IOSP::Application::updateUI()
 
 void IOSP::Application::run()
 {
-    while(m_dev->run())
+    auto dev = getDevice();
+    auto drv = getVideoDriver();
+    while(dev->run())
     {
         m_simulation->update();
 
-        if (m_uiTimer.update(m_dev->getTimer()->getTime()))
+        if (m_uiTimer.update(dev->getTimer()->getTime()))
             updateUI();
-        m_drv->beginScene(true, true, irr::video::SColor(0,50,50,50));
+        drv->beginScene(true, true, irr::video::SColor(0,50,50,50));
         ThirdPersonCamera::updateAll();
-        m_smgr->drawAll();
+        getSceneManager()->drawAll();
         m_simulation->drawDebug();
-        m_gui->drawAll();
-        m_drv->endScene();
+        getGUIEnvironment()->drawAll();
+        drv->endScene();
         irr::core::stringw wcaption = L"IOSP [";
-        wcaption += m_drv->getFPS();
+        wcaption += drv->getFPS();
         wcaption += L" fps]";
-        m_dev->setWindowCaption(wcaption.c_str());
+        dev->setWindowCaption(wcaption.c_str());
     }
 }
 
 bool IOSP::Application::loadTTF(const irr::io::path& fname, const irr::u32 size)
 {
-    auto *font = irr::gui::CGUITTFont::createTTFont(m_dev, fname, size);
+    auto *font = irr::gui::CGUITTFont::createTTFont(getDevice(), fname, size);
     if (!font)
         return false;
-    m_gui->getSkin()->setFont(font);
+    getGUIEnvironment()->getSkin()->setFont(font);
     return true;
 }
 
 IOSP::Application::~Application()
 {
     m_settings.save();
-    m_dev->drop();
+    getDevice()->drop();
 }

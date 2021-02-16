@@ -106,7 +106,7 @@ bool IOSP::Settings::load(const irr::io::path& arg)
     IsAlive loading(m_loading);
     assert(isLoading());
     irr::io::path fpath = arg.empty() ? m_fpath : arg;
-    auto *reader = m_fs->createXMLReader(fpath);
+    auto *reader = getFileSystem()->createXMLReader(fpath);
     if (!reader)
     {
         std::printf("Unable to load config file: \"%s\"\n", fpath.c_str());
@@ -120,7 +120,7 @@ bool IOSP::Settings::save(const irr::io::path& arg)
 {
     if (!isDirty())  return true;
     irr::io::path fpath = arg.empty() ? m_fpath : arg;
-    auto *writer = m_fs->createXMLWriter(fpath);
+    auto *writer = getFileSystem()->createXMLWriter(fpath);
     if (!writer)
     {
         std::printf("Unable to save config file: \"%s\"\n", fpath.c_str());
