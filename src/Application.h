@@ -35,7 +35,9 @@ namespace IOSP
         irr::io::path m_basePath;
         Settings m_settings;
         IntervalTimer m_uiTimer{100};
+        static Application *s_instance;
     public:
+        static Application *getInstance() { return s_instance; }
         Application();
         ~Application();
         Simulation *simulation() { return m_simulation; }

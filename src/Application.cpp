@@ -1,5 +1,6 @@
 
 #include <cstdio>
+#include <Utils/Ownership.h>
 #include <Utils/IrrCommonObject.h>
 #include <ThirdPersonCamera.h>
 #include "Application.h"
@@ -8,8 +9,12 @@ using namespace IOSP;
 
 using namespace irr;
 
+Application *Application::s_instance{nullptr};
+
 Application::Application()
 {
+    if (s_instance)  std::puts("Another Application object already exists!");
+    s_instance = this;
     IrrCommonObject::setThrowOnNull(true);
     auto dev = irr::createDevice(
         irr::video::EDT_OPENGL,
@@ -146,4 +151,5 @@ IOSP::Application::~Application()
 {
     m_settings.save();
     getDevice()->drop();
+    s_instance = nullptr;
 }
