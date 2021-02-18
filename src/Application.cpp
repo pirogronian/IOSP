@@ -155,9 +155,20 @@ bool IOSP::Application::loadTTF(const irr::io::path& fname, const irr::u32 size)
 void IOSP::Application::openSettingsDialog()
 {
     m_simulation->setTimeMultiplier(0);
-    auto settingsWindow = getGUIEnvironment()->addWindow(
-        core::recti(50, 50, 350, 350),
+    auto size = getVideoDriver()->getCurrentRenderTargetSize();
+    auto gui = getGUIEnvironment();
+    auto settingsWindow = gui->addWindow(
+        core::recti(50, 50, size.Width - 50, size.Height - 50),
         true, L"Settings", 0, SettingsDialog);
+    auto Hh = 20;
+    core::recti defRect(0, Hh,
+                        settingsWindow->getAbsolutePosition().getWidth(),
+                        settingsWindow->getAbsolutePosition().getHeight());
+    auto tab = gui->addTabControl(defRect, settingsWindow);
+    tab->setAlignment(gui::EGUIA_SCALE, gui::EGUIA_SCALE, gui::EGUIA_SCALE, gui::EGUIA_SCALE);
+    auto fontTab = tab->addTab(L"Fonts");
+    auto variousTab = tab->addTab(L"Various");
+//     settingsWindow->setEnabled(true);
 }
 
 IOSP::Application::~Application()
