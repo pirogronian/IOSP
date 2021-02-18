@@ -163,6 +163,5 @@ void IOSP::Application::openSettingsDialog()
 IOSP::Application::~Application()
 {
     m_settings.save();
-    getDevice()->drop();
     s_instance = nullptr;
 }
