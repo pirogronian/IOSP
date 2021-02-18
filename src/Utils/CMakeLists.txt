@@ -5,6 +5,8 @@ set(SOURCES
     AutoIndexer.h
     BulletShapes.h
     BulletShapes.cpp
+    CommonObject.h
+    CommonObject.cpp
     Conversions.h
     Dump.h
     Dump.cpp

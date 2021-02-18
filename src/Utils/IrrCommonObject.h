@@ -31,5 +31,6 @@ namespace IOSP
         static irr::video::IVideoDriver *getVideoDriver();
         static irr::gui::IGUISkin *getSkin();
         static irr::gui::IGUIFont *getFont(irr::gui::EGUI_DEFAULT_FONT f = irr::gui::EGDF_DEFAULT);
+        static void setFont(irr::gui::IGUIFont *, irr::gui::EGUI_DEFAULT_FONT f = irr::gui::EGDF_DEFAULT);
     };
 }

@@ -53,3 +53,10 @@ gui::IGUIFont *IrrCommonObject::getFont(irr::gui::EGUI_DEFAULT_FONT f)
     if (!font && s_throwOnNull)  throw std::runtime_error("IGUIFont pointer is null!");
     return font;
 }
+
+void IrrCommonObject::setFont(gui::IGUIFont *f, gui::EGUI_DEFAULT_FONT t)
+{
+    auto skin = getSkin();
+    if (! skin)  return;
+    skin->setFont(f, t);
+}
