@@ -20,12 +20,14 @@ namespace IOSP
         {
             TimeFaster = 1,
             TimeSlower,
-            LoadTTF
+            LoadTTF,
+            SettingsAction
         };
         enum GuiElements
         {
             OpenTTFButton = 1,
-            OpenTTFFileDialog
+            OpenTTFFileDialog,
+            SettingsDialog
         };
     protected:
         Simulation *m_simulation{nullptr};
@@ -54,5 +56,6 @@ namespace IOSP
             getGUIEnvironment()->addFileOpenDialog(L"Load TTF file", true, nullptr, OpenTTFFileDialog);
             return true;
         }
+        void openSettingsDialog();
     };
 }

@@ -35,6 +35,7 @@ Application::Application()
 
     m_trKeyActions.bind(TimeFaster, irr::KEY_PRIOR);
     m_trKeyActions.bind(TimeSlower, irr::KEY_NEXT);
+    m_trKeyActions.bind(SettingsAction, irr::KEY_ESCAPE);
 
     auto gui = getGUIEnvironment();
     m_guiRunStats = gui->addStaticText(L"Static text", irr::core::rect<irr::s32>(0, 0, 200, 15));
@@ -50,9 +51,13 @@ bool Application::OnEvent(const SEvent& event)
     }
     if (m_trKeyActions.OnEvent(event))
     {
-        if (m_trKeyActions.isTriggered(TimeFaster))  m_simulation->setTimeMultiplier(m_simulation->timeMultiplier() + 1);
-        if (m_trKeyActions.isTriggered(TimeSlower))  m_simulation->setTimeMultiplier(m_simulation->timeMultiplier() - 1);
-            m_trKeyActions.reset();
+        if (m_trKeyActions.isTriggered(TimeFaster))
+            m_simulation->setTimeMultiplier(m_simulation->timeMultiplier() + 1);
+        if (m_trKeyActions.isTriggered(TimeSlower))
+            m_simulation->setTimeMultiplier(m_simulation->timeMultiplier() - 1);
+        if (m_trKeyActions.isTriggered(SettingsAction))
+            openSettingsDialog();
+        m_trKeyActions.reset();
         return true;
     }
     if (m_simulation)
@@ -145,6 +150,14 @@ bool IOSP::Application::loadTTF(const irr::io::path& fname, const irr::u32 size)
         return false;
     getGUIEnvironment()->getSkin()->setFont(font);
     return true;
+}
+
+void IOSP::Application::openSettingsDialog()
+{
+    m_simulation->setTimeMultiplier(0);
+    auto settingsWindow = getGUIEnvironment()->addWindow(
+        core::recti(50, 50, 350, 350),
+        true, L"Settings", 0, SettingsDialog);
 }
 
 IOSP::Application::~Application()
