@@ -3,6 +3,7 @@
 
 #include <array>
 #include <irrlicht.h>
+#include <CGUITTFont.h>
 #include <Utils/IrrCommonObject.h>
 
 namespace IOSP
@@ -49,6 +50,15 @@ namespace IOSP
         static void setFont(irr::gui::IGUIFont *f, irr::u8 i = irr::gui::EGDF_DEFAULT) {
             if (isIrrlichtFont(i)) IrrCommonObject::setFont(f, static_cast<irr::gui::EGUI_DEFAULT_FONT>(i));
             if (isValidFont(i))  setExtraFont(static_cast<ExtraFontType>(toExtraFont(i)), f);
+        }
+        static bool setTTF(const irr::io::path& fname, const irr::u32 size, irr::u8 i = irr::gui::EGDF_DEFAULT)
+        {
+            auto font = irr::gui::CGUITTFont::createTTFont(getDevice(), fname, size);
+            if (font)
+            {
+                setFont(font, i);
+                return true;
+            } else return false;
         }
     };
 }

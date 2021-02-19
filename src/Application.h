@@ -9,12 +9,12 @@
 #include <Settings.h>
 #include <ScreenUtils/ScreenText.h>
 #include <Utils/IntervalTimer.h>
-#include <Utils/IrrCommonObject.h>
+#include <Utils/CommonObject.h>
 #include <Gui.h>
 
 namespace IOSP
 {
-    class Application : public irr::IEventReceiver, public IrrCommonObject
+    class Application : public irr::IEventReceiver, public CommonObject
     {
     public:
         enum Actions
@@ -45,7 +45,7 @@ namespace IOSP
 //         bool OnKeyInput(const irr::SEvent::SKeyInput&);
         void updateUI();
         void run();
-        bool loadTTF(const irr::io::path&, const irr::u32);
+//         bool loadTTF(const irr::io::path&, const irr::u32);
         bool openTTFLoadFileDialog()
         {
             getGUIEnvironment()->addFileOpenDialog(L"Load TTF file", true, nullptr, OpenTTFFileDialog);

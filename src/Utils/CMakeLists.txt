@@ -35,3 +35,8 @@ target_include_directories(IospUtils PRIVATE ${IRRLICHT_INCLUDE_DIR})
 target_include_directories(IospUtils PRIVATE ${BULLET_INCLUDE_DIR})
 
 target_include_directories(IospUtils PRIVATE ${PROJECT_SOURCE_DIR}/src/)
+target_include_directories(IospUtils PRIVATE ${PROJECT_SOURCE_DIR}/src/thirdparty/IrrlichtI18n/)
+
+find_package(Freetype REQUIRED)
+
+target_include_directories(IospUtils PRIVATE ${FREETYPE_INCLUDE_DIRS})

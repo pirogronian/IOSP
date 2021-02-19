@@ -36,6 +36,13 @@ IOSP::SettingsWindow::SettingsWindow()
     s_window = this;
 }
 
+int IOSP::SettingsWindow::getParam(const gui::IGUIElement *ptr, int def)
+{
+    auto node = m_guiIntMap.find(ptr);
+    if (!node)  return def;
+    return node->getValue();
+}
+
 void IOSP::SettingsWindow::createContent()
 {
     if (!m_settings)  throw std::logic_error("Cannot create settings window: no settings provided!");
@@ -82,7 +89,7 @@ void IOSP::SettingsWindow::createFontTabContent(irr::gui::IGUITab *tab)
         size.Height += 2*getTextPadding();
         core::recti rect(core::position2d(p, ch), size);
         auto butt = gui->addButton(rect, tab, FontButton, fname, fpath);
-        m_ptrIntMap.insert(butt, i);
+        setParam(butt, i);
         butt->setOverrideFont(font);
         ch += size.Height + p;
     }
@@ -116,6 +123,7 @@ void IOSP::SettingsWindow::createFontEdit(int i)
     fpsize.Height += 2 * tp;
     auto totH = fnsize.Height + fpsize.Height + 25 + 4 * p;
     auto totW = fnsize.Width > fpsize.Width ? fnsize.Width : fpsize.Width;
+    if (totW < 75) totW = 75;
     totW += 2 * p;
     m_fontEditGroup = gui->addStaticText(
         L"",
@@ -138,11 +146,15 @@ void IOSP::SettingsWindow::createFontEdit(int i)
     ch += fpsize.Height + p;
     core::recti sizeRect(core::position2d(p, ch), core::dimension2d(75, 25));
     auto spin = gui->addSpinBox(L"?", sizeRect, true, m_fontEditGroup, FontSizeSpinbox);
-    spin->setRange(5, 30);
+    setParam(spin, i);
     spin->setStepSize(1);
     spin->setDecimalPlaces(0);
     spin->getEditBox()->setTextAlignment(gui::EGUIA_LOWERRIGHT, gui::EGUIA_CENTER);
-    spin->setValue(m_currentFont.size);
+    if (m_currentFont.size)
+    {
+        spin->setRange(5, 30);
+        spin->setValue(m_currentFont.size);
+    } else spin->setEnabled(false);
 }
 
 IOSP::SettingsWindow::~SettingsWindow()
@@ -174,16 +186,33 @@ bool IOSP::SettingsWindow::OnEvent(const SEvent& event)
             {
                 if (id == FontButton)
                 {
-                    auto node = m_ptrIntMap.find(caller);
-                    if (node)
+                    int i = getParam(caller, -1);
+                    if (i >= 0)  createFontEdit(i);
+                }
+                break;
+            }
+            break;
+            case gui::EGET_SPINBOX_CHANGED:
+            {
+                if (id == FontSizeSpinbox)
+                {
+                    int i = getParam(caller, -1);
+                    if (i >= 0)
                     {
-                        int i = node->getValue();
-                        createFontEdit(i);
+                        std::printf("Setting font size for: %ls (%i)\n", getFontName(i).c_str(), i);
+                        Settings::Font f = m_settings->getFont(getFontName(i));
+                        if (!f.file.empty())
+                        {
+                            int size = static_cast<gui::IGUISpinBox*>(caller)->getValue();
+                            if (setTTF(f.file.c_str(), size, i))
+                            {
+                                m_settings->setFont(getFontName(i), f.file.c_str(), size);
+                            }
+                        }
                     }
                     break;
                 }
             }
-            break;
             default:
                 ;
         }

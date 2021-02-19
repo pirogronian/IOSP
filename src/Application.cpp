@@ -32,7 +32,7 @@ Application::Application()
     m_settings.load();
     m_settings.printFonts();
     Settings::Font dfont = m_settings.getFont();
-    if (!dfont.file.empty()) loadTTF(dfont.file, dfont.size);
+    if (!dfont.file.empty()) setTTF(dfont.file, dfont.size);
 
     m_trKeyActions.bind(TimeFaster, irr::KEY_PRIOR);
     m_trKeyActions.bind(TimeSlower, irr::KEY_NEXT);
@@ -90,7 +90,7 @@ bool IOSP::Application::OnGuiEvent(const irr::SEvent::SGUIEvent& ge)
                 auto *fname = dialog->getFileName();
                 if (fname)
                 {
-                    if (!loadTTF(fname, 14))
+                    if (!setTTF(fname, 14))
                     {
                         irr::core::stringw text("Cannot load TrueType font from file: ");
                         text += fname;
@@ -149,14 +149,14 @@ void IOSP::Application::run()
     }
 }
 
-bool IOSP::Application::loadTTF(const irr::io::path& fname, const irr::u32 size)
-{
-    auto *font = irr::gui::CGUITTFont::createTTFont(getDevice(), fname, size);
-    if (!font)
-        return false;
-    getGUIEnvironment()->getSkin()->setFont(font);
-    return true;
-}
+// bool IOSP::Application::loadTTF(const irr::io::path& fname, const irr::u32 size)
+// {
+//     auto *font = irr::gui::CGUITTFont::createTTFont(getDevice(), fname, size);
+//     if (!font)
+//         return false;
+//     getGUIEnvironment()->getSkin()->setFont(font);
+//     return true;
+// }
 
 void IOSP::Application::openSettingsDialog()
 {
