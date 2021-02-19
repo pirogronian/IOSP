@@ -46,6 +46,11 @@ Application::Application()
 
 bool Application::OnEvent(const SEvent& event)
 {
+    if (SettingsWindow::isOpen())
+    {
+        if (SettingsWindow::getInstance()->OnEvent(event))
+            return true;
+    }
     if (event.EventType == irr::EET_GUI_EVENT)
     {
         if (OnGuiEvent(event.GUIEvent))  return true;
@@ -155,10 +160,15 @@ bool IOSP::Application::loadTTF(const irr::io::path& fname, const irr::u32 size)
 
 void IOSP::Application::openSettingsDialog()
 {
-    if (SettingsWindow::isOpen())  return;
+    if (SettingsWindow::isOpen())
+    {
+        std::printf("SettingsWindow already open! (%p)\n", SettingsWindow::getInstance());
+        return;
+    }
     m_simulation->setTimeMultiplier(0);
     auto win = new SettingsWindow();
-
+    win->setSettings(&m_settings);
+    win->createContent();
 }
 
 IOSP::Application::~Application()

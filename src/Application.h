@@ -10,6 +10,7 @@
 #include <ScreenUtils/ScreenText.h>
 #include <Utils/IntervalTimer.h>
 #include <Utils/IrrCommonObject.h>
+#include <Gui.h>
 
 namespace IOSP
 {
@@ -22,12 +23,6 @@ namespace IOSP
             TimeSlower,
             LoadTTF,
             SettingsAction
-        };
-        enum GuiElements
-        {
-            OpenTTFButton = 1,
-            OpenTTFFileDialog,
-            SettingsDialog
         };
     protected:
         Simulation *m_simulation{nullptr};
