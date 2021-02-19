@@ -114,7 +114,7 @@ void IOSP::SettingsWindow::createFontEdit(int i)
     auto fpsize = font->getDimension(fpath);
     fpsize.Width += 2 * tp;
     fpsize.Height += 2 * tp;
-    auto totH = fnsize.Height + fpsize.Height + 3 * p;
+    auto totH = fnsize.Height + fpsize.Height + 25 + 4 * p;
     auto totW = fnsize.Width > fpsize.Width ? fnsize.Width : fpsize.Width;
     totW += 2 * p;
     m_fontEditGroup = gui->addStaticText(
@@ -135,6 +135,14 @@ void IOSP::SettingsWindow::createFontEdit(int i)
         pathRect,
         m_fontEditGroup, FontPathButton, fpath
     );
+    ch += fpsize.Height + p;
+    core::recti sizeRect(core::position2d(p, ch), core::dimension2d(75, 25));
+    auto spin = gui->addSpinBox(L"?", sizeRect, true, m_fontEditGroup, FontSizeSpinbox);
+    spin->setRange(5, 30);
+    spin->setStepSize(1);
+    spin->setDecimalPlaces(0);
+    spin->getEditBox()->setTextAlignment(gui::EGUIA_LOWERRIGHT, gui::EGUIA_CENTER);
+    spin->setValue(m_currentFont.size);
 }
 
 IOSP::SettingsWindow::~SettingsWindow()
