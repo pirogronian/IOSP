@@ -6,4 +6,6 @@ namespace IOSP
 {
     void dump(const irr::SEvent::SKeyInput&);
     void dump(const btTransform&);
+
+    void dump(const irr::core::recti&);
 }
