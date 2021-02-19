@@ -15,15 +15,16 @@ namespace IOSP
         static int s_textPadding;
         irr::gui::IGUIWindow *m_window{nullptr};
         Settings *m_settings{nullptr};
+        irr::core::map<void*, int> m_ptrIntMap;
+        irr::gui::IGUIStaticText *m_fontEditGroup{nullptr};
+        Settings::Font m_currentFont;
+        irr::gui::IGUITab *m_fontTab{nullptr};
+        int m_maxFontButtonsWidth{0};
     public:
         enum GuiIds {
-            DefaultFontButton = GlobalGuiMaxId,
-            ButtonFontButton,
-            WindowFontButton,
-            MenuFontButton,
-            TooltipFontButton,
-            CaptionFontButton,
-            NumberFontButton
+            FontButton = GlobalGuiMaxId,
+            FontPathButton,
+            FontSizeSpinbox
         };
         static bool isOpen() { return s_window != nullptr; }
         static int getTitleBarHeight() { return s_titleBarH; }
@@ -38,5 +39,6 @@ namespace IOSP
         void setSettings(Settings *s) { m_settings = s; }
         void createContent();
         void createFontTabContent(irr::gui::IGUITab *);
+        void createFontEdit(int);
     };
 }

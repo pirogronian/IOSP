@@ -1,6 +1,9 @@
 
+#include <cassert>
+
 #include <exception>
 
+#include <Utils/Dump.h>
 #include "SettingsWindow.h"
 #include <Application.h>
 
@@ -44,9 +47,9 @@ void IOSP::SettingsWindow::createContent()
         true, L"Settings", 0, SettingsDialog);
     auto tab = gui->addTabControl(getWindowContentRectangle(m_window), m_window);
     tab->setAlignment(gui::EGUIA_SCALE, gui::EGUIA_SCALE, gui::EGUIA_SCALE, gui::EGUIA_SCALE);
-    auto fontTab = tab->addTab(L"Fonts");
+    m_fontTab = tab->addTab(L"Fonts");
     auto variousTab = tab->addTab(L"Various");
-    createFontTabContent(fontTab);
+    createFontTabContent(m_fontTab);
 }
 
 void IOSP::SettingsWindow::createFontTabContent(irr::gui::IGUITab *tab)
@@ -65,22 +68,73 @@ void IOSP::SettingsWindow::createFontTabContent(irr::gui::IGUITab *tab)
         auto size = font->getDimension(fname);
         if (size.Width > maxW) maxW = size.Width;
     }
+    m_maxFontButtonsWidth = maxW;
     for (int i = 0; i < TotalFontCount; i++)
     {
         auto ifont = getFont(i);
         auto fname = getFontName(i).c_str();
         const wchar_t *fpath = nullptr;
         gui::IGUIFont *font = ifont;
-        if (!font)  font = defFont;
+        if (!font) { font = defFont; fpath = L""; }
         else fpath = m_settings->getFont(getFontName(i)).file.c_str();
         auto size = font->getDimension(fname);
         size.Width = maxW + 2*getTextPadding();
         size.Height += 2*getTextPadding();
         core::recti rect(core::position2d(p, ch), size);
-        auto butt = gui->addButton(rect, tab, -1, fname, fpath);
+        auto butt = gui->addButton(rect, tab, FontButton, fname, fpath);
+        m_ptrIntMap.insert(butt, i);
         butt->setOverrideFont(font);
         ch += size.Height + p;
     }
+}
+
+void IOSP::SettingsWindow::createFontEdit(int i)
+{
+    if (m_fontEditGroup)
+    {
+//         std::printf("Already existing font group: used by %i\n", m_fontEditGroup->getReferenceCount());
+        m_fontTab->removeChild(m_fontEditGroup);
+//         m_fontEditGroup->drop();
+    }
+    auto gui = getGUIEnvironment();
+    auto p = getPadding();
+    auto tp = getTextPadding();
+    int ch = p;
+    int few = m_maxFontButtonsWidth + 2 * (p + tp);
+    auto fname = getFontName(i);
+    m_currentFont = m_settings->getFont(fname);
+    const wchar_t *fpath = L"[not set]";
+    if (m_currentFont.size) fpath = m_currentFont.file.c_str();
+//     std::printf("Current font name: %ls\n", fname.c_str());
+//     std::printf("Current font size: %i\n", m_currentFont.size);
+    auto font = getFont();
+    auto fnsize = font->getDimension(fname.c_str());
+    fnsize.Width += 2 * tp;
+    fnsize.Height += 2 * tp;
+    auto fpsize = font->getDimension(fpath);
+    fpsize.Width += 2 * tp;
+    fpsize.Height += 2 * tp;
+    auto totH = fnsize.Height + fpsize.Height + 3 * p;
+    auto totW = fnsize.Width > fpsize.Width ? fnsize.Width : fpsize.Width;
+    totW += 2 * p;
+    m_fontEditGroup = gui->addStaticText(
+        L"",
+        core::recti(core::position2d(few, p), core::dimension2d(totW, totH)),
+        true, true, m_fontTab);
+    core::recti titleRect(core::position2d(p, ch), fnsize);
+//     dump(titleRect);
+    auto title = gui->addStaticText(
+        fname.c_str(),
+        titleRect,
+        true, true, m_fontEditGroup
+    );
+    ch += fnsize.Height + p;
+    core::recti pathRect(core::position2d(p, ch), fpsize);
+//     dump(pathRect);
+    auto button = gui->addButton(
+        pathRect,
+        m_fontEditGroup, FontPathButton, fpath
+    );
 }
 
 IOSP::SettingsWindow::~SettingsWindow()
@@ -110,10 +164,15 @@ bool IOSP::SettingsWindow::OnEvent(const SEvent& event)
             break;
             case gui::EGET_BUTTON_CLICKED:
             {
-                if (id >= DefaultFontButton && id <= NumberFontButton)
+                if (id == FontButton)
                 {
-                    int i = id - DefaultFontButton;
-                    
+                    auto node = m_ptrIntMap.find(caller);
+                    if (node)
+                    {
+                        int i = node->getValue();
+                        createFontEdit(i);
+                    }
+                    break;
                 }
             }
             break;
