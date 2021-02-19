@@ -27,6 +27,8 @@ set(IOSP_MAIN_SRCS
     MagicSimpleRocketControlPanel.cpp
     Settings.h
     Settings.cpp
+    SettingsWindow.h
+    SettingsWindow.cpp
     Simulation.h
     Simulation.cpp
     TestScene.h
