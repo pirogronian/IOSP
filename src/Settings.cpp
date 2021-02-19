@@ -13,21 +13,21 @@ class SettingsXMLParser : public XMLParser
 {
     NodeHandler m_rootHandler, m_fontsHandler, m_fontHandler;
     Settings &m_settings;
-    const wchar_t *m_fontCategory{nullptr}, *m_fontFile{nullptr};
+    int m_fontCategory{0};
+    const wchar_t *m_fontFile{nullptr};
     unsigned int m_fontSize{10};
 public:
     void fontAttrEnd()
     {
-        core::stringw key(m_fontCategory);
-        core::stringw val(m_fontFile);
-        if (key.empty())  key = L"Default";
+        core::stringw val(m_fontFile ? m_fontFile : L"");
         if (!val.empty())
         {
-            printf("Adding font to config: [%ls]: { %ls, %i }\n", key.c_str(), val.c_str(), m_fontSize);
-            m_settings.setFont(key, val, m_fontSize);
+            printf(
+                "Adding font to config: [%ls (%i)]: { %ls, %i }\n",
+                CommonObject::getFontName(m_fontCategory).c_str(), m_fontCategory,
+                val.c_str(), m_fontSize);
+            m_settings.setFont(val, m_fontSize, m_fontCategory);
         }
-//         else std::puts("Value empty!");
-        m_fontCategory = nullptr;
         m_fontFile = nullptr;
         m_fontSize = 10;
     }
@@ -36,7 +36,7 @@ public:
 //         std::printf("Processing attribute: %ls\n", attr);
         if (Settings::FontCategoryAttr == attr)
         {
-            m_fontCategory = v.wChar;
+            m_fontCategory = CommonObject::getFontType(v.wChar);
             return;
         }
         if (Settings::FontFileAttr == attr)
@@ -72,18 +72,17 @@ const irr::core::stringw IOSP::Settings::FontCategoryAttr = L"category";
 const irr::core::stringw IOSP::Settings::FontFileAttr = L"file";
 const irr::core::stringw IOSP::Settings::FontSizeAttr = L"size";
 
-void IOSP::Settings::setFont(const irr::core::stringw& cat, const irr::core::stringw& file, unsigned int size)
+void IOSP::Settings::setFont(const irr::core::stringw& file, unsigned int size, int i)
 {
+    if (!isValidFont(i))  return;
     Settings::Font font(file, size);
-    m_fonts.set(cat, font);
+    m_fonts.insert(i, font);
     setDirty(true);
 }
 
-IOSP::Settings::Font IOSP::Settings::getFont(const irr::core::stringw& arg) const
+IOSP::Settings::Font IOSP::Settings::getFont(int i) const
 {
-    irr::core::stringw cat = arg;
-    if (cat.empty())  cat = L"Default";
-    auto *node = m_fonts.find(cat);
+    auto *node = m_fonts.find(i);
     if (!node)  return IOSP::Settings::Font();
     return node->getValue();
 }
@@ -96,7 +95,7 @@ void IOSP::Settings::printFonts() const
     {
         auto f = it->getValue();
         auto c = it->getKey();
-        printf("Font: [%ls]: { %ls, %i }\n", c.c_str(), f.file.c_str(), f.size);
+        printf("Font: [%ls]: { %ls, %i }\n", getFontName(c).c_str(), f.file.c_str(), f.size);
         it++;
     }
 }
@@ -136,7 +135,7 @@ bool IOSP::Settings::save(const irr::io::path& arg)
         {
             XMLNodeWriter fontW(writer, FontNodeName, true);
             Font font = it->getValue();
-            fontW.addAttribute(FontCategoryAttr, it->getKey());
+            fontW.addAttribute(FontCategoryAttr, getFontName(it->getKey()));
             fontW.addAttribute(FontFileAttr, font.file);
             fontW.addAttribute(FontSizeAttr, (int)font.size);
             it++;

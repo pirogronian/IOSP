@@ -96,7 +96,7 @@ bool IOSP::Application::OnGuiEvent(const irr::SEvent::SGUIEvent& ge)
                         text += fname;
                         getGUIEnvironment()->addMessageBox(L"Cannot load font!", text.c_str());
                     }
-                    else m_settings.setFont(L"Default", fname, 14);
+                    else m_settings.setFont(fname, 14);
                 }
                 return true;
             }

@@ -23,11 +23,15 @@ namespace IOSP
         };
         static constexpr irr::u8 ExtraFontCount = 2;
         static constexpr irr::u8 TotalFontCount = irr::gui::EGDF_COUNT + ExtraFontCount;
+        static constexpr irr::u8 InvalidFont = 7;
     protected:
-        static const std::array<irr::core::stringw, TotalFontCount> s_fnames;
+        static const std::array<irr::core::stringw, TotalFontCount + 1> s_fnames;
         static std::array<irr::gui::IGUIFont*, ExtraFontCount> s_extrafonts;
     public:
-        static const irr::core::stringw& getFontName(irr::u8 i) { return s_fnames[i]; }
+        static const irr::core::stringw& getFontName(irr::u8 i) {
+            if (!isValidFont(i))  i = InvalidFont;
+            return s_fnames[i];
+        }
         static irr::u8 getFontType(const wchar_t*);
         static irr::u8 getFontType(const irr::core::stringw& s) { return getFontType(s.c_str()); }
         static irr::gui::IGUIFont *getExtraFont(ExtraFontType i) { return s_extrafonts[i]; }
