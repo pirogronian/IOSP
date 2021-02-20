@@ -40,7 +40,7 @@ Application::Application()
     auto gui = getGUIEnvironment();
     m_guiRunStats = gui->addStaticText(L"Static text", irr::core::rect<irr::s32>(0, 0, 200, 15));
     m_guiRunStats->setDrawBackground(true);
-    m_loadTTFButton = gui->addButton(irr::core::rect<irr::s32>(0, 20, 50, 35), 0, OpenTTFButton, L"Load font");
+//     m_loadTTFButton = gui->addButton(irr::core::rect<irr::s32>(0, 20, 50, 35), 0, OpenTTFButton, L"Load font");
 }
 
 bool Application::OnEvent(const SEvent& event)
@@ -81,36 +81,36 @@ bool IOSP::Application::OnGuiEvent(const irr::SEvent::SGUIEvent& ge)
     auto id = caller->getID();
     switch(id)
     {
-        case OpenTTFFileDialog:
-        {
-            if (ge.EventType == irr::gui::EGET_FILE_SELECTED)
-            {
-                std::puts("File selected.");
-                auto *dialog = (irr::gui::IGUIFileOpenDialog*)(caller);
-                auto *fname = dialog->getFileName();
-                if (fname)
-                {
-                    if (!setTTF(fname, 14))
-                    {
-                        irr::core::stringw text("Cannot load TrueType font from file: ");
-                        text += fname;
-                        getGUIEnvironment()->addMessageBox(L"Cannot load font!", text.c_str());
-                    }
-                    else m_settings.setTTF(fname, 14);
-                }
-                return true;
-            }
-            return false;
-        }
-        case OpenTTFButton:
-        {
-            if (ge.EventType == irr::gui::EGET_BUTTON_CLICKED)
-            {
-                openTTFLoadFileDialog();
-                return true;
-            }
-            return false;
-        }
+//         case OpenTTFFileDialog:
+//         {
+//             if (ge.EventType == irr::gui::EGET_FILE_SELECTED)
+//             {
+//                 std::puts("File selected.");
+//                 auto *dialog = (irr::gui::IGUIFileOpenDialog*)(caller);
+//                 auto *fname = dialog->getFileName();
+//                 if (fname)
+//                 {
+//                     if (!setTTF(fname, 14))
+//                     {
+//                         irr::core::stringw text("Cannot load TrueType font from file: ");
+//                         text += fname;
+//                         getGUIEnvironment()->addMessageBox(L"Cannot load font!", text.c_str());
+//                     }
+//                     else m_settings.setTTF(fname, 14);
+//                 }
+//                 return true;
+//             }
+//             return false;
+//         }
+//         case OpenTTFButton:
+//         {
+//             if (ge.EventType == irr::gui::EGET_BUTTON_CLICKED)
+//             {
+//                 openTTFLoadFileDialog();
+//                 return true;
+//             }
+//             return false;
+//         }
         default:
             ;
     }

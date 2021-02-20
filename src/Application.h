@@ -27,7 +27,7 @@ namespace IOSP
     protected:
         Simulation *m_simulation{nullptr};
         irr::gui::IGUIStaticText *m_guiRunStats{nullptr};
-        irr::gui::IGUIButton *m_loadTTFButton{nullptr};
+//         irr::gui::IGUIButton *m_loadTTFButton{nullptr};
         SimpleInputKeyTriggeredActionManager m_trKeyActions;
         irr::io::path m_basePath;
         Settings m_settings;
