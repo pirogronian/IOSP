@@ -82,7 +82,7 @@ void IOSP::SettingsWindow::createFontTabContent(irr::gui::IGUITab *tab)
         const wchar_t *fpath = nullptr;
         gui::IGUIFont *font = ifont;
         if (!font) { font = defFont; fpath = L""; }
-        else fpath = Application::getInstance()->getSettings().getFont(i).file.c_str();
+        else fpath = Application::getInstance()->getSettings().getTTF(i).file.c_str();
         auto size = font->getDimension(fname);
         size.Width = maxW + 2*getTextPadding();
         size.Height += 2*getTextPadding();
@@ -108,7 +108,7 @@ void IOSP::SettingsWindow::createFontEdit(int i)
     int ch = p;
     int few = m_maxFontButtonsWidth + 2 * (p + tp);
     auto fname = getFontName(i);
-    m_currentFont = Application::getInstance()->getSettings().getFont(i);
+    m_currentFont = Application::getInstance()->getSettings().getTTF(i);
     const wchar_t *fpath = L"[not set]";
     if (m_currentFont.size) fpath = m_currentFont.file.c_str();
     auto font = getFont();
@@ -196,13 +196,13 @@ bool IOSP::SettingsWindow::OnEvent(const SEvent& event)
                     {
                         auto &ss = Application::getInstance()->getSettings();
                         std::printf("Setting font size for: %ls (%i)\n", getFontName(i).c_str(), i);
-                        Settings::Font f = ss.getFont(i);
+                        auto f = ss.getTTF(i);
                         if (!f.file.empty())
                         {
                             int size = static_cast<gui::IGUISpinBox*>(caller)->getValue();
                             if (setTTF(f.file.c_str(), size, i))
                             {
-                                ss.setFont(f.file.c_str(), size, i);
+                                ss.setTTF(f.file.c_str(), size, i);
                             } else std::puts("Setting font size failed??");
                         }
                     }

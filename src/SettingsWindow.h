@@ -16,7 +16,7 @@ namespace IOSP
         irr::gui::IGUIWindow *m_window{nullptr};
         irr::core::map<const irr::gui::IGUIElement*, int> m_guiIntMap;
         irr::gui::IGUIStaticText *m_fontEditGroup{nullptr};
-        Settings::Font m_currentFont;
+        TTF m_currentFont;
         irr::gui::IGUITab *m_fontTab{nullptr};
         int m_maxFontButtonsWidth{0};
     public:

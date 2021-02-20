@@ -26,7 +26,7 @@ public:
                 "Adding font to config: [%ls (%i)]: { %ls, %i }\n",
                 CommonObject::getFontName(m_fontCategory).c_str(), m_fontCategory,
                 val.c_str(), m_fontSize);
-            m_settings.setFont(val, m_fontSize, m_fontCategory);
+            m_settings.setTTF(val, m_fontSize, m_fontCategory);
         }
         m_fontFile = nullptr;
         m_fontSize = 10;
@@ -72,18 +72,18 @@ const irr::core::stringw IOSP::Settings::FontCategoryAttr = L"category";
 const irr::core::stringw IOSP::Settings::FontFileAttr = L"file";
 const irr::core::stringw IOSP::Settings::FontSizeAttr = L"size";
 
-void IOSP::Settings::setFont(const irr::core::stringw& file, unsigned int size, int i)
+void IOSP::Settings::setTTF(const irr::core::stringw& file, unsigned int size, int i)
 {
     if (!isValidFont(i))  return;
-    Settings::Font font(file, size);
+    TTF font(file, size);
     m_fonts.set(i, font);
     setDirty(true);
 }
 
-IOSP::Settings::Font IOSP::Settings::getFont(int i) const
+IOSP::TTF IOSP::Settings::getTTF(int i) const
 {
     auto *node = m_fonts.find(i);
-    if (!node)  return IOSP::Settings::Font();
+    if (!node)  return TTF();
     return node->getValue();
 }
 
@@ -134,11 +134,11 @@ bool IOSP::Settings::save(const irr::io::path& arg)
         while(!it.atEnd())
         {
             XMLNodeWriter fontW(writer, FontNodeName, true);
-            Font font = it->getValue();
-            std::printf("Saving font: { %ls, %ls, %i }\n", getFontName(it->getKey()).c_str(), font.file.c_str(), font.size);
+            TTF ttf = it->getValue();
+            std::printf("Saving font: { %ls, %ls, %i }\n", getFontName(it->getKey()).c_str(), ttf.file.c_str(), ttf.size);
             fontW.addAttribute(FontCategoryAttr, getFontName(it->getKey()));
-            fontW.addAttribute(FontFileAttr, font.file);
-            fontW.addAttribute(FontSizeAttr, (int)font.size);
+            fontW.addAttribute(FontFileAttr, ttf.file);
+            fontW.addAttribute(FontSizeAttr, (int)ttf.size);
             it++;
         }
     }

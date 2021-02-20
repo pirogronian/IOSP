@@ -4,6 +4,7 @@
 #include <array>
 #include <irrlicht.h>
 #include <CGUITTFont.h>
+#include <Utils/TTF.h>
 #include <Utils/IrrCommonObject.h>
 
 namespace IOSP

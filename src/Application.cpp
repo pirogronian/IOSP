@@ -31,8 +31,8 @@ Application::Application()
     m_settings.path() = m_basePath + "/Config.xml";
     m_settings.load();
     m_settings.printFonts();
-    Settings::Font dfont = m_settings.getFont();
-    if (!dfont.file.empty()) setTTF(dfont.file, dfont.size);
+    TTF dttf = m_settings.getTTF();
+    if (!dttf.file.empty()) setTTF(dttf.file, dttf.size);
 
     m_trKeyActions.bind(TimeFaster, irr::KEY_PRIOR);
     m_trKeyActions.bind(TimeSlower, irr::KEY_NEXT);
@@ -96,7 +96,7 @@ bool IOSP::Application::OnGuiEvent(const irr::SEvent::SGUIEvent& ge)
                         text += fname;
                         getGUIEnvironment()->addMessageBox(L"Cannot load font!", text.c_str());
                     }
-                    else m_settings.setFont(fname, 14);
+                    else m_settings.setTTF(fname, 14);
                 }
                 return true;
             }

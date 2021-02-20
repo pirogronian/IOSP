@@ -10,13 +10,6 @@ namespace IOSP
     class Settings : public CommonObject
     {
     public:
-        struct Font
-        {
-            irr::core::stringw file;
-            unsigned int size{0};
-            Font() = default;
-            Font(const irr::core::stringw& f, unsigned int s) : file(f), size(s) {}
-        };
         static const irr::core::stringw FontsNodeName;
         static const irr::core::stringw FontNodeName;
         static const irr::core::stringw FontCategoryAttr;
@@ -26,7 +19,7 @@ namespace IOSP
         bool m_dirty{false};
         bool m_loading{false};
         irr::io::path m_fpath;
-        irr::core::map<int, Font> m_fonts;
+        irr::core::map<int, TTF> m_fonts;
     public:
         Settings(const irr::io::path& fpath = "") : m_fpath(fpath) {}
         bool isLoading() const { return m_loading; }
@@ -41,8 +34,8 @@ namespace IOSP
         bool save(const irr::io::path& fpath = "");
         irr::io::path& path() { return m_fpath; }
         const irr::io::path& path() const { return m_fpath; }
-        void setFont(const irr::core::stringw&, unsigned int, int = 0);
-        Font getFont(int i = 0) const;
+        void setTTF(const irr::core::stringw&, unsigned int, int = 0);
+        TTF getTTF(int i = 0) const;
         void printFonts() const;
     };
 }
