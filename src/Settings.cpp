@@ -76,7 +76,7 @@ void IOSP::Settings::setFont(const irr::core::stringw& file, unsigned int size, 
 {
     if (!isValidFont(i))  return;
     Settings::Font font(file, size);
-    m_fonts.insert(i, font);
+    m_fonts.set(i, font);
     setDirty(true);
 }
 
@@ -135,6 +135,7 @@ bool IOSP::Settings::save(const irr::io::path& arg)
         {
             XMLNodeWriter fontW(writer, FontNodeName, true);
             Font font = it->getValue();
+            std::printf("Saving font: { %ls, %ls, %i }\n", getFontName(it->getKey()).c_str(), font.file.c_str(), font.size);
             fontW.addAttribute(FontCategoryAttr, getFontName(it->getKey()));
             fontW.addAttribute(FontFileAttr, font.file);
             fontW.addAttribute(FontSizeAttr, (int)font.size);

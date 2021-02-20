@@ -34,7 +34,7 @@ namespace IOSP
         static SettingsWindow *getInstance() { return s_window; }
         SettingsWindow();
         ~SettingsWindow();
-        bool setParam(const irr::gui::IGUIElement *ptr, int v) { return m_guiIntMap.insert(ptr, v); }
+        void setParam(const irr::gui::IGUIElement *ptr, int v) { m_guiIntMap.set(ptr, v); }
         int getParam(const irr::gui::IGUIElement*, int);
         bool OnEvent(const irr::SEvent&);
         void createContent();

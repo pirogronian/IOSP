@@ -203,7 +203,7 @@ bool IOSP::SettingsWindow::OnEvent(const SEvent& event)
                             if (setTTF(f.file.c_str(), size, i))
                             {
                                 ss.setFont(f.file.c_str(), size, i);
-                            }
+                            } else std::puts("Setting font size failed??");
                         }
                     }
                     break;
