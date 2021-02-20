@@ -30,9 +30,8 @@ Application::Application()
 
     m_settings.path() = m_basePath + "/Config.xml";
     m_settings.load();
-    m_settings.printFonts();
-    TTF dttf = m_settings.getTTF();
-    if (!dttf.file.empty()) setTTF(dttf.file, dttf.size);
+//     m_settings.printFonts();
+    loadFonts();
 
     m_trKeyActions.bind(TimeFaster, irr::KEY_PRIOR);
     m_trKeyActions.bind(TimeSlower, irr::KEY_NEXT);
@@ -149,14 +148,27 @@ void IOSP::Application::run()
     }
 }
 
-// bool IOSP::Application::loadTTF(const irr::io::path& fname, const irr::u32 size)
-// {
-//     auto *font = irr::gui::CGUITTFont::createTTFont(getDevice(), fname, size);
-//     if (!font)
-//         return false;
-//     getGUIEnvironment()->getSkin()->setFont(font);
-//     return true;
-// }
+bool IOSP::Application::loadTTF(const irr::io::path& fname, const irr::u32 size, u8 type)
+{
+    if (setTTF(fname, size, type))
+    {
+        m_settings.setTTF(fname, size, type);
+    }
+    return false;
+}
+
+void IOSP::Application::loadFonts()
+{
+    for (int i = 0; i < InvalidFont; i++)
+    {
+        auto ttf = m_settings.getTTF(i);
+        if (ttf.size && !ttf.file.empty())
+        {
+            std::printf("Load TTF: [%ls (%i)]: { %ls, %i }\n", getFontName(i).c_str(), i, ttf.file.c_str(), ttf.size);
+            setTTF(ttf.file.c_str(), ttf.size, i);
+        }
+    }
+}
 
 void IOSP::Application::openSettingsDialog()
 {

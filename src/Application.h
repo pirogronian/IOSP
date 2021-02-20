@@ -47,7 +47,9 @@ namespace IOSP
 //         bool OnKeyInput(const irr::SEvent::SKeyInput&);
         void updateUI();
         void run();
-//         bool loadTTF(const irr::io::path&, const irr::u32);
+        void loadFonts();
+        bool loadTTF(const irr::io::path&, const irr::u32, irr::u8 = 0);
+        TTF getTTF(irr::u8 type) { return m_settings.getTTF(); }
         bool openTTFLoadFileDialog()
         {
             getGUIEnvironment()->addFileOpenDialog(L"Load TTF file", true, nullptr, OpenTTFFileDialog);
