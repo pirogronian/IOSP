@@ -82,7 +82,7 @@ void IOSP::SettingsWindow::createFontTabContent(irr::gui::IGUITab *tab)
         const wchar_t *fpath = nullptr;
         gui::IGUIFont *font = ifont;
         if (!font) { font = defFont; fpath = L""; }
-        else fpath = Application::getInstance()->getSettings().getTTF(i).file.c_str();
+        else fpath = Application::getInstance()->getTTF(i).file.c_str();
         auto size = font->getDimension(fname);
         size.Width = maxW + 2*getTextPadding();
         size.Height += 2*getTextPadding();
@@ -102,13 +102,14 @@ void IOSP::SettingsWindow::createFontEdit(int i)
         m_fontTab->removeChild(m_fontEditGroup);
 //         m_fontEditGroup->drop();
     }
+    std::printf("creating font edit for: %ls (%i)\n", getFontName(i).c_str(), i);
     auto gui = getGUIEnvironment();
     auto p = getPadding();
     auto tp = getTextPadding();
     int ch = p;
     int few = m_maxFontButtonsWidth + 2 * (p + tp);
     auto fname = getFontName(i);
-    m_currentFont = Application::getInstance()->getSettings().getTTF(i);
+    m_currentFont = Application::getInstance()->getTTF(i);
     const wchar_t *fpath = L"[not set]";
     if (m_currentFont.size) fpath = m_currentFont.file.c_str();
     auto font = getFont();
@@ -140,6 +141,7 @@ void IOSP::SettingsWindow::createFontEdit(int i)
         pathRect,
         m_fontEditGroup, FontPathButton, fpath
     );
+    setParam(button, i);
     ch += fpsize.Height + p;
     core::recti sizeRect(core::position2d(p, ch), core::dimension2d(75, 25));
     auto spin = gui->addSpinBox(L"?", sizeRect, true, m_fontEditGroup, FontSizeSpinbox);
@@ -178,13 +180,50 @@ bool IOSP::SettingsWindow::OnEvent(const SEvent& event)
             }
             break;
             case gui::EGET_BUTTON_CLICKED:
+                std::printf("Button clicked id: %i\n", id);
             {
                 if (id == FontButton)
                 {
                     int i = getParam(caller, -1);
                     if (i >= 0)  createFontEdit(i);
                 }
+                if (id == FontPathButton)
+                {
+                    int i = getParam(caller, -1);
+                    std::printf("Clicked FontPathButton for %i\n", i);
+                    if (i >= 0)
+                    {
+                        auto dialog = getGUIEnvironment()->addFileOpenDialog(
+                            L"Load TTF file", true, nullptr, OpenTTFFileDialog);
+                        setParam(dialog, i);
+                    }
+                }
                 break;
+            }
+            break;
+            case gui::EGET_FILE_SELECTED:
+            {
+                if (id == OpenTTFFileDialog)
+                {
+                    auto dialog = static_cast<gui::IGUIFileOpenDialog*>(caller);
+                    if (dialog)
+                    {
+                        int i = getParam(dialog, -1);
+                        auto *fname = dialog->getFileName();
+                        if (fname && i >= 0)
+                        {
+                            if (!Application::getInstance()->loadTTF(fname, 10, i))
+                            {
+                                irr::core::stringw text("Cannot load TrueType font from file: ");
+                                text += fname;
+                                getGUIEnvironment()->addMessageBox(L"Cannot load font!", text.c_str());
+                            } else
+                            {
+                                createFontEdit(i);
+                            }
+                        }
+                    }
+                }
             }
             break;
             case gui::EGET_SPINBOX_CHANGED:
@@ -194,16 +233,13 @@ bool IOSP::SettingsWindow::OnEvent(const SEvent& event)
                     int i = getParam(caller, -1);
                     if (i >= 0)
                     {
-                        auto &ss = Application::getInstance()->getSettings();
+                        auto *app = Application::getInstance();
                         std::printf("Setting font size for: %ls (%i)\n", getFontName(i).c_str(), i);
-                        auto f = ss.getTTF(i);
+                        auto f = app->getTTF(i);
                         if (!f.file.empty())
                         {
                             int size = static_cast<gui::IGUISpinBox*>(caller)->getValue();
-                            if (setTTF(f.file.c_str(), size, i))
-                            {
-                                ss.setTTF(f.file.c_str(), size, i);
-                            } else std::puts("Setting font size failed??");
+                            app->loadTTF(f.file.c_str(), size, i);
                         }
                     }
                     break;

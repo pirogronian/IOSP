@@ -49,7 +49,7 @@ namespace IOSP
         void run();
         void loadFonts();
         bool loadTTF(const irr::io::path&, const irr::u32, irr::u8 = 0);
-        TTF getTTF(irr::u8 type) { return m_settings.getTTF(); }
+        TTF getTTF(irr::u8 type) { return m_settings.getTTF(type); }
         bool openTTFLoadFileDialog()
         {
             getGUIEnvironment()->addFileOpenDialog(L"Load TTF file", true, nullptr, OpenTTFFileDialog);

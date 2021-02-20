@@ -30,7 +30,7 @@ Application::Application()
 
     m_settings.path() = m_basePath + "/Config.xml";
     m_settings.load();
-//     m_settings.printFonts();
+    m_settings.printFonts();
     loadFonts();
 
     m_trKeyActions.bind(TimeFaster, irr::KEY_PRIOR);
@@ -49,6 +49,7 @@ bool Application::OnEvent(const SEvent& event)
     {
         if (SettingsWindow::getInstance()->OnEvent(event))
             return true;
+        return false;
     }
     if (event.EventType == irr::EET_GUI_EVENT)
     {
@@ -153,6 +154,7 @@ bool IOSP::Application::loadTTF(const irr::io::path& fname, const irr::u32 size,
     if (setTTF(fname, size, type))
     {
         m_settings.setTTF(fname, size, type);
+        return true;
     }
     return false;
 }
@@ -184,6 +186,7 @@ void IOSP::Application::openSettingsDialog()
 
 IOSP::Application::~Application()
 {
+    m_settings.printFonts();
     m_settings.save();
     s_instance = nullptr;
 }
