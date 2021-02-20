@@ -14,7 +14,6 @@ namespace IOSP
         static int s_padding;
         static int s_textPadding;
         irr::gui::IGUIWindow *m_window{nullptr};
-        Settings *m_settings{nullptr};
         irr::core::map<const irr::gui::IGUIElement*, int> m_guiIntMap;
         irr::gui::IGUIStaticText *m_fontEditGroup{nullptr};
         Settings::Font m_currentFont;
@@ -38,7 +37,6 @@ namespace IOSP
         bool setParam(const irr::gui::IGUIElement *ptr, int v) { return m_guiIntMap.insert(ptr, v); }
         int getParam(const irr::gui::IGUIElement*, int);
         bool OnEvent(const irr::SEvent&);
-        void setSettings(Settings *s) { m_settings = s; }
         void createContent();
         void createFontTabContent(irr::gui::IGUITab *);
         void createFontEdit(int);

@@ -167,7 +167,6 @@ void IOSP::Application::openSettingsDialog()
     }
     m_simulation->setTimeMultiplier(0);
     auto win = new SettingsWindow();
-    win->setSettings(&m_settings);
     win->createContent();
 }
 

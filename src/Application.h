@@ -37,6 +37,8 @@ namespace IOSP
         static Application *getInstance() { return s_instance; }
         Application();
         ~Application();
+        Settings &getSettings() { return m_settings; }
+        const Settings &getSettings() const { return m_settings; }
         Simulation *simulation() { return m_simulation; }
         const Simulation *simulation() const { return m_simulation; }
         void setSimulation(Simulation *s) { m_simulation = s; }
