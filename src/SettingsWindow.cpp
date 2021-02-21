@@ -194,7 +194,10 @@ bool IOSP::SettingsWindow::OnEvent(const SEvent& event)
                     if (i >= 0)
                     {
                         auto dialog = getGUIEnvironment()->addFileOpenDialog(
-                            L"Load TTF file", true, nullptr, OpenTTFFileDialog);
+                            L"Load TTF file", true, m_window, OpenTTFFileDialog, false,
+                            (char*)getFileSystem()->getWorkingDirectory().c_str());
+                        auto rect = getWindowContentRectangle(m_window);
+                        dialog->setRelativePosition(rect);
                         setParam(dialog, i);
                     }
                 }
