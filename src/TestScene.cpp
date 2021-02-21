@@ -24,7 +24,11 @@ BulletBodySceneNode *createTestModel()
     auto *brigid = new btRigidBody(1, nullptr, convex);
     auto *body = new BulletBodySceneNode(smgr->getRootSceneNode(), smgr, brigid);
     model->setParent(body);
-    model->setMaterialFlag(video::EMF_LIGHTING, false);
+    model->setMaterialFlag(video::EMF_LIGHTING, true);
+//     model->setMaterialFlag(video::EMF_ANISOTROPIC_FILTER, true);
+//     model->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
+//     model->setMaterialFlag(video::EMF_ANTI_ALIASING, true);
+//     model->setDebugDataVisible(irr::scene::EDS_NORMALS);
     model->setName("TestModel");
     return body;
 }
@@ -35,10 +39,31 @@ BulletBodySceneNode *createTestCube()
     auto *bbox = new btBoxShape(btVector3(5, 5, 5));
     auto *brigid = new btRigidBody(5, nullptr, bbox);
     auto *body = new BulletBodySceneNode(smgr->getRootSceneNode(), smgr, brigid);
-    auto *cube = smgr->addCubeSceneNode(10, body);
-    cube->setMaterialFlag(video::EMF_LIGHTING, false);
+//     auto *cube = smgr->addCubeSceneNode(10, body);
+    auto am = smgr->getMesh("testcube.dae");
+    auto cube = smgr->addMeshSceneNode(am->getMesh(0), 0);
+    cube->setMaterialFlag(video::EMF_LIGHTING, true);
+    cube->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
+//     cube->setMaterialFlag(video::EMF_ANISOTROPIC_FILTER, true);
+    cube->setScale(core::vector3df(5, 5, 5));
+    cube->setParent(body);
     body->setName("TestCube");
     return body;
+}
+
+scene::ILightSceneNode *createTestLigth()
+{
+    auto *smgr = IrrCommonObject::getSceneManager();
+    auto *drv = IrrCommonObject::getVideoDriver();
+    auto light = smgr->addLightSceneNode();
+    auto img = drv->getTexture("Particle.tga");
+    drv->makeColorKeyTexture(img, core::position2di(0, 0));
+    auto bb = smgr->addBillboardSceneNode(light, core::dimension2df(50, 50));
+    bb->setMaterialFlag(video::EMF_LIGHTING, false);
+    bb->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
+    bb->setMaterialTexture(0, img);
+//     bb->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
+    return light;
 }
 
 Simulation *IOSP::TestScene()
@@ -46,6 +71,8 @@ Simulation *IOSP::TestScene()
     auto *smgr = IrrCommonObject::getSceneManager();
     auto *cam = smgr->addCameraSceneNodeMaya();
 //     auto *light = smgr->addLightSceneNode();
+    auto light = createTestLigth();
+    light->setPosition(core::vector3df(0, 0, 25));
     auto *bworld = new BulletWorldSceneNode(smgr->getRootSceneNode(), smgr);
     bworld->setGlobalGravity(btVector3(0, 0, 0));
     bworld->setName("BulletWorld");
