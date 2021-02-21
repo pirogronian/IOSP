@@ -5,8 +5,8 @@
       <author>Blender User</author>
       <authoring_tool>Blender 2.79.7 commit date:2019-06-27, commit time:10:41, hash:e045fe53f1b0</authoring_tool>
     </contributor>
-    <created>2021-02-21T16:09:44</created>
-    <modified>2021-02-21T16:09:44</modified>
+    <created>2021-02-21T20:01:20</created>
+    <modified>2021-02-21T20:01:20</modified>
     <unit name="meter" meter="1"/>
     <up_axis>Z_UP</up_axis>
   </asset>
@@ -102,21 +102,21 @@
     </light>
   </library_lights>
   <library_images>
-    <image id="Untitled" name="Untitled">
-      <init_from>Untitled.png</init_from>
+    <image id="testmodel" name="testmodel">
+      <init_from>testmodel.png</init_from>
     </image>
   </library_images>
   <library_effects>
     <effect id="Material_006-effect">
       <profile_COMMON>
-        <newparam sid="Untitled-surface">
+        <newparam sid="testmodel-surface">
           <surface type="2D">
-            <init_from>Untitled</init_from>
+            <init_from>testmodel</init_from>
           </surface>
         </newparam>
-        <newparam sid="Untitled-sampler">
+        <newparam sid="testmodel-sampler">
           <sampler2D>
-            <source>Untitled-surface</source>
+            <source>testmodel-surface</source>
           </sampler2D>
         </newparam>
         <technique sid="common">
@@ -128,7 +128,7 @@
               <color sid="ambient">0 0 0 1</color>
             </ambient>
             <diffuse>
-              <texture texture="Untitled-sampler" texcoord="UVMap"/>
+              <texture texture="testmodel-sampler" texcoord="UVMap"/>
             </diffuse>
             <specular>
               <color sid="specular">0.5 0.5 0.5 1</color>
@@ -173,7 +173,7 @@
           </technique_common>
         </source>
         <source id="Cube_001-mesh-map-0">
-          <float_array id="Cube_001-mesh-map-0-array" count="120">1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 1 1 0 1 1 0 1 1 0 1 1 0 1 1 0 1 1 0 1 1 0 1 1 0 1 1 0 1 1 0 1 1 0 1 1 0 1 1 0 1 1 0 1 1 0 1 1 0 1 1 0 1 1 0 1 1 0 1</float_array>
+          <float_array id="Cube_001-mesh-map-0-array" count="120">1 0.4694334 0.7467288 0.6944592 0.7467288 0.4694334 0.2467286 0.4298155 0.4934574 0.02018076 0.4934573 0.4988145 0.5634266 0.6944597 0.6375034 0.783824 0.5634266 0.783824 0.2467286 0.02018076 0 0.4298156 0.1745654 0 0.5830546 0 0.7467287 0.4694336 0.4934574 0.4694337 1 0.4694334 0.836326 0 0.9104027 0 0.5634266 0.6944597 0.4934574 1 0.4934574 0.6944597 0.7467287 0.4694336 0.4934574 0.6944597 0.4934574 0.4694337 0.4934573 0.4988145 0.2881532 0.7038447 0.2467286 0.4298155 0.2467287 0.4988145 0.04142457 0.7038448 0 0.4298156 1 0.4694334 1 0.6944592 0.7467288 0.6944592 0.2467286 0.4298155 0.4212942 0 0.4934574 0.02018076 0.5634266 0.6944597 0.6375034 0.6944597 0.6375034 0.783824 0.2467286 0.02018076 0.2467287 0.4988145 0 0.4298156 0.5830546 0 0.6571313 0 0.7467287 0.4694336 1 0.4694334 0.7467288 0.4694334 0.836326 0 0.5634266 0.6944597 0.5634267 1 0.4934574 1 0.7467287 0.4694336 0.7467288 0.6944595 0.4934574 0.6944597 0.4934573 0.4988145 0.356315 0.7229065 0.2881532 0.7038447 0.2467287 0.4988145 0.1095863 0.7229066 0.04142457 0.7038448</float_array>
           <technique_common>
             <accessor source="#Cube_001-mesh-map-0-array" count="60" stride="2">
               <param name="S" type="float"/>
