@@ -24,10 +24,6 @@ BulletBodySceneNode *createTestModel()
     auto *body = new BulletBodySceneNode(smgr->getRootSceneNode(), smgr, brigid);
     auto *model = smgr->addMeshSceneNode(am->getMesh(0), body);
     model->setMaterialFlag(video::EMF_LIGHTING, true);
-//     model->setMaterialFlag(video::EMF_ANISOTROPIC_FILTER, true);
-//     model->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
-//     model->setMaterialFlag(video::EMF_ANTI_ALIASING, true);
-//     model->setDebugDataVisible(irr::scene::EDS_NORMALS);
     model->setName("TestModel");
     return body;
 }
@@ -43,7 +39,6 @@ BulletBodySceneNode *createTestCube()
     auto cube = smgr->addMeshSceneNode(am->getMesh(0), body);
     cube->setMaterialFlag(video::EMF_LIGHTING, true);
     cube->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
-//     cube->setMaterialFlag(video::EMF_ANISOTROPIC_FILTER, true);
     cube->setScale(core::vector3df(5, 5, 5));
     body->setName("TestCube");
     return body;
@@ -60,8 +55,15 @@ scene::ILightSceneNode *createTestLigth()
     bb->setMaterialFlag(video::EMF_LIGHTING, false);
     bb->setMaterialType(video::EMT_TRANSPARENT_ADD_COLOR);
     bb->setMaterialTexture(0, img);
-//     bb->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
     return light;
+}
+
+scene::IMeshSceneNode *createTestGroup()
+{
+    auto *smgr = IrrCommonObject::getSceneManager();
+    auto am = smgr->getMesh("testgroup.dae");
+    auto *group = smgr->addMeshSceneNode(am->getMesh(0), 0);
+    return group;
 }
 
 Simulation *IOSP::TestScene()

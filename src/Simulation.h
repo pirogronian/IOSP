@@ -32,6 +32,7 @@ namespace IOSP
         void init();
         void stepSimulation(irr::u32);
         void update();
+        void drawUI();
         void drawDebug();
         BulletDebugDrawer& debugDrawer() { return m_ddrawer; }
         const BulletDebugDrawer& debugDrawer() const { return m_ddrawer; }

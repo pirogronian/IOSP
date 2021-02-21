@@ -181,6 +181,10 @@ void IOSP::MagicSimpleRocketControlPanel::updateUI()
 
 void IOSP::MagicSimpleRocketControlPanel::render()
 {
+}
+
+void IOSP::MagicSimpleRocketControlPanel::drawUI()
+{
     m_trDisplay.draw();
     m_infoRoot.draw();
     m_sfDisplay.draw();

@@ -34,6 +34,7 @@ namespace IOSP
         }
         virtual void update();
         virtual void updateUI() = 0;
+        virtual void drawUI() = 0;
         void setVisible(bool v) override;
         bool OnEvent(const irr::SEvent&) override;
         void grabEvents() { getDevice()->setEventReceiver(this); }

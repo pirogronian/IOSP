@@ -57,6 +57,11 @@ void IOSP::Simulation::update()
     stepSimulation(m_timeMult * m_timeLastDelta);
 }
 
+void IOSP::Simulation::drawUI()
+{
+    if (m_activePanel)  m_activePanel->drawUI();
+}
+
 void IOSP::Simulation::drawDebug()
 {
     auto *drv = getVideoDriver();

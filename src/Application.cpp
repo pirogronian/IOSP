@@ -126,6 +126,12 @@ void IOSP::Application::updateUI()
     m_guiRunStats->setText(dtext.c_str());
 }
 
+void resetDrv(video::IVideoDriver *drv)
+{
+    video::SMaterial mat;
+    drv->setMaterial(mat);
+}
+
 void IOSP::Application::run()
 {
     auto dev = getDevice();
@@ -134,12 +140,14 @@ void IOSP::Application::run()
     {
         m_simulation->update();
 
-        if (m_uiTimer.update(dev->getTimer()->getTime()))
-            updateUI();
         drv->beginScene(true, true, irr::video::SColor(0,50,50,50));
         ThirdPersonCamera::updateAll();
         getSceneManager()->drawAll();
+        resetDrv(drv);
         m_simulation->drawDebug();
+        if (m_uiTimer.update(dev->getTimer()->getTime()))
+            updateUI();
+        m_simulation->drawUI();
         getGUIEnvironment()->drawAll();
         drv->endScene();
         irr::core::stringw wcaption = L"IOSP [";
