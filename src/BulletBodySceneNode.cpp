@@ -68,7 +68,7 @@ void IOSP::BulletBodySceneNode::syncTransform()
     if (!m_bbody)  return;
     auto& pos = getPosition();
     auto rot = degToRad(getRotation());
-    btTransform tr(btQuaternion(rot.X, rot.Y, rot.Z), btVector3(pos.X, pos.Y, pos.Z));
+    btTransform tr(btQuaternion(rot.Y, rot.X, rot.Z), btVector3(pos.X, pos.Y, pos.Z));
     m_bbody->setWorldTransform(tr);
 }
 
