@@ -7,6 +7,8 @@
 #include <Utils/BulletShapes.h>
 #include <TestScene.h>
 
+#include <Utils/Dump.h>
+
 #include <MagicSimpleRocketControlPanel.h>
 
 #include <cstdio>
@@ -58,12 +60,18 @@ scene::ILightSceneNode *createTestLigth()
     return light;
 }
 
-scene::IMeshSceneNode *createTestGroup()
+BulletBodySceneNode *createTerrain()
 {
-    auto *smgr = IrrCommonObject::getSceneManager();
-    auto am = smgr->getMesh("testgroup.dae");
-    auto *group = smgr->addMeshSceneNode(am->getMesh(0), 0);
-    return group;
+    video::SMaterial mat;
+    auto smgr = IrrCommonObject::getSceneManager();
+    auto am = smgr->addHillPlaneMesh("HillMesh", {10, 10}, {10, 10}, &mat, 10, {4, 7}, {10, 10});
+    auto mnode = smgr->addMeshSceneNode(am->getMesh(0), 0);
+    auto shape = createTriangleShape(mnode);
+    auto body = new btRigidBody(0, nullptr, shape);
+    auto bnode = new BulletBodySceneNode(smgr->getRootSceneNode(), smgr, body);
+    mnode->setParent(bnode);
+    mnode->setName("TerrainMeshNode");
+    return bnode;
 }
 
 Simulation *IOSP::TestScene()
@@ -72,7 +80,7 @@ Simulation *IOSP::TestScene()
     auto *cam = smgr->addCameraSceneNodeMaya();
 //     auto *light = smgr->addLightSceneNode();
     auto light = createTestLigth();
-    light->setPosition(core::vector3df(0, 0, 25));
+    light->setPosition(core::vector3df(0, 0, -50));
     auto *bworld = new BulletWorldSceneNode(smgr->getRootSceneNode(), smgr);
     bworld->setGlobalGravity(btVector3(0, 0, 0));
     bworld->setName("BulletWorld");
@@ -87,14 +95,17 @@ Simulation *IOSP::TestScene()
         testModel->syncTransform();
         bworld->addBody(testModel);
     }
-    auto *bbox2 = new btBoxShape(btVector3(25, 25, 0));
-    auto *bwall = new btRigidBody(0, nullptr, bbox2);
-    auto *wall = new BulletBodySceneNode(smgr->getRootSceneNode(), smgr, bwall);
-    wall->setPosition(core::vector3df(0, 0, 20));
-    wall->setRotation(core::vector3df(0, 45, 0));
-    wall->syncTransform();
-    bworld->addBody(wall);
-    wall->setName("BWall");
+    auto terrain = createTerrain();
+    terrain->setPosition(core::vector3df(0, 0, 75));
+    terrain->setRotation(core::vector3df(-90, 0, 0));
+    terrain->syncTransform();
+//     dump(terrain->getRotation());
+//     auto child = smgr->getSceneNodeFromName("TerrainMeshNode");
+//     child->updateAbsolutePosition();
+//     terrain->updateAbsolutePosition();
+//     dump(child->getAbsoluteTransformation().getRotationDegrees());
+//     dump(terrain->getAbsoluteTransformation().getRotationDegrees());
+//     bworld->addBody(terrain);
     auto *tcpanel = new MagicSimpleRocketControlPanel(smgr->getRootSceneNode(), smgr, 1234);
     tcpanel->setTarget(testModel);
     ThirdPersonCamera::create(cam, testModel);
