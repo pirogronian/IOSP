@@ -29,3 +29,8 @@ void IOSP::dump(const irr::core::recti& rect)
     auto lrc = rect.LowerRightCorner;
     std::printf("Rect(%i, %i, %i, %i)\n", ulc.X, ulc.Y, lrc.X, lrc.Y);
 }
+
+void IOSP::dump(const core::vector3df& v)
+{
+    std::printf("vector3df(%f, %f, %f)\n", v.X, v.Y, v.Z);
+}

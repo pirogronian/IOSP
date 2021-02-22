@@ -8,4 +8,5 @@ namespace IOSP
     void dump(const btTransform&);
 
     void dump(const irr::core::recti&);
+    void dump(const irr::core::vector3df&);
 }
