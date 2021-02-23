@@ -26,15 +26,13 @@ ScreenRectangle::Dimension IOSP::ScreenElement::getRequestedDimension(ScreenRect
     {
         dim.Width -= (getPadding(Left) + getPadding(Right));
         dim.Height -= (getPadding(Top) + getPadding(Bottom));
-        return dim;
     }
     if (layer == Outer)
     {
         dim.Width += (getMargin(Left) + getMargin(Right));
         dim.Height += (getMargin(Top) + getMargin(Bottom));
-        return dim;
     }
-    assert((true, "Invalid layer for requested dimension!"));
+    return dim;
 }
 
 void IOSP::ScreenElement::setCanExpand(bool f)
