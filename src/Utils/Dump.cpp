@@ -23,6 +23,11 @@ void IOSP::dump(const btTransform& tr)
     std::printf("Rotation: [%f, %f, %f]\n", x, y, z);
 }
 
+void IOSP::dump(const video::SColor& c)
+{
+    std::printf("SColor(A: %i, R: %i, G: %i, B: %i)\n", c.getAlpha(), c.getRed(), c.getGreen(), c.getBlue());
+}
+
 void IOSP::dump(const irr::core::recti& rect)
 {
     auto ulc = rect.UpperLeftCorner;
