@@ -1,6 +1,7 @@
 
 #include <cstdio>
 
+#include <Utils/Dump.h>
 #include <Utils/Conversions.h>
 #include <BulletWorldSceneNode.h>
 #include "MagicSimpleRocketControlPanel.h"
@@ -20,37 +21,45 @@ IOSP::MagicSimpleRocketControlPanel::MagicSimpleRocketControlPanel(
 
     m_trDisplay.setAlignment(0.5, 0);
     m_trDisplay.getPadding().set(5);
+    m_trDisplay.getMargin().set(5);
+    m_trDisplay.adjustGeometry();
+    m_trDisplay.getOwnBackgroundColor().set(127, 127, 0, 0);
 
     m_infoRoot.setAlignment(0.5, 1);
 
-    m_rotText.setBackgroundPolicy(ScreenElement::UseParentBackground);
+//     m_rotText.setBackgroundPolicy(ScreenElement::UseParentBackground);
     m_rotText.setAlignment(0.5, 1);
     m_rotText.getPadding().set(10);
     m_rotText.setFormat(9, 4, "Rotation");
     m_rotText.updateContent(0, 0, 0);
     auto H = m_rotText.getRequestedDimension(ScreenRectangle::Outer).Height;
     m_rotText.setShift(0, -3 * H);
+    m_rotText.getOwnBackgroundColor().set(127, 127, 0, 0);
 
-    m_massText.setBackgroundPolicy(ScreenElement::UseParentBackground);
+//     m_massText.setBackgroundPolicy(ScreenElement::UseParentBackground);
     m_massText.setAlignment(0.5, 1);
     m_massText.getPadding().set(10);
     m_massText.setFormat("Mass: %4f, hit: %i, hit name: %s");
     m_massText.updateContent(false, 0, 0);
     m_massText.setShift(0, -2 * H);
+    m_massText.getOwnBackgroundColor().set(127, 0, 127, 0);
 
-    m_velText.setBackgroundPolicy(ScreenElement::UseParentBackground);
+//     m_velText.setBackgroundPolicy(ScreenElement::UseParentBackground);
     m_velText.setAlignment(0.5, 1);
     m_velText.getPadding().set(10);
     m_velText.setFormat(9, 4, "Linear vel");
     m_velText.updateContent(0, 0, 0);
     m_velText.setShift(0, -H);
+    m_velText.getOwnBackgroundColor().set(127, 0, 0, 127);
 
-    m_accText.setBackgroundPolicy(ScreenElement::UseParentBackground);
+//     m_accText.setBackgroundPolicy(ScreenElement::UseParentBackground);
     m_accText.setAlignment(0.5, 1);
     m_accText.getPadding().set(10);
     m_accText.setFormat(9, 4, "Linear acc");
     m_accText.updateContent(0, 0, 0);
+    m_accText.getOwnBackgroundColor().set(127, 127, 0, 127);
 
+    m_infoRoot.getPadding().set(5);
     m_infoRoot.setCanShrink(true);
     m_infoRoot.setCanExpand(true);
     m_infoRoot.adjustGeometry();

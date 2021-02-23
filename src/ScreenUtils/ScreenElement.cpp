@@ -54,6 +54,7 @@ void IOSP::ScreenElement::setCanShrink(bool f)
 void IOSP::ScreenElement::fitRequestedDimension()
 {
     auto cdim = calculateTotalChildrenDimension();
+    cdim = createBaseFromInner(cdim);
     if (m_reqDim.Width < cdim.Width && canExpand())  m_reqDim.Width = cdim.Width;
     if (m_reqDim.Width > cdim.Width && canShrink())  m_reqDim.Width = cdim.Width;
     if (m_reqDim.Height < cdim.Height && canExpand())  m_reqDim.Height = cdim.Height;
