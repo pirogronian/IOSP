@@ -19,7 +19,7 @@ namespace IOSP
         void setTarget(irr::scene::ISceneNode*);
         ScreenElement m_infoRoot;
         ScreenFormattedText m_massText{&m_infoRoot};
-        SimpleFloat3Display m_rotText{&m_infoRoot}, m_velText{&m_infoRoot}, m_accText{&m_infoRoot};
+        SimpleFloat3Display m_velText{&m_infoRoot}, m_accText{&m_infoRoot};
         ScaleFloatDisplay m_sfDisplay;
         SimpleTransformDisplay m_trDisplay;
         btVector3 m_rayStart, m_rayStop;
