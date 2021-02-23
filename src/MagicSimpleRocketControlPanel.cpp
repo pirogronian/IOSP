@@ -159,6 +159,9 @@ void IOSP::MagicSimpleRocketControlPanel::update()
 
         tr->reset();
         ControlPanelSceneNode::update();
+        auto r = m_controlTarget->getRotation();
+        m_sfDisplay.setValue(-r.X);
+        m_sfDisplay.updateRectangle();
     }
 }
 
@@ -167,8 +170,6 @@ void IOSP::MagicSimpleRocketControlPanel::updateUI()
     auto *node = dynamic_cast<BulletBodySceneNode*>(m_controlTarget);
     m_trDisplay.updateContent(node->getBodyTransform());
     m_trDisplay.updateRectangle();
-    auto r = m_controlTarget->getRotation();
-//     m_rotText.updateContent(r);
     auto mass = node->getMass();
     auto delta = node->getLastDelta();
     m_massText.updateContent(false, mass, m_hit, m_hitName);
@@ -177,8 +178,6 @@ void IOSP::MagicSimpleRocketControlPanel::updateUI()
     auto la = node->getLinearAcceleration();
     m_accText.updateContent(la);
     m_infoRoot.updateRectangle();
-    m_sfDisplay.setValue(-r.X);
-    m_sfDisplay.updateRectangle();
 }
 
 void IOSP::MagicSimpleRocketControlPanel::render()

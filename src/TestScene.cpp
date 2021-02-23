@@ -105,7 +105,7 @@ Simulation *IOSP::TestScene()
 //     terrain->updateAbsolutePosition();
 //     dump(child->getAbsoluteTransformation().getRotationDegrees());
 //     dump(terrain->getAbsoluteTransformation().getRotationDegrees());
-//     bworld->addBody(terrain);
+    bworld->addBody(terrain);
     auto *tcpanel = new MagicSimpleRocketControlPanel(smgr->getRootSceneNode(), smgr, 1234);
     tcpanel->setTarget(testModel);
     ThirdPersonCamera::create(cam, testModel);
