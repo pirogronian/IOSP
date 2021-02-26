@@ -22,11 +22,15 @@ target_link_libraries(BulletTest PRIVATE
     #LinearMath
     Irrlicht)
 
+find_package(Freetype REQUIRED)
+
 add_executable(ScaleFloatDisplayTest ScaleFloatDisplayTest.cpp)
 
 target_include_directories(ScaleFloatDisplayTest PRIVATE ${IRRLICHT_INCLUDE_DIR})
 target_include_directories(ScaleFloatDisplayTest PRIVATE ${PROJECT_SOURCE_DIR}/src/)
 target_include_directories(ScaleFloatDisplayTest PRIVATE ${BULLET_INCLUDE_DIR})
+target_include_directories(ScaleFloatDisplayTest PRIVATE ${PROJECT_SOURCE_DIR}/src/thirdparty/IrrlichtI18n/)
+target_include_directories(ScaleFloatDisplayTest PRIVATE ${FREETYPE_INCLUDE_DIRS})
 target_link_libraries(ScaleFloatDisplayTest PRIVATE
     #IospUtils
     IospScreenUtils

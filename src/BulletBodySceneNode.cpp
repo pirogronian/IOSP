@@ -85,15 +85,16 @@ void IOSP::BulletBodySceneNode::setMass(btScalar m)
     m_bbody->setMassProps(m, btVector3(m, m, m));
 }
 
-void IOSP::BulletBodySceneNode::update(irr::u32 ud)
+void IOSP::BulletBodySceneNode::update(irr::u32 dt)
 {
     if (!m_bbody)  return;
-    m_lastDelta = static_cast<btScalar>(ud) / 1000;
+    m_lastDelta = static_cast<btScalar>(dt) / 1000;
     btScalar d = m_lastDelta;
     auto lv = m_bbody->getLinearVelocity();
     auto la = (lv - m_lVel)/d;
     m_lVel = lv;
     m_lAccel = la;
+    m_rootComponent.update(this, dt);
 }
 
 btFixedConstraint *IOSP::BulletBodySceneNode::attachFixed(btRigidBody *body)

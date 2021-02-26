@@ -34,7 +34,8 @@ namespace IOSP
             StopThrustAction,
             IncreaseMassAction,
             DecreaseMassAction,
-            ToggleGrasp
+            ToggleGrasp,
+            ToggleThrust
         };
         enum StateActions
         {

@@ -3,6 +3,7 @@
 
 #include <Utils/Dump.h>
 #include <Utils/Conversions.h>
+#include <Thruster.h>
 #include <BulletWorldSceneNode.h>
 #include "MagicSimpleRocketControlPanel.h"
 
@@ -68,7 +69,7 @@ IOSP::MagicSimpleRocketControlPanel::MagicSimpleRocketControlPanel(
     m_trKeyActions = std::make_shared<SimpleInputKeyTriggeredActionManager>();
     m_stKeyActions = std::make_shared<InputKeyStateActionManager>();
 
-    m_stKeyActions->bind(ThrustAction, irr::KEY_KEY_V);
+//     m_stKeyActions->bind(ThrustAction, irr::KEY_KEY_V);
     m_stKeyActions->bind(PitchUpAction, irr::KEY_KEY_W);
     m_stKeyActions->bind(PitchDownAction, irr::KEY_KEY_S);
     m_stKeyActions->bind(RollClockwiseAction, irr::KEY_KEY_A);
@@ -79,6 +80,7 @@ IOSP::MagicSimpleRocketControlPanel::MagicSimpleRocketControlPanel(
     m_trKeyActions->bind(IncreaseMassAction, irr::KEY_KEY_8);
     m_trKeyActions->bind(DecreaseMassAction, irr::KEY_KEY_2);
     m_trKeyActions->bind(ToggleGrasp, irr::KEY_KEY_1);
+    m_trKeyActions->bind(ToggleThrust, irr::KEY_KEY_V);
 }
 
 void IOSP::MagicSimpleRocketControlPanel::update()
@@ -155,6 +157,13 @@ void IOSP::MagicSimpleRocketControlPanel::update()
                 wnode->deleteConstraint(m_joint);
                 m_joint = nullptr;
             }
+        }
+
+        if (tr->isTriggered(ToggleThrust))
+        {
+            auto thruster = dynamic_cast<Thruster*>(node->getRootComponent().getChildSafe(0));
+            if (!thruster)  puts("No thruster found!");
+            thruster->setOn(!thruster->isOn());
         }
 
         tr->reset();

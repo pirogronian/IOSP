@@ -5,6 +5,7 @@
 #include <BulletMotionState.h>
 #include <btBulletDynamicsCommon.h>
 #include <BulletUpdatable.h>
+#include <Component.h>
 
 namespace IOSP
 {
@@ -17,6 +18,7 @@ namespace IOSP
         btVector3 m_lVel{0, 0, 0}, m_lAccel{0, 0, 0};
         btScalar m_lastDelta{0};
         btDynamicsWorld *m_world{nullptr};
+        Component m_rootComponent;
     public:
         static BulletBodySceneNode *getNode(const btRigidBody *rb) {
             return static_cast<BulletBodySceneNode*>(rb->getUserPointer());
@@ -73,5 +75,7 @@ namespace IOSP
         }
         btFixedConstraint *attachFixed(btRigidBody *);
         btFixedConstraint *attachFixed(BulletBodySceneNode *);
+        Component &getRootComponent() { return m_rootComponent; }
+        const Component &getRootComponent() const { return m_rootComponent; }
     };
 }
