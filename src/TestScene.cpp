@@ -31,6 +31,7 @@ BulletBodySceneNode *createTestModel()
     auto th = new Thruster(btVector3(0, 0, 1), 10);
     th->setThrust(2);
     body->getRootComponent().addChild(th, 0);
+    body->updateComponentIndex();
     return body;
 }
 

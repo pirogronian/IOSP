@@ -12,14 +12,17 @@ namespace IOSP
     class BulletBodySceneNode;
     class Component
     {
+        friend BulletBodySceneNode;
     protected:
         int m_localIndex{-1};
+        int m_globalIndex{-1};
         btTransform m_transform{btTransform::getIdentity()};
         Component *m_parent{nullptr};
         std::vector<std::optional<Component*>> m_children{0};
     public:
         Component() = default;
         int getLocalIndex() const { return m_localIndex; }
+        int getGlobalIndex() const { return m_globalIndex; }
         Component *getParent() { return m_parent; }
         const Component *getParent() const { return m_parent; }
         void updateTransform();

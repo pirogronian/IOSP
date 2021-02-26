@@ -2,6 +2,7 @@
 #pragma once
 
 #include <irrlicht.h>
+#include <Utils/AutoIndexer.h>
 #include <BulletMotionState.h>
 #include <btBulletDynamicsCommon.h>
 #include <BulletUpdatable.h>
@@ -19,6 +20,8 @@ namespace IOSP
         btScalar m_lastDelta{0};
         btDynamicsWorld *m_world{nullptr};
         Component m_rootComponent;
+        AutoIndexer<Component*> m_components;
+        void autoIndexComponent(Component*);
     public:
         static BulletBodySceneNode *getNode(const btRigidBody *rb) {
             return static_cast<BulletBodySceneNode*>(rb->getUserPointer());
@@ -77,5 +80,6 @@ namespace IOSP
         btFixedConstraint *attachFixed(BulletBodySceneNode *);
         Component &getRootComponent() { return m_rootComponent; }
         const Component &getRootComponent() const { return m_rootComponent; }
+        void updateComponentIndex() { autoIndexComponent(&m_rootComponent); }
     };
 }

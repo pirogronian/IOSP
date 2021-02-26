@@ -5,6 +5,14 @@
 
 using namespace IOSP;
 
+void BulletBodySceneNode::autoIndexComponent(Component *c)
+{
+    auto i = m_components.add(c);
+    c->m_globalIndex = i;
+    for (auto child : c->m_children)
+        if (child) autoIndexComponent(child.value());
+}
+
 void IOSP::BulletBodySceneNode::setRigidBody(btRigidBody *body)
 {
     clearRigidBody();
