@@ -4,12 +4,12 @@
 #include <irrlicht.h>
 #include <Utils/Conversions.h>
 #include <Utils/LinkedList.h>
-#include <Utils/IrrCommonObject.h>
+#include <Utils/CommonObject.h>
 #include <ScreenUtils/ScreenRectangle.h>
 
 namespace IOSP
 {
-    class ScreenElement : public IrrCommonObject, public ScreenRectangle
+    class ScreenElement : public CommonObject, public ScreenRectangle
     {
     public:
         enum BackgroundPolicy
