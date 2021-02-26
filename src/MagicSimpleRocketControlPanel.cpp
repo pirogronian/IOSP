@@ -85,98 +85,92 @@ IOSP::MagicSimpleRocketControlPanel::MagicSimpleRocketControlPanel(
 
 void IOSP::MagicSimpleRocketControlPanel::update()
 {
-    if (m_controlTarget)
+    if (!m_controlTarget)  return;
+    auto *body = (BulletBodySceneNode*)m_controlTarget;
+    if (m_stKeyActions->isActive(ThrustAction))
     {
-        auto *body = (BulletBodySceneNode*)m_controlTarget;
-        if (m_stKeyActions->isActive(ThrustAction))
-        {
-//             std::puts("Thrust On!");
-            body->applyForceLocal(btVector3(0, 0, 3), btVector3(0, 0, 0));
-        }
-        if (m_stKeyActions->isActive(PitchUpAction))
-        {
-//             std::puts("Pitch up On!");
-            body->applyTorqueLocal(btVector3(-1, 0, 0));
-        }
-        else if (m_stKeyActions->isActive(PitchDownAction))
-        {
-//             std::puts("Pitch down On!");
-            body->applyTorqueLocal(btVector3(1, 0, 0));
-        }
-        if (m_stKeyActions->isActive(RollClockwiseAction))
-        {
-//             std::puts("Roll clockwise On!");
-            body->applyTorqueLocal(btVector3(0, 0, 1));
-        }
-        else if (m_stKeyActions->isActive(RollAnticlockwiseAction))
-        {
-//             std::puts("Roll anticlockwise On!");
-            body->applyTorqueLocal(btVector3(0, 0, -1));
-        }
-        if (m_stKeyActions->isActive(YawLeftAction))
-        {
-//             std::puts("Roll clockwise On!");
-            body->applyTorqueLocal(btVector3(0, -1, 0));
-        }
-        else if (m_stKeyActions->isActive(YawRightAction))
-        {
-//             std::puts("Roll anticlockwise On!");
-            body->applyTorqueLocal(btVector3(0, 1, 0));
-        }
-        auto *tr = dynamic_cast<SimpleInputKeyTriggeredActionManager*>(m_trKeyActions.get());
-        auto *node = dynamic_cast<BulletBodySceneNode*>(m_controlTarget);
-        if (tr->isTriggered(IncreaseMassAction))
-        {
-            node->setMass(node->getMass() + 1);
-        }
-        if (tr->isTriggered(DecreaseMassAction))
-        {
-            node->setMass(node->getMass() - 1);
-        }
-
-        auto world = node->getWorld();
-        auto wnode = BulletWorldSceneNode::getNode(node->getWorld());
-        auto rayResult = node->rayTestClosest(m_rayStart, m_rayStop);
-        m_hit = rayResult.hasHit();
-        if (m_hit)
-        {
-            m_hitBody = (btRigidBody*)(rayResult.m_collisionObject);
-            auto target = BulletBodySceneNode::getNode(m_hitBody);
-            m_hitName = target->getName();
-        }
-        else { m_hitName = nullptr; m_hitBody = nullptr; }
-
-        if (tr->isTriggered(ToggleGrasp))
-        {
-            if (m_hitBody && !m_joint)
-            {
-                m_joint = node->attachFixed(m_hitBody);
-            }
-            else if (m_joint)
-            {
-                wnode->deleteConstraint(m_joint);
-                m_joint = nullptr;
-            }
-        }
-
-        if (tr->isTriggered(ToggleThrust))
-        {
-            auto thruster = dynamic_cast<Thruster*>(node->getRootComponent().getChildSafe(0));
-            if (!thruster)  puts("No thruster found!");
-            thruster->setOn(!thruster->isOn());
-        }
-
-        tr->reset();
-        ControlPanelSceneNode::update();
-        auto r = m_controlTarget->getRotation();
-        m_sfDisplay.setValue(-r.X);
-        m_sfDisplay.updateRectangle();
+//          std::puts("Thrust On!");
+        body->applyForceLocal(btVector3(0, 0, 3), btVector3(0, 0, 0));
     }
-}
-
-void IOSP::MagicSimpleRocketControlPanel::updateUI()
-{
+    if (m_stKeyActions->isActive(PitchUpAction))
+    {
+//         std::puts("Pitch up On!");
+        body->applyTorqueLocal(btVector3(-1, 0, 0));
+    }
+    else if (m_stKeyActions->isActive(PitchDownAction))
+    {
+//         std::puts("Pitch down On!");
+        body->applyTorqueLocal(btVector3(1, 0, 0));
+    }
+    if (m_stKeyActions->isActive(RollClockwiseAction))
+    {
+//         std::puts("Roll clockwise On!");
+        body->applyTorqueLocal(btVector3(0, 0, 1));
+    }
+    else if (m_stKeyActions->isActive(RollAnticlockwiseAction))
+    {
+//         std::puts("Roll anticlockwise On!");
+        body->applyTorqueLocal(btVector3(0, 0, -1));
+    }
+    if (m_stKeyActions->isActive(YawLeftAction))
+    {
+//          std::puts("Roll clockwise On!");
+        body->applyTorqueLocal(btVector3(0, -1, 0));
+    }
+    else if (m_stKeyActions->isActive(YawRightAction))
+    {
+//         std::puts("Roll anticlockwise On!");
+        body->applyTorqueLocal(btVector3(0, 1, 0));
+    }
+    auto *tr = dynamic_cast<SimpleInputKeyTriggeredActionManager*>(m_trKeyActions.get());
     auto *node = dynamic_cast<BulletBodySceneNode*>(m_controlTarget);
+    if (tr->isTriggered(IncreaseMassAction))
+    {
+        node->setMass(node->getMass() + 1);
+    }
+    if (tr->isTriggered(DecreaseMassAction))
+    {
+        node->setMass(node->getMass() - 1);
+    }
+
+    auto world = node->getWorld();
+    auto wnode = BulletWorldSceneNode::getNode(node->getWorld());
+    auto rayResult = node->rayTestClosest(m_rayStart, m_rayStop);
+    m_hit = rayResult.hasHit();
+    if (m_hit)
+    {
+        m_hitBody = (btRigidBody*)(rayResult.m_collisionObject);
+        auto target = BulletBodySceneNode::getNode(m_hitBody);
+        m_hitName = target->getName();
+    }
+    else { m_hitName = nullptr; m_hitBody = nullptr; }
+
+    if (tr->isTriggered(ToggleGrasp))
+    {
+        if (m_hitBody && !m_joint)
+        {
+            m_joint = node->attachFixed(m_hitBody);
+        }
+        else if (m_joint)
+        {
+            wnode->deleteConstraint(m_joint);
+            m_joint = nullptr;
+        }
+    }
+
+    if (tr->isTriggered(ToggleThrust))
+    {
+        auto thruster = dynamic_cast<Thruster*>(node->getRootComponent().getChildSafe(0));
+        if (!thruster)  puts("No thruster found!");
+        thruster->setOn(!thruster->isOn());
+    }
+
+    tr->reset();
+
+    auto r = m_controlTarget->getRotation();
+    m_sfDisplay.setValue(-r.X);
+    m_sfDisplay.updateRectangle();
+
     m_trDisplay.updateContent(node->getBodyTransform());
     m_trDisplay.updateRectangle();
     auto mass = node->getMass();

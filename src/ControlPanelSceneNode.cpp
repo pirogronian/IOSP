@@ -39,9 +39,3 @@ bool IOSP::ControlPanelSceneNode::OnEvent(const irr::SEvent& event)
         stRet = m_stKeyActions->OnKeyInput(event.KeyInput);
     return trRet || stRet;
 }
-
-void IOSP::ControlPanelSceneNode::update()
-{
-    if (m_uiTimer.update(getTimer()->getTime()))
-        updateUI();
-}

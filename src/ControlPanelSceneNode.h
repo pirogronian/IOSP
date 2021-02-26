@@ -19,7 +19,6 @@ namespace IOSP
         irr::scene::ISceneNode *m_controlTarget{nullptr};
         std::shared_ptr<AbstractInputKeyTriggeredActionManager> m_trKeyActions;
         std::shared_ptr<InputKeyStateActionManager> m_stKeyActions;
-        IntervalTimer m_uiTimer{50};
     public:
         ControlPanelSceneNode(
             irr::scene::ISceneNode *,
@@ -32,8 +31,7 @@ namespace IOSP
         {
             return m_bbox;
         }
-        virtual void update();
-        virtual void updateUI() = 0;
+        virtual void update() = 0;
         virtual void drawUI() = 0;
         void setVisible(bool v) override;
         bool OnEvent(const irr::SEvent&) override;
