@@ -20,6 +20,8 @@ set(IOSP_MAIN_SRCS
     BulletWorldSceneNode.h
     BulletWorldSceneNode.cpp
     Common.h
+    Component.h
+    Component.cpp
     ControlPanelSceneNode.h
     ControlPanelSceneNode.cpp
     main.cpp
@@ -34,7 +36,9 @@ set(IOSP_MAIN_SRCS
     TestScene.h
     TestScene.cpp
     ThirdPersonCamera.h
-    ThirdPersonCamera.cpp)
+    ThirdPersonCamera.cpp
+    Thruster.h
+    Thruster.cpp)
 
 list(TRANSFORM IOSP_MAIN_SRCS PREPEND "${CMAKE_CURRENT_SOURCE_DIR}/")
 
