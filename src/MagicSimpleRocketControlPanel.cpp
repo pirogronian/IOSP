@@ -119,19 +119,18 @@ void IOSP::MagicSimpleRocketControlPanel::update()
 //         std::puts("Roll anticlockwise On!");
         body->applyTorqueLocal(btVector3(0, 1, 0));
     }
-    auto *node = dynamic_cast<BulletBodySceneNode*>(m_controlTarget);
     if (m_trKeyActions.isTriggered(IncreaseMassAction))
     {
-        node->setMass(node->getMass() + 1);
+        m_controlTarget->setMass(m_controlTarget->getMass() + 1);
     }
     if (m_trKeyActions.isTriggered(DecreaseMassAction))
     {
-        node->setMass(node->getMass() - 1);
+        m_controlTarget->setMass(m_controlTarget->getMass() - 1);
     }
 
-    auto world = node->getWorld();
-    auto wnode = BulletWorldSceneNode::getNode(node->getWorld());
-    auto rayResult = node->rayTestClosest(m_rayStart, m_rayStop);
+    auto world = m_controlTarget->getWorld();
+    auto wnode = BulletWorldSceneNode::getNode(m_controlTarget->getWorld());
+    auto rayResult = m_controlTarget->rayTestClosest(m_rayStart, m_rayStop);
     m_hit = rayResult.hasHit();
     if (m_hit)
     {
@@ -145,7 +144,7 @@ void IOSP::MagicSimpleRocketControlPanel::update()
     {
         if (m_hitBody && !m_joint)
         {
-            m_joint = node->attachFixed(m_hitBody);
+            m_joint = m_controlTarget->attachFixed(m_hitBody);
         }
         else if (m_joint)
         {
@@ -156,7 +155,7 @@ void IOSP::MagicSimpleRocketControlPanel::update()
 
     if (m_trKeyActions.isTriggered(ToggleThrust))
     {
-        auto thruster = dynamic_cast<Thruster*>(node->getRootComponent().getChildSafe(0));
+        auto thruster = dynamic_cast<Thruster*>(m_controlTarget->getRootComponent().getChildSafe(0));
         if (!thruster)  puts("No thruster found!");
         thruster->setOn(!thruster->isOn());
     }
@@ -167,14 +166,14 @@ void IOSP::MagicSimpleRocketControlPanel::update()
     m_sfDisplay.setValue(-r.X);
     m_sfDisplay.updateRectangle();
 
-    m_trDisplay.updateContent(node->getBodyTransform());
+    m_trDisplay.updateContent(m_controlTarget->getBodyTransform());
     m_trDisplay.updateRectangle();
-    auto mass = node->getMass();
-    auto delta = node->getLastDelta();
+    auto mass = m_controlTarget->getMass();
+    auto delta = m_controlTarget->getLastDelta();
     m_massText.updateContent(false, mass, m_hit, m_hitName);
-    auto lv = node->getLinearVelocity();
+    auto lv = m_controlTarget->getLinearVelocity();
     m_velText.updateContent(lv);
-    auto la = node->getLinearAcceleration();
+    auto la = m_controlTarget->getLinearAcceleration();
     m_accText.updateContent(la);
     m_infoRoot.updateRectangle();
 }
@@ -188,7 +187,7 @@ void IOSP::MagicSimpleRocketControlPanel::drawUI()
     m_trDisplay.draw();
     m_infoRoot.draw();
     m_sfDisplay.draw();
-    auto node = dynamic_cast<BulletBodySceneNode*>(m_controlTarget);
+    auto node = m_controlTarget;
     if (node)
     {
         auto tr = node->getBodyTransform();

@@ -3,6 +3,7 @@
 #include "ControlPanelSceneNode.h"
 
 using namespace IOSP;
+using namespace irr;
 
 IOSP::ControlPanelSceneNode::ControlPanelSceneNode(
             irr::scene::ISceneNode *parent,
@@ -46,4 +47,18 @@ bool IOSP::ControlPanelSceneNode::OnEvent(const irr::SEvent& event)
         if (ret)  return true;
     }
     return false;
+}
+
+void IOSP::ControlPanelSceneNode::setTarget(BulletBodySceneNode *t)
+{
+    if (m_controlTarget)
+        m_controlTarget->drop();
+    m_controlTarget = t;
+    m_controlTarget->grab();
+    for (auto child : getChildren())
+    {
+        auto panel = dynamic_cast<ControlPanelSceneNode*>(child);
+        if (!panel)  continue;
+        panel->setTarget(m_controlTarget);
+    }
 }

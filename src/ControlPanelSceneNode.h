@@ -8,6 +8,7 @@
 #include <Utils/IrrCommonObject.h>
 #include <Utils/InputKeyActionManager.h>
 #include <Utils/IntervalTimer.h>
+#include <BulletBodySceneNode.h>
 
 namespace IOSP
 {
@@ -16,7 +17,7 @@ namespace IOSP
     protected:
         irr::core::aabbox3d<irr::f32> m_bbox;
         irr::gui::IGUIElement *m_rootGui{nullptr};
-        irr::scene::ISceneNode *m_controlTarget{nullptr};
+        BulletBodySceneNode *m_controlTarget{nullptr};
         SimpleInputKeyTriggeredActionManager m_trKeyActions;
         InputKeyStateActionManager m_stKeyActions;
     public:
@@ -36,15 +37,9 @@ namespace IOSP
         void setVisible(bool v) override;
         bool OnEvent(const irr::SEvent&) override;
         void grabEvents() { getDevice()->setEventReceiver(this); }
-        void setTarget(irr::scene::ISceneNode *t)
-        {
-            if (m_controlTarget)
-                m_controlTarget->drop();
-            m_controlTarget = t;
-            m_controlTarget->grab();
-        }
-        irr::scene::ISceneNode *controlTarge() { return m_controlTarget; }
-        const irr::scene::ISceneNode *controlTarge() const { return m_controlTarget; }
+        void setTarget(BulletBodySceneNode *);
+        BulletBodySceneNode *getControlTarget() { return m_controlTarget; }
+        const BulletBodySceneNode *getControlTarget() const { return m_controlTarget; }
         SimpleInputKeyTriggeredActionManager& triggeredActionManager()
         {
             return m_trKeyActions;
