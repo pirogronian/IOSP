@@ -13,7 +13,7 @@ namespace IOSP
         btScalar m_setThrust{0};
         btScalar m_effectiveThrust{0};
         bool m_on{false};
-        void updateEffectiveThrust();
+        virtual void updateEffectiveThrust();
     public:
         Thruster(const btVector3&, btScalar);
         void setOn(bool);

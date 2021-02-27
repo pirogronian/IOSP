@@ -27,6 +27,8 @@ set(IOSP_MAIN_SRCS
     main.cpp
     MagicSimpleRocketControlPanel.h
     MagicSimpleRocketControlPanel.cpp
+    Rotator.h
+    Rotator.cpp
     Settings.h
     Settings.cpp
     SettingsWindow.h
