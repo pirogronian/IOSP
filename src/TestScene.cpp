@@ -11,6 +11,7 @@
 #include <Utils/Dump.h>
 
 #include <MagicSimpleRocketControlPanel.h>
+#include <ManualThrustControlPanel.h>
 
 #include <cstdio>
 
@@ -111,7 +112,8 @@ Simulation *IOSP::TestScene()
 //     dump(child->getAbsoluteTransformation().getRotationDegrees());
 //     dump(terrain->getAbsoluteTransformation().getRotationDegrees());
     bworld->addBody(terrain);
-    auto *tcpanel = new MagicSimpleRocketControlPanel(smgr->getRootSceneNode(), smgr, 1234);
+    auto *tcpanel = new MagicSimpleRocketControlPanel(smgr->getRootSceneNode(), smgr, 100);
+    auto *mtpanel = new ManualThrustControlPanel(tcpanel, smgr, 101);
     tcpanel->setTarget(testModel);
     ThirdPersonCamera::create(cam, testModel);
     auto *sim = new Simulation();

@@ -95,9 +95,19 @@ namespace IOSP
         {
             return m_vector[i].value();
         }
+        const VType get(std::size_t i, VType def) const
+        {
+            if (isIndexValid(m_vector, i))  return def;
+            return m_vector[i] ? m_vector[i].value() : def;
+        }
         VType get(std::size_t i)
         {
             return m_vector[i].value();
+        }
+        VType get(std::size_t i, VType def)
+        {
+            if (isIndexValid(m_vector, i))  return def;
+            return m_vector[i] ? m_vector[i].value() : def;
         }
     };
 }

@@ -81,5 +81,8 @@ namespace IOSP
         Component &getRootComponent() { return m_rootComponent; }
         const Component &getRootComponent() const { return m_rootComponent; }
         void updateComponentIndex() { autoIndexComponent(&m_rootComponent); }
+        Component *getComponent(std::size_t i) { return m_components.get(i, nullptr); }
+        const Component *getComponent(std::size_t i) const { return m_components.get(i, nullptr); }
+        std::size_t getComponentIndexSize() const { return m_components.size(); }
     };
 }
