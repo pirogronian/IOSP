@@ -31,11 +31,21 @@ void IOSP::ControlPanelSceneNode::setVisible(bool v)
 
 bool IOSP::ControlPanelSceneNode::OnEvent(const irr::SEvent& event)
 {
+    bool ret = false;
     if (event.EventType != irr::EET_KEY_INPUT_EVENT)  return false;
     bool trRet{false}, stRet{false};
     if (m_trKeyActions)
         trRet = m_trKeyActions->OnKeyInput(event.KeyInput);
     if (m_stKeyActions)
         stRet = m_stKeyActions->OnKeyInput(event.KeyInput);
-    return trRet || stRet;
+    ret = trRet || stRet;
+    if (ret) return true;
+    for(auto child : getChildren())
+    {
+        auto panel = dynamic_cast<ControlPanelSceneNode*>(child);
+        if (!panel)  continue;
+        ret = panel->OnEvent(event);
+        if (ret)  return true;
+    }
+    return false;
 }
