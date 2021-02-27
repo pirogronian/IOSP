@@ -34,10 +34,8 @@ bool IOSP::ControlPanelSceneNode::OnEvent(const irr::SEvent& event)
     bool ret = false;
     if (event.EventType != irr::EET_KEY_INPUT_EVENT)  return false;
     bool trRet{false}, stRet{false};
-    if (m_trKeyActions)
-        trRet = m_trKeyActions->OnKeyInput(event.KeyInput);
-    if (m_stKeyActions)
-        stRet = m_stKeyActions->OnKeyInput(event.KeyInput);
+    trRet = m_trKeyActions.OnKeyInput(event.KeyInput);
+    stRet = m_stKeyActions.OnKeyInput(event.KeyInput);
     ret = trRet || stRet;
     if (ret) return true;
     for(auto child : getChildren())

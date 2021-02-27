@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include <memory>
+// #include <memory>
 #include <irrlicht.h>
 
 #include <Common.h>
@@ -17,8 +17,8 @@ namespace IOSP
         irr::core::aabbox3d<irr::f32> m_bbox;
         irr::gui::IGUIElement *m_rootGui{nullptr};
         irr::scene::ISceneNode *m_controlTarget{nullptr};
-        std::shared_ptr<AbstractInputKeyTriggeredActionManager> m_trKeyActions;
-        std::shared_ptr<InputKeyStateActionManager> m_stKeyActions;
+        SimpleInputKeyTriggeredActionManager m_trKeyActions;
+        InputKeyStateActionManager m_stKeyActions;
     public:
         ControlPanelSceneNode(
             irr::scene::ISceneNode *,
@@ -45,29 +45,21 @@ namespace IOSP
         }
         irr::scene::ISceneNode *controlTarge() { return m_controlTarget; }
         const irr::scene::ISceneNode *controlTarge() const { return m_controlTarget; }
-        std::shared_ptr<AbstractInputKeyTriggeredActionManager>& triggeredActionManager()
+        SimpleInputKeyTriggeredActionManager& triggeredActionManager()
         {
             return m_trKeyActions;
         }
-        const std::shared_ptr<AbstractInputKeyTriggeredActionManager>& triggeredActionManager() const
+        const SimpleInputKeyTriggeredActionManager& triggeredActionManager() const
         {
             return m_trKeyActions;
         }
-        void setTriggeredActionManager(std::shared_ptr<AbstractInputKeyTriggeredActionManager>& manager)
-        {
-            m_trKeyActions = manager;
-        }
-        std::shared_ptr<InputKeyStateActionManager>& stateActionManager()
+        InputKeyStateActionManager& stateActionManager()
         {
             return m_stKeyActions;
         }
-        const std::shared_ptr<InputKeyStateActionManager>& stateActionManager() const
+        const InputKeyStateActionManager& stateActionManager() const
         {
             return m_stKeyActions;
-        }
-        void setStateActionManager(std::shared_ptr<InputKeyStateActionManager>& manager)
-        {
-            m_stKeyActions = manager;
         }
     };
 }

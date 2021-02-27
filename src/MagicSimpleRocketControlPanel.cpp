@@ -66,69 +66,65 @@ IOSP::MagicSimpleRocketControlPanel::MagicSimpleRocketControlPanel(
     m_sfDisplay.getText().setBackgroundPolicy(ScreenElement::NoBackground);
     m_sfDisplay.updateRectangle();
 
-    m_trKeyActions = std::make_shared<SimpleInputKeyTriggeredActionManager>();
-    m_stKeyActions = std::make_shared<InputKeyStateActionManager>();
-
 //     m_stKeyActions->bind(ThrustAction, irr::KEY_KEY_V);
-    m_stKeyActions->bind(PitchUpAction, irr::KEY_KEY_W);
-    m_stKeyActions->bind(PitchDownAction, irr::KEY_KEY_S);
-    m_stKeyActions->bind(RollClockwiseAction, irr::KEY_KEY_A);
-    m_stKeyActions->bind(RollAnticlockwiseAction, irr::KEY_KEY_D);
-    m_stKeyActions->bind(YawLeftAction, irr::KEY_KEY_Q);
-    m_stKeyActions->bind(YawRightAction, irr::KEY_KEY_E);
+    m_stKeyActions.bind(PitchUpAction, irr::KEY_KEY_W);
+    m_stKeyActions.bind(PitchDownAction, irr::KEY_KEY_S);
+    m_stKeyActions.bind(RollClockwiseAction, irr::KEY_KEY_A);
+    m_stKeyActions.bind(RollAnticlockwiseAction, irr::KEY_KEY_D);
+    m_stKeyActions.bind(YawLeftAction, irr::KEY_KEY_Q);
+    m_stKeyActions.bind(YawRightAction, irr::KEY_KEY_E);
 
-    m_trKeyActions->bind(IncreaseMassAction, irr::KEY_KEY_8);
-    m_trKeyActions->bind(DecreaseMassAction, irr::KEY_KEY_2);
-    m_trKeyActions->bind(ToggleGrasp, irr::KEY_KEY_1);
-    m_trKeyActions->bind(ToggleThrust, irr::KEY_KEY_V);
+    m_trKeyActions.bind(IncreaseMassAction, irr::KEY_KEY_8);
+    m_trKeyActions.bind(DecreaseMassAction, irr::KEY_KEY_2);
+    m_trKeyActions.bind(ToggleGrasp, irr::KEY_KEY_1);
+    m_trKeyActions.bind(ToggleThrust, irr::KEY_KEY_V);
 }
 
 void IOSP::MagicSimpleRocketControlPanel::update()
 {
     if (!m_controlTarget)  return;
     auto *body = (BulletBodySceneNode*)m_controlTarget;
-    if (m_stKeyActions->isActive(ThrustAction))
+    if (m_stKeyActions.isActive(ThrustAction))
     {
 //          std::puts("Thrust On!");
         body->applyForceLocal(btVector3(0, 0, 3), btVector3(0, 0, 0));
     }
-    if (m_stKeyActions->isActive(PitchUpAction))
+    if (m_stKeyActions.isActive(PitchUpAction))
     {
 //         std::puts("Pitch up On!");
         body->applyTorqueLocal(btVector3(-1, 0, 0));
     }
-    else if (m_stKeyActions->isActive(PitchDownAction))
+    else if (m_stKeyActions.isActive(PitchDownAction))
     {
 //         std::puts("Pitch down On!");
         body->applyTorqueLocal(btVector3(1, 0, 0));
     }
-    if (m_stKeyActions->isActive(RollClockwiseAction))
+    if (m_stKeyActions.isActive(RollClockwiseAction))
     {
 //         std::puts("Roll clockwise On!");
         body->applyTorqueLocal(btVector3(0, 0, 1));
     }
-    else if (m_stKeyActions->isActive(RollAnticlockwiseAction))
+    else if (m_stKeyActions.isActive(RollAnticlockwiseAction))
     {
 //         std::puts("Roll anticlockwise On!");
         body->applyTorqueLocal(btVector3(0, 0, -1));
     }
-    if (m_stKeyActions->isActive(YawLeftAction))
+    if (m_stKeyActions.isActive(YawLeftAction))
     {
 //          std::puts("Roll clockwise On!");
         body->applyTorqueLocal(btVector3(0, -1, 0));
     }
-    else if (m_stKeyActions->isActive(YawRightAction))
+    else if (m_stKeyActions.isActive(YawRightAction))
     {
 //         std::puts("Roll anticlockwise On!");
         body->applyTorqueLocal(btVector3(0, 1, 0));
     }
-    auto *tr = dynamic_cast<SimpleInputKeyTriggeredActionManager*>(m_trKeyActions.get());
     auto *node = dynamic_cast<BulletBodySceneNode*>(m_controlTarget);
-    if (tr->isTriggered(IncreaseMassAction))
+    if (m_trKeyActions.isTriggered(IncreaseMassAction))
     {
         node->setMass(node->getMass() + 1);
     }
-    if (tr->isTriggered(DecreaseMassAction))
+    if (m_trKeyActions.isTriggered(DecreaseMassAction))
     {
         node->setMass(node->getMass() - 1);
     }
@@ -145,7 +141,7 @@ void IOSP::MagicSimpleRocketControlPanel::update()
     }
     else { m_hitName = nullptr; m_hitBody = nullptr; }
 
-    if (tr->isTriggered(ToggleGrasp))
+    if (m_trKeyActions.isTriggered(ToggleGrasp))
     {
         if (m_hitBody && !m_joint)
         {
@@ -158,14 +154,14 @@ void IOSP::MagicSimpleRocketControlPanel::update()
         }
     }
 
-    if (tr->isTriggered(ToggleThrust))
+    if (m_trKeyActions.isTriggered(ToggleThrust))
     {
         auto thruster = dynamic_cast<Thruster*>(node->getRootComponent().getChildSafe(0));
         if (!thruster)  puts("No thruster found!");
         thruster->setOn(!thruster->isOn());
     }
 
-    tr->reset();
+    m_trKeyActions.reset();
 
     auto r = m_controlTarget->getRotation();
     m_sfDisplay.setValue(-r.X);
