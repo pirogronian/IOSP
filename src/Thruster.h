@@ -21,6 +21,5 @@ namespace IOSP
         void setThrust(btScalar);
         btScalar getDemandedThrust() const { return m_setThrust; }
         btScalar getEffectiveThrust() const { return m_effectiveThrust; }
-        void update(BulletBodySceneNode *, irr::u32) override;
     };
 }

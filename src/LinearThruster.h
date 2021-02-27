@@ -5,10 +5,10 @@
 
 namespace IOSP
 {
-    class Rotator : public Thruster
+    class LinearThruster : public Thruster
     {
     public:
-        Rotator(const btVector3 &axis, btScalar max) : Thruster(axis, max) {}
+        LinearThruster(const btVector3& v, btScalar max) : Thruster(v, max) {}
         void update(BulletBodySceneNode *, irr::u32) override;
     };
 }

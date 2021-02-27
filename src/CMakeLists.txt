@@ -24,11 +24,11 @@ set(IOSP_MAIN_SRCS
     Component.cpp
     ControlPanelSceneNode.h
     ControlPanelSceneNode.cpp
+    LinearThruster.h
+    LinearThruster.cpp
     main.cpp
     MagicSimpleRocketControlPanel.h
     MagicSimpleRocketControlPanel.cpp
-    Rotator.h
-    Rotator.cpp
     Settings.h
     Settings.cpp
     SettingsWindow.h
@@ -37,6 +37,8 @@ set(IOSP_MAIN_SRCS
     Simulation.cpp
     TestScene.h
     TestScene.cpp
+    TorqueThruster.h
+    TorqueThruster.cpp
     ThirdPersonCamera.h
     ThirdPersonCamera.cpp
     Thruster.h

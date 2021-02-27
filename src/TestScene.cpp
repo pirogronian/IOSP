@@ -5,7 +5,7 @@
 
 #include <ThirdPersonCamera.h>
 #include <Utils/BulletShapes.h>
-#include <Thruster.h>
+#include <LinearThruster.h>
 #include <TestScene.h>
 
 #include <Utils/Dump.h>
@@ -28,7 +28,7 @@ BulletBodySceneNode *createTestModel()
     auto *model = smgr->addMeshSceneNode(am->getMesh(0), body);
     model->setMaterialFlag(video::EMF_LIGHTING, true);
     model->setName("TestModel");
-    auto th = new Thruster(btVector3(0, 0, 1), 10);
+    auto th = new LinearThruster(btVector3(0, 0, 1), 10);
     th->setThrust(2);
     body->getRootComponent().addChild(th, 0);
     body->updateComponentIndex();

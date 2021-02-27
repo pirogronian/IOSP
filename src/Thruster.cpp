@@ -1,8 +1,6 @@
 
 #include <cassert>
 
-#include <BulletBodySceneNode.h>
-
 #include "Thruster.h"
 
 using namespace irr;
@@ -33,10 +31,4 @@ void Thruster::setThrust(btScalar t)
     if (t >= 0)
         m_setThrust = std::max(t, m_maxThrust);
     updateEffectiveThrust();
-}
-
-void Thruster::update(BulletBodySceneNode *node, u32 dtime)
-{
-    node->applyForceLocal(m_transform * m_vector * m_effectiveThrust);
-    Component::update(node, dtime);
 }
