@@ -42,17 +42,17 @@ void ManualThrustControlPanel::updateImGui()
     ImGui::Begin("Thrusters");
     for(int index : m_lths)
     {
-        auto c = m_controlTarget->getComponent(index);
-        if (!c)  continue;
-        auto lt = dynamic_cast<LinearThruster*>(c);
+        auto lt = dynamic_cast<LinearThruster*>(m_controlTarget->getComponent(index));
         if (!lt)  continue;
+        ImGui::Text(lt->getLocalName().c_str());
         bool on = lt->isOn();
-        ImGui::Checkbox("Thruster", &on);
+        ImGui::Text("On:"); ImGui::SameLine();
+        ImGui::Checkbox("", &on); ImGui::SameLine();
         if (on != lt->isOn())  lt->setOn(on);
-        ImGui::SameLine();
         float sth = lt->getDemandedThrust();
         float max = lt->getMaxThrust();
-        ImGui::DragFloat("Thrust", &sth, 1, 0, max);
+        ImGui::Text("Thrust:"); ImGui::SameLine();
+        ImGui::DragFloat("", &sth, 0.1, 0, max);
         if (sth != lt->getDemandedThrust()) lt->setThrust(sth);
     }
     ImGui::End();

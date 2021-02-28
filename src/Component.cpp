@@ -16,13 +16,14 @@ void Component::updateTransform()
     }
 }
 
-void Component::addChild(Component *child, int index, const btTransform& localTr)
+void Component::addChild(Component *child, int index, const char *name, const btTransform& localTr)
 {
     assert(index >= 0);
     ensureSize(m_children, index);
     assert(!m_children[index]);
     m_children[index] = child;
     child->m_localIndex = index;
+    child->m_localName = name;
     child->m_transform = m_transform * localTr;
     child->updateTransform();
 }

@@ -1,6 +1,7 @@
 
 #pragma once
 
+#include <string>
 #include <vector>
 #include <optional>
 #include <Utils/VectorHelper.h>
@@ -19,14 +20,20 @@ namespace IOSP
         btTransform m_transform{btTransform::getIdentity()};
         Component *m_parent{nullptr};
         std::vector<std::optional<Component*>> m_children{0};
+        std::string m_localName;
     public:
         Component() = default;
         int getLocalIndex() const { return m_localIndex; }
         int getGlobalIndex() const { return m_globalIndex; }
+        const std::string& getLocalName() const { return m_localName; }
         Component *getParent() { return m_parent; }
         const Component *getParent() const { return m_parent; }
         void updateTransform();
-        void addChild(Component *, int, const btTransform& = btTransform::getIdentity());
+        void addChild(Component *, int, const char * = "", const btTransform& = btTransform::getIdentity());
+        void addChild(Component *child, int index, const std::string& name, const btTransform& tr = btTransform::getIdentity())
+        {
+            addChild(child, index, name.c_str(), tr);
+        }
         Component *getChild(int index)
         {
             return m_children.at(index).value_or(nullptr);
