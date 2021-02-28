@@ -38,23 +38,12 @@ Application::Application()
     m_trKeyActions.bind(TimeSlower, irr::KEY_NEXT);
     m_trKeyActions.bind(SettingsAction, irr::KEY_ESCAPE);
 
-    auto gui = getGUIEnvironment();
-    m_guiRunStats = gui->addStaticText(L"Static text", irr::core::rect<irr::s32>(0, 0, 200, 15));
-    m_guiRunStats->setDrawBackground(true);
-//     m_loadTTFButton = gui->addButton(irr::core::rect<irr::s32>(0, 20, 50, 35), 0, OpenTTFButton, L"Load font");
     m_irrImGui = IrrIMGUI::createIMGUI(dev, &m_irrImGuiER);
 }
 
 bool Application::OnEvent(const SEvent& event)
 {
     if (m_irrImGuiER.OnEvent(event))  return true;
-    auto io = ImGui::GetIO();
-    if (io.WantCaptureMouse)  return true;
-    if (event.EventType == EET_MOUSE_INPUT_EVENT)
-    {
-        auto mie = event.MouseInput;
-        if (mie.isLeftPressed())  std::printf("App: LMS (%i)\n", getTimer()->getTime());
-    }
     if (SettingsWindow::isOpen())
     {
         if (SettingsWindow::getInstance()->OnEvent(event))
@@ -91,36 +80,6 @@ bool IOSP::Application::OnGuiEvent(const irr::SEvent::SGUIEvent& ge)
     auto id = caller->getID();
     switch(id)
     {
-//         case OpenTTFFileDialog:
-//         {
-//             if (ge.EventType == irr::gui::EGET_FILE_SELECTED)
-//             {
-//                 std::puts("File selected.");
-//                 auto *dialog = (irr::gui::IGUIFileOpenDialog*)(caller);
-//                 auto *fname = dialog->getFileName();
-//                 if (fname)
-//                 {
-//                     if (!setTTF(fname, 14))
-//                     {
-//                         irr::core::stringw text("Cannot load TrueType font from file: ");
-//                         text += fname;
-//                         getGUIEnvironment()->addMessageBox(L"Cannot load font!", text.c_str());
-//                     }
-//                     else m_settings.setTTF(fname, 14);
-//                 }
-//                 return true;
-//             }
-//             return false;
-//         }
-//         case OpenTTFButton:
-//         {
-//             if (ge.EventType == irr::gui::EGET_BUTTON_CLICKED)
-//             {
-//                 openTTFLoadFileDialog();
-//                 return true;
-//             }
-//             return false;
-//         }
         default:
             ;
     }
@@ -129,11 +88,6 @@ bool IOSP::Application::OnGuiEvent(const irr::SEvent::SGUIEvent& ge)
 
 void IOSP::Application::updateUI()
 {
-    irr::core::stringw dtext = "Delta time: ";
-    dtext += m_simulation->lastDelta();
-    dtext += ", mult: ";
-    dtext += m_simulation->timeMultiplier();
-    m_guiRunStats->setText(dtext.c_str());
 }
 
 void IOSP::Application::updateImGui()

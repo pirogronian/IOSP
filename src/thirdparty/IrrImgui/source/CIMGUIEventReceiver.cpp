@@ -77,6 +77,7 @@ namespace IrrIMGUI
           mMouseWheelPosition = rEvent.MouseInput.Wheel;
           break;
       }
+      return ImGui::GetIO().WantCaptureMouse;
     }
 
     return false;
@@ -189,6 +190,7 @@ namespace IrrIMGUI
           mCharFifo.addChar(rEvent.KeyInput.Char);
         }
       }
+      return ImGui::GetIO().WantCaptureKeyboard;
     }
 
     return false;
