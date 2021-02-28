@@ -62,6 +62,11 @@ void IOSP::Simulation::drawUI()
     if (m_activePanel)  m_activePanel->drawUI();
 }
 
+void IOSP::Simulation::updateImGui()
+{
+    if (m_activePanel)  m_activePanel->updateImGui();
+}
+
 void IOSP::Simulation::drawDebug()
 {
     auto *drv = getVideoDriver();

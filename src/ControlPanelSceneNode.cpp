@@ -49,6 +49,16 @@ bool IOSP::ControlPanelSceneNode::OnEvent(const irr::SEvent& event)
     return false;
 }
 
+void IOSP::ControlPanelSceneNode::updateImGui()
+{
+    for (auto child : getChildren())
+    {
+        auto panel = dynamic_cast<ControlPanelSceneNode*>(child);
+        if (!panel)  continue;
+        panel->updateImGui();
+    }
+}
+
 void IOSP::ControlPanelSceneNode::setTarget(BulletBodySceneNode *t)
 {
     if (m_controlTarget)

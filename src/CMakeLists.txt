@@ -4,6 +4,7 @@
 target_include_directories(IOSP SYSTEM PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_include_directories(IOSP SYSTEM PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/IrrImgui/includes/)
 target_include_directories(IOSP SYSTEM PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/IrrImgui/dependency/)
+target_include_directories(IOSP SYSTEM PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/IrrImgui/dependency/IMGUI)
 
 add_subdirectory(thirdparty)
 add_subdirectory(Utils)

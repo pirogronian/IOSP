@@ -11,8 +11,6 @@ namespace IOSP
     {
     protected:
         std::vector<int> m_lths;
-        irr::gui::IGUIWindow *m_window{nullptr};
-        irr::gui::IGUIListBox *m_ltListbox{nullptr};
     public:
         enum GuiIds
         {
@@ -27,6 +25,7 @@ namespace IOSP
         void render() override {}
         void update() override {}
         void drawUI() override {}
+        void updateImGui() override;
         void scanForLinearThrusters();
     };
 }

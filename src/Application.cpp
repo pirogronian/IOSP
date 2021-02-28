@@ -125,6 +125,7 @@ void IOSP::Application::run()
         m_simulation->drawUI();
         getGUIEnvironment()->drawAll();
         m_irrImGui->startGUI();
+        m_simulation->updateImGui();
         updateImGui();
         m_irrImGui->drawAll();
         drv->endScene();

@@ -1,4 +1,6 @@
 
+#include <imgui.h>
+
 #include "ManualThrustControlPanel.h"
 
 using namespace irr;
@@ -12,12 +14,6 @@ ManualThrustControlPanel::ManualThrustControlPanel(
             const irr::core::vector3df& rot)
         : ControlPanelSceneNode(parent, smgr, id, pos, rot)
 {
-    auto gui = getGUIEnvironment();
-    m_window = gui->addWindow(
-        core::recti(5, 50, 155, 255),
-        false,
-        L"Linear thrusters");
-    m_ltListbox = gui->addListBox(core::recti(5, 20, 145, 35), m_window, LinearThrusterListBox);
 }
 
 void ManualThrustControlPanel::scanForLinearThrusters()
@@ -34,4 +30,10 @@ void ManualThrustControlPanel::scanForLinearThrusters()
         if (!lth)  continue;
         m_lths.push_back(i);
     }
+}
+
+void ManualThrustControlPanel::updateImGui()
+{
+    ImGui::Begin("Thrusters");
+    ImGui::End();
 }
