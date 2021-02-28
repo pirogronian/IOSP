@@ -17,6 +17,7 @@ Application::Application()
     if (s_instance)  std::puts("Another Application object already exists!");
     s_instance = this;
     IrrCommonObject::setThrowOnNull(true);
+    ImGui::CreateContext();
     auto dev = irr::createDevice(
         irr::video::EDT_OPENGL,
         irr::core::dimension2d<irr::u32>(800, 600),
@@ -41,10 +42,19 @@ Application::Application()
     m_guiRunStats = gui->addStaticText(L"Static text", irr::core::rect<irr::s32>(0, 0, 200, 15));
     m_guiRunStats->setDrawBackground(true);
 //     m_loadTTFButton = gui->addButton(irr::core::rect<irr::s32>(0, 20, 50, 35), 0, OpenTTFButton, L"Load font");
+    m_irrImGui = IrrIMGUI::createIMGUI(dev, &m_irrImGuiER);
 }
 
 bool Application::OnEvent(const SEvent& event)
 {
+    if (m_irrImGuiER.OnEvent(event))  return true;
+    auto io = ImGui::GetIO();
+    if (io.WantCaptureMouse)  return true;
+    if (event.EventType == EET_MOUSE_INPUT_EVENT)
+    {
+        auto mie = event.MouseInput;
+        if (mie.isLeftPressed())  std::printf("App: LMS (%i)\n", getTimer()->getTime());
+    }
     if (SettingsWindow::isOpen())
     {
         if (SettingsWindow::getInstance()->OnEvent(event))
@@ -126,6 +136,17 @@ void IOSP::Application::updateUI()
     m_guiRunStats->setText(dtext.c_str());
 }
 
+void IOSP::Application::updateImGui()
+{
+    irr::core::stringc dtext = "Delta time: ";
+    dtext += m_simulation->lastDelta();
+    dtext += ", mult: ";
+    dtext += m_simulation->timeMultiplier();
+    ImGui::Begin("Statistics");
+    ImGui::Text(dtext.c_str());
+    ImGui::End();
+}
+
 void resetDrv(video::IVideoDriver *drv)
 {
     video::SMaterial mat;
@@ -149,6 +170,9 @@ void IOSP::Application::run()
             updateUI();
         m_simulation->drawUI();
         getGUIEnvironment()->drawAll();
+        m_irrImGui->startGUI();
+        updateImGui();
+        m_irrImGui->drawAll();
         drv->endScene();
         irr::core::stringw wcaption = L"IOSP [";
         wcaption += drv->getFPS();

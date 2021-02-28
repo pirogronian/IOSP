@@ -3,6 +3,8 @@
 
 #include <irrlicht.h>
 
+#include <IrrIMGUI/IrrIMGUI.h>
+
 #include <CGUITTFont.h>
 #include <Utils/InputKeyActionManager.h>
 #include <Simulation.h>
@@ -33,6 +35,8 @@ namespace IOSP
         Settings m_settings;
         IntervalTimer m_uiTimer{100};
         static Application *s_instance;
+        IrrIMGUI::CIMGUIEventReceiver m_irrImGuiER;
+        IrrIMGUI::IIMGUIHandle *m_irrImGui{nullptr};
     public:
         static Application *getInstance() { return s_instance; }
         Application();
@@ -46,6 +50,7 @@ namespace IOSP
         bool OnGuiEvent(const irr::SEvent::SGUIEvent&);
 //         bool OnKeyInput(const irr::SEvent::SKeyInput&);
         void updateUI();
+        void updateImGui();
         void run();
         void loadFonts();
         bool loadTTF(const irr::io::path&, const irr::u32, irr::u8 = 0);

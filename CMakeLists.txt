@@ -35,4 +35,5 @@ target_link_libraries(IOSP PRIVATE
     #BulletCollision
     #LinearMath
     Irrlicht
-    IrrlichtI18n)
+    IrrlichtI18n
+    IrrImgui)
