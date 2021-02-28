@@ -38,7 +38,7 @@ namespace IOSP
         void setVisible(bool v) override;
         bool OnEvent(const irr::SEvent&) override;
         void grabEvents() { getDevice()->setEventReceiver(this); }
-        void setTarget(BulletBodySceneNode *);
+        virtual void setTarget(BulletBodySceneNode *);
         BulletBodySceneNode *getControlTarget() { return m_controlTarget; }
         const BulletBodySceneNode *getControlTarget() const { return m_controlTarget; }
         SimpleInputKeyTriggeredActionManager& triggeredActionManager()

@@ -27,5 +27,6 @@ namespace IOSP
         void drawUI() override {}
         void updateImGui() override;
         void scanForLinearThrusters();
+        void setTarget(BulletBodySceneNode*) override;
     };
 }

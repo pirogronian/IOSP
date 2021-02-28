@@ -9,6 +9,7 @@ void BulletBodySceneNode::autoIndexComponent(Component *c)
 {
     auto i = m_components.add(c);
     c->m_globalIndex = i;
+//     std::printf("Indexing component at index %i\n", i);
     for (auto child : c->m_children)
         if (child) autoIndexComponent(child.value());
 }
