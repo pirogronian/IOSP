@@ -16,6 +16,7 @@ namespace IOSP
         virtual void updateEffectiveThrust();
     public:
         Thruster(const btVector3&, btScalar);
+        btScalar getMaxThrust() const { return m_maxThrust; }
         void setOn(bool);
         bool isOn() const { return m_on; }
         void setThrust(btScalar);

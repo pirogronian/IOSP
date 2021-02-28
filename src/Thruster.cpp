@@ -29,6 +29,6 @@ void Thruster::setOn(bool on)
 void Thruster::setThrust(btScalar t)
 {
     if (t >= 0)
-        m_setThrust = std::max(t, m_maxThrust);
+        m_setThrust = std::min(t, m_maxThrust);
     updateEffectiveThrust();
 }

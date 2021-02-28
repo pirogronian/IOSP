@@ -49,6 +49,11 @@ void ManualThrustControlPanel::updateImGui()
         bool on = lt->isOn();
         ImGui::Checkbox("Thruster", &on);
         if (on != lt->isOn())  lt->setOn(on);
+        ImGui::SameLine();
+        float sth = lt->getDemandedThrust();
+        float max = lt->getMaxThrust();
+        ImGui::DragFloat("Thrust", &sth, 1, 0, max);
+        if (sth != lt->getDemandedThrust()) lt->setThrust(sth);
     }
     ImGui::End();
 }
