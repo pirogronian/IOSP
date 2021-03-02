@@ -83,7 +83,7 @@ BulletBodySceneNode *createTerrain()
 Simulation *IOSP::TestScene()
 {
     auto *smgr = IrrCommonObject::getSceneManager();
-    auto *cam = smgr->addCameraSceneNodeMaya();
+//     auto *cam = smgr->addCameraSceneNodeMaya();
 //     auto *light = smgr->addLightSceneNode();
     auto light = createTestLigth();
     light->setPosition(core::vector3df(0, 0, -50));
@@ -115,7 +115,7 @@ Simulation *IOSP::TestScene()
     auto *tcpanel = new MagicSimpleRocketControlPanel(smgr->getRootSceneNode(), smgr, 100);
     auto *mtpanel = new ManualThrustControlPanel(tcpanel, smgr, 101);
     tcpanel->setTarget(testModel);
-    ThirdPersonCamera::create(cam, testModel);
+    ThirdPersonCamera::addCurrent(new ThirdPersonCamera(testModel));
     auto *sim = new Simulation();
     sim->addWorld(bworld);
     sim->setActivePanel(tcpanel);

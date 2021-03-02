@@ -23,6 +23,10 @@ namespace IOSP
         {
             TimeFaster = 1,
             TimeSlower,
+            CameraNext,
+            CameraPrev,
+            CameraClone,
+            CameraDelete,
             LoadTTF,
             SettingsAction
         };

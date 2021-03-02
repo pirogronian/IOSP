@@ -37,6 +37,10 @@ Application::Application()
     m_trKeyActions.bind(TimeFaster, irr::KEY_PRIOR);
     m_trKeyActions.bind(TimeSlower, irr::KEY_NEXT);
     m_trKeyActions.bind(SettingsAction, irr::KEY_ESCAPE);
+    m_trKeyActions.bind(CameraNext, irr::KEY_F1);
+    m_trKeyActions.bind(CameraPrev, irr::KEY_F1, true);
+    m_trKeyActions.bind(CameraClone, irr::KEY_INSERT);
+    m_trKeyActions.bind(CameraDelete, irr::KEY_DELETE);
 
     m_irrImGui = IrrIMGUI::createIMGUI(dev, &m_irrImGuiER);
 }
@@ -60,6 +64,14 @@ bool Application::OnEvent(const SEvent& event)
             m_simulation->setTimeMultiplier(m_simulation->timeMultiplier() + 1);
         if (m_trKeyActions.isTriggered(TimeSlower))
             m_simulation->setTimeMultiplier(m_simulation->timeMultiplier() - 1);
+        if (m_trKeyActions.isTriggered(CameraNext))
+            ThirdPersonCamera::switchCurrentNext();
+        if (m_trKeyActions.isTriggered(CameraPrev))
+            ThirdPersonCamera::switchCurrentPrevious();
+        if (m_trKeyActions.isTriggered(CameraClone))
+            ThirdPersonCamera::cloneCurrent();
+        if (m_trKeyActions.isTriggered(CameraDelete))
+            ThirdPersonCamera::deleteCurrent();
         if (m_trKeyActions.isTriggered(SettingsAction))
             openSettingsDialog();
         m_trKeyActions.reset();
@@ -116,7 +128,7 @@ void IOSP::Application::run()
         m_simulation->update();
 
         drv->beginScene(true, true, irr::video::SColor(0,50,50,50));
-        ThirdPersonCamera::updateAll();
+        ThirdPersonCamera::updateCurrent();
         getSceneManager()->drawAll();
         resetDrv(drv);
         m_simulation->drawDebug();
