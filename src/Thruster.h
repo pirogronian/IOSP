@@ -12,11 +12,13 @@ namespace IOSP
         btScalar m_maxThrust;
         btScalar m_setThrust{0};
         btScalar m_effectiveThrust{0};
+        bool m_allowNeg{true};
         bool m_on{false};
         virtual void updateEffectiveThrust();
     public:
-        Thruster(const btVector3&, btScalar);
+        Thruster(const btVector3&, btScalar, bool = true);
         btScalar getMaxThrust() const { return m_maxThrust; }
+        bool allowNegativeThrust() const { return m_allowNeg; }
         void setOn(bool);
         bool isOn() const { return m_on; }
         void setThrust(btScalar);
