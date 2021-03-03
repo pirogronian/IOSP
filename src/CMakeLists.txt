@@ -27,6 +27,8 @@ set(IOSP_MAIN_SRCS
     Component.cpp
     ControlPanelSceneNode.h
     ControlPanelSceneNode.cpp
+    Gui.h
+    Gui.cpp
     LinearThruster.h
     LinearThruster.cpp
     main.cpp

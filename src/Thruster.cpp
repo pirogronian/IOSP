@@ -32,7 +32,7 @@ void Thruster::setThrust(btScalar t)
     if (t < 0)
     {
         if (m_allowNeg)
-            m_setThrust = std::min(t, -m_maxThrust);
+            m_setThrust = std::max(t, -m_maxThrust);
         else
             m_setThrust = 0;
     }

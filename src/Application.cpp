@@ -3,6 +3,7 @@
 #include <Utils/Ownership.h>
 #include <Utils/IrrCommonObject.h>
 #include <ThirdPersonCamera.h>
+#include <Gui.h>
 #include <SettingsWindow.h>
 #include "Application.h"
 
@@ -132,6 +133,7 @@ void IOSP::Application::run()
         getSceneManager()->drawAll();
         resetDrv(drv);
         m_simulation->drawDebug();
+        ImGuiIDs.reset();
         if (m_uiTimer.update(dev->getTimer()->getTime()))
             updateUI();
         m_simulation->drawUI();

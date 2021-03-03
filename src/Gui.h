@@ -1,6 +1,8 @@
 
 #pragma once
 
+#include <Utils/Sequence.h>
+
 namespace IOSP
 {
     enum GuiElements
@@ -10,4 +12,6 @@ namespace IOSP
         SettingsDialog,
         GlobalGuiMaxId
     };
+
+    extern SimpleSequence ImGuiIDs;
 }

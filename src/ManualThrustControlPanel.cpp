@@ -2,7 +2,7 @@
 #include <cstdio>
 
 #include <imgui.h>
-
+#include <Gui.h>
 #include "ManualThrustControlPanel.h"
 
 using namespace irr;
@@ -22,38 +22,44 @@ void ManualThrustControlPanel::scanForLinearThrusters()
 {
     auto tr = m_controlTarget;
     if (!tr)  return;
-    m_lths.clear();
+    m_ths.clear();
     auto n = tr->getComponentIndexSize();
-//     std::printf("Target components number: %i\n", n);
+    std::printf("Target components number: %i\n", n);
     for(std::size_t i = 0; i < n; i++)
     {
         auto c = tr->getComponent(i);
         if (!c)  continue;
-//         std::printf("Found component at index: %i\n", i);
-        auto lth = dynamic_cast<LinearThruster*>(c);
+        std::printf("Found component at index: %i\n", i);
+        auto lth = dynamic_cast<Thruster*>(c);
         if (!lth)  continue;
-//         std::printf("Found linear thruster at index: %i\n", i);
-        m_lths.push_back(i);
+        std::printf("Found thruster at index: %i\n", i);
+        m_ths.push_back(i);
     }
 }
 
 void ManualThrustControlPanel::updateImGui()
 {
     ImGui::Begin("Thrusters");
-    for(int index : m_lths)
+    for(int index : m_ths)
     {
-        auto lt = dynamic_cast<LinearThruster*>(m_controlTarget->getComponent(index));
+        auto lt = dynamic_cast<Thruster*>(m_controlTarget->getComponent(index));
         if (!lt)  continue;
         ImGui::Text(lt->getLocalName().c_str());
-        bool on = lt->isOn();
         ImGui::Text("On:"); ImGui::SameLine();
-        ImGui::Checkbox("", &on); ImGui::SameLine();
+        ImGui::PushID(ImGuiIDs.next());
+        bool on = lt->isOn();
+        ImGui::Checkbox("", &on);
+        ImGui::PopID(); ImGui::SameLine();
         if (on != lt->isOn())  lt->setOn(on);
-        float sth = lt->getDemandedThrust();
+        float thrust = lt->getDemandedThrust();
         float max = lt->getMaxThrust();
-        ImGui::Text("Thrust:"); ImGui::SameLine();
-        ImGui::DragFloat("", &sth, 0.1, 0, max);
-        if (sth != lt->getDemandedThrust()) lt->setThrust(sth);
+        float min = lt->allowNegativeThrust() ? -max : 0;
+        ImGui::Text("Thrust:");
+        ImGui::SameLine();
+        ImGui::PushID(ImGuiIDs.next());
+        ImGui::DragFloat("", &thrust, 0.1, min, max);
+        ImGui::PopID(); 
+        if (thrust != lt->getDemandedThrust()) lt->setThrust(thrust);
     }
     ImGui::End();
 }

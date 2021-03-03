@@ -10,12 +10,14 @@ namespace IOSP
     class ManualThrustControlPanel : public ControlPanelSceneNode
     {
     protected:
-        std::vector<int> m_lths;
+//         struct ThrusterState
+//         {
+//             int index{-1};
+//             bool on{false};
+//             float thrust{0};
+//         };
+        std::vector<int> m_ths;
     public:
-        enum GuiIds
-        {
-            LinearThrusterListBox
-        };
         ManualThrustControlPanel(
             irr::scene::ISceneNode *parent,
             irr::scene::ISceneManager *smgr,
