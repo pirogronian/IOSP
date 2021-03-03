@@ -13,14 +13,14 @@ namespace IOSP
         irr::scene::ISceneNode *m_targetNode{nullptr};
         irr::scene::ICameraSceneNode *m_camera{nullptr};
         static std::vector<ThirdPersonCamera*> s_vector;
-        static std::vector<ThirdPersonCamera*>::iterator s_current;
+        static int s_current;
         static bool s_active;
     public:
         ThirdPersonCamera(irr::scene::ISceneNode *target = nullptr);
         ThirdPersonCamera(const ThirdPersonCamera&);
         ~ThirdPersonCamera()
         {
-            m_camera->drop();
+//             m_camera->drop();
             clearOwnership(m_targetNode);
         }
         irr::scene::ICameraSceneNode *getCamera() { return m_camera; }
@@ -36,11 +36,9 @@ namespace IOSP
             if (!m_targetNode) return;
             m_camera->setTarget(m_targetNode->getPosition());
         }
+        static int getCurrentIndex() { return s_current; }
         static void addCurrent(ThirdPersonCamera *);
-        static ThirdPersonCamera *getCurrent() {
-            if (s_current == s_vector.end())  return nullptr;
-            return *s_current;
-        }
+        static ThirdPersonCamera *getCurrent();
         static void deleteCurrent();
         static void setCurrentActive();
         static void cloneCurrent();
