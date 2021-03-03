@@ -14,7 +14,7 @@ ThirdPersonCamera::ThirdPersonCamera(irr::scene::ISceneNode *target)
 {
     auto smgr = getSceneManager();
     m_camera = smgr->addCameraSceneNodeMaya();
-//     m_camera->grab();
+    m_camera->grab();
     m_targetNode = target;
 }
 
@@ -23,6 +23,7 @@ ThirdPersonCamera::ThirdPersonCamera(const ThirdPersonCamera& other)
     auto smgr = getSceneManager();
     auto ocam = other.m_camera;
     m_camera = (scene::ICameraSceneNode*)ocam->clone();
+    m_camera->grab();
 //     auto animators = ocam->getAnimators();
 //     for(auto animator : animators)
 //         if (animator->getType() == irr::scene::ESNAT_CAMERA_MAYA)
@@ -57,6 +58,7 @@ void ThirdPersonCamera::addCurrent(ThirdPersonCamera *cam)
 
 void ThirdPersonCamera::deleteCurrent()
 {
+    if (s_vector.size() < 2)  return; // Leave at last one camera
     auto cam = getCurrent();
     if (!cam)  return;
     delete cam;

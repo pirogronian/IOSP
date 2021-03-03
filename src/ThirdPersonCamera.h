@@ -20,7 +20,7 @@ namespace IOSP
         ThirdPersonCamera(const ThirdPersonCamera&);
         ~ThirdPersonCamera()
         {
-//             m_camera->drop();
+            m_camera->drop();
             clearOwnership(m_targetNode);
         }
         irr::scene::ICameraSceneNode *getCamera() { return m_camera; }
