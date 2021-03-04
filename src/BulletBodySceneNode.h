@@ -10,6 +10,8 @@
 
 namespace IOSP
 {
+    class LogicalBody;
+
     class BulletBodySceneNode : public irr::scene::ISceneNode, public BulletUpdatable
     {
     protected:
@@ -20,6 +22,7 @@ namespace IOSP
         btScalar m_lastDelta{0};
         btDynamicsWorld *m_world{nullptr};
         Component m_rootComponent;
+        LogicalBody *m_logicalBody{nullptr};
         AutoIndexer<Component*> m_components;
         void autoIndexComponent(Component*);
     public:
@@ -84,5 +87,8 @@ namespace IOSP
         Component *getComponent(std::size_t i) { return m_components.get(i, nullptr); }
         const Component *getComponent(std::size_t i) const { return m_components.get(i, nullptr); }
         std::size_t getComponentIndexSize() const { return m_components.size(); }
+        LogicalBody *getLogicalBody() { return m_logicalBody; }
+        const LogicalBody *getLogicalBody() const { return m_logicalBody; }
+        void setLogicalBody(LogicalBody *lg) { m_logicalBody = lg; }
     };
 }

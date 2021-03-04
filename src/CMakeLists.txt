@@ -31,6 +31,8 @@ set(IOSP_MAIN_SRCS
     Gui.cpp
     LinearThruster.h
     LinearThruster.cpp
+    LogicalBody.h
+    LogicalBody.cpp
     main.cpp
     MagicSimpleRocketControlPanel.h
     MagicSimpleRocketControlPanel.cpp
