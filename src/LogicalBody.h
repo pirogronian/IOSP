@@ -2,11 +2,12 @@
 #pragma once
 
 #include <vector>
+#include <Utils/SimpleState.h>
 #include <BulletBodySceneNode.h>
 
 namespace IOSP
 {
-    class LogicalBody
+    class LogicalBody : public SimpleState
     {
     protected:
         BulletBodySceneNode *m_root;
@@ -21,6 +22,7 @@ namespace IOSP
         std::size_t getBodiesNumber() const { return m_bodies.size(); }
         std::size_t getBodyInternalIndex(const BulletBodySceneNode *) const;
         std::vector<BulletBodySceneNode*>::iterator getBodyInternalIterator(const BulletBodySceneNode *);
+        const std::vector<BulletBodySceneNode*>& getBodies() const { return m_bodies; }
         bool hasBody(BulletBodySceneNode *, bool = false) const;
         bool addBody(BulletBodySceneNode *, bool = false);
         bool delBody(BulletBodySceneNode *);

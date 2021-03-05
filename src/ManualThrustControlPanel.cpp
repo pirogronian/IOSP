@@ -18,33 +18,49 @@ ManualThrustControlPanel::ManualThrustControlPanel(
 {
 }
 
-void ManualThrustControlPanel::scanForLinearThrusters()
+void ManualThrustControlPanel::scanForThrusters()
 {
-    auto tr = m_controlTarget;
-    if (!tr)  return;
-    m_ths.clear();
-    auto n = tr->getComponentIndexSize();
-    std::printf("Target components number: %i\n", n);
-    for(std::size_t i = 0; i < n; i++)
+    auto lbody = m_controlTarget->getLogicalBody();
+    if (!lbody)
     {
-        auto c = tr->getComponent(i);
-        if (!c)  continue;
-        std::printf("Found component at index: %i\n", i);
-        auto lth = dynamic_cast<Thruster*>(c);
-        if (!lth)  continue;
-        std::printf("Found thruster at index: %i\n", i);
-        m_ths.push_back(i);
+        std::puts("Cannot scan: No logical body found.");
+        return;
     }
+    m_ths.setLogicalBody(lbody);
+    m_ths.scanForType<Thruster>();
+//     auto tr = m_controlTarget;
+//     if (!tr)  return;
+//     m_ths.clear();
+//     auto n = tr->getComponentIndexSize();
+//     std::printf("Target components number: %i\n", n);
+//     for(std::size_t i = 0; i < n; i++)
+//     {
+//         auto c = tr->getComponent(i);
+//         if (!c)  continue;
+//         std::printf("Found component at index: %i\n", i);
+//         auto lth = dynamic_cast<Thruster*>(c);
+//         if (!lth)  continue;
+//         std::printf("Found thruster at index: %i\n", i);
+//         m_ths.push_back(i);
+//     }
 }
 
 void ManualThrustControlPanel::updateImGui()
 {
     ImGui::Begin("Thrusters");
-    for(int index : m_ths)
+    auto lbody = m_controlTarget->getLogicalBody();
+    if (!lbody)
     {
-        auto lt = dynamic_cast<Thruster*>(m_controlTarget->getComponent(index));
+        ImGui::Text("No logical body found.");
+        ImGui::End();
+        return;
+    }
+    auto bodies = lbody->getBodies();
+    for(auto &entry : m_ths.getVector())
+    {
+        auto lt = dynamic_cast<Thruster*>(entry.node->getComponent(entry.index));
         if (!lt)  continue;
-        std::string name = m_controlTarget->getComponentName(index);
+        std::string name = entry.node->getComponentName(entry.index);
         ImGui::Text(name.c_str());
         ImGui::Text("On:"); ImGui::SameLine();
         ImGui::PushID(ImGuiIDs.next());
@@ -68,5 +84,5 @@ void ManualThrustControlPanel::updateImGui()
 void ManualThrustControlPanel::setTarget(BulletBodySceneNode *target)
 {
     ControlPanelSceneNode::setTarget(target);
-    scanForLinearThrusters();
+    scanForThrusters();
 }

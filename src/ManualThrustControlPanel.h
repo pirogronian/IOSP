@@ -1,7 +1,8 @@
 
 #pragma once
 
-#include <LinearThruster.h>
+#include <ComponentSet.h>
+#include <Thruster.h>
 #include <ControlPanelSceneNode.h>
 // #include <Gui.h>
 
@@ -10,13 +11,12 @@ namespace IOSP
     class ManualThrustControlPanel : public ControlPanelSceneNode
     {
     protected:
-//         struct ThrusterState
-//         {
-//             int index{-1};
-//             bool on{false};
-//             float thrust{0};
-//         };
-        std::vector<int> m_ths;
+        struct ThrusterState
+        {
+            bool on{false};
+            float thrust{0};
+        };
+        ComponentSet<ThrusterState> m_ths;
     public:
         ManualThrustControlPanel(
             irr::scene::ISceneNode *parent,
@@ -28,7 +28,7 @@ namespace IOSP
         void update() override {}
         void drawUI() override {}
         void updateImGui() override;
-        void scanForLinearThrusters();
+        void scanForThrusters();
         void setTarget(BulletBodySceneNode*) override;
     };
 }

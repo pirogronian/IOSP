@@ -44,6 +44,7 @@ bool LogicalBody::addBody(BulletBodySceneNode *body, bool extracheck)
     if (hasBody(body, extracheck))  return false;
     m_bodies.push_back(body);
     body->setLogicalBody(this);
+    modify();
     return true;
 }
 
@@ -53,5 +54,6 @@ bool LogicalBody::delBody(BulletBodySceneNode *body)
     if (it == m_bodies.end())  return false;
     m_bodies.erase(it);
     body->setLogicalBody(nullptr);
+    modify();
     return true;
 }
