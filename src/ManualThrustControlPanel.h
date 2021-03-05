@@ -1,6 +1,7 @@
 
 #pragma once
 
+#include <Utils/SimpleState.h>
 #include <ComponentSet.h>
 #include <Thruster.h>
 #include <ControlPanelSceneNode.h>
@@ -8,7 +9,7 @@
 
 namespace IOSP
 {
-    class ManualThrustControlPanel : public ControlPanelSceneNode
+    class ManualThrustControlPanel : public ControlPanelSceneNode, public SimpleState
     {
     protected:
         struct ThrusterState
@@ -25,7 +26,7 @@ namespace IOSP
             const irr::core::vector3df& pos = irr::core::vector3df(0, 0, 0),
             const irr::core::vector3df& rot = irr::core::vector3df(0, 0, 0));
         void render() override {}
-        void update() override {}
+        void update() override;
         void drawUI() override {}
         void updateImGui() override;
         void scanForThrusters();

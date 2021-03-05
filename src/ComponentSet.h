@@ -2,7 +2,6 @@
 #pragma once
 
 #include <vector>
-#include <Utils/SimpleState.h>
 #include <LogicalBody.h>
 #include <Component.h>
 

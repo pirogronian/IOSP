@@ -45,6 +45,17 @@ void ManualThrustControlPanel::scanForThrusters()
 //     }
 }
 
+void ManualThrustControlPanel::update()
+{
+    auto lbody = m_controlTarget->getLogicalBody();
+    if (!lbody)  return;
+    if (trySync(*lbody))
+    {
+        m_ths.clear();
+        scanForThrusters();
+    }
+}
+
 void ManualThrustControlPanel::updateImGui()
 {
     ImGui::Begin("Thrusters");
