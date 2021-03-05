@@ -23,17 +23,39 @@ namespace IOSP
         std::string m_localName;
     public:
         Component() = default;
+        Component(const Component&);
+        void cloneChildren(const Component&, bool);
+        template<class T>
+        T *clone(bool children)
+        {
+            auto ret = new T((const T&)*this);
+            if (children)
+                ret->cloneChildren(*this, true);
+            return ret;
+        }
+        virtual Component *clone(bool c) { return clone<Component>(c); }
         int getLocalIndex() const { return m_localIndex; }
         int getGlobalIndex() const { return m_globalIndex; }
         const std::string& getLocalName() const { return m_localName; }
         void setLocalName(const std::string& name) { m_localName = name; }
         Component *getParent() { return m_parent; }
         const Component *getParent() const { return m_parent; }
+        const btTransform& getTransform() const { return m_transform; }
         void updateTransform();
-        void addChild(Component *, int, const char * = "", const btTransform& = btTransform::getIdentity());
-        void addChild(Component *child, int index, const std::string& name, const btTransform& tr = btTransform::getIdentity())
+        void addChild(
+            Component *,
+            int,
+            const char * = "",
+            const btTransform& = btTransform::getIdentity(),
+            bool = true);
+        void addChild(
+            Component *child,
+            int index,
+            const std::string& name,
+            const btTransform& tr = btTransform::getIdentity(),
+            bool localTr = true)
         {
-            addChild(child, index, name.c_str(), tr);
+            addChild(child, index, name.c_str(), tr, localTr);
         }
         Component *getChild(int index)
         {

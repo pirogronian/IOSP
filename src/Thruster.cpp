@@ -14,6 +14,25 @@ Thruster::Thruster(const btVector3& vec, btScalar maxThr, bool allowNeg)
     m_maxThrust = maxThr;
 }
 
+Thruster::Thruster(const Thruster& other)
+: Component(other)
+{
+    m_vector = other.m_vector;
+    m_maxThrust = other.m_maxThrust;
+    m_setThrust = other.m_setThrust;
+    m_effectiveThrust = other.m_effectiveThrust;
+    m_allowNeg = other.m_allowNeg;
+    m_on = other.m_on;
+}
+
+// Component *Thruster::clone(bool children)
+// {
+//     auto ret = new Thruster(*this);
+//     if (children)
+//         ret->cloneChildren(*this, true);
+//     return ret;
+// }
+
 void Thruster::updateEffectiveThrust()
 {
     if (isOn())

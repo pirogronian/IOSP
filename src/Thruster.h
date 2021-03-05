@@ -17,6 +17,11 @@ namespace IOSP
         virtual void updateEffectiveThrust();
     public:
         Thruster(const btVector3&, btScalar, bool = true);
+        Thruster(const Thruster&);
+        Component *clone(bool c) override
+        {
+            return Component::clone<Thruster>(c);
+        }
         btScalar getMaxThrust() const { return m_maxThrust; }
         bool allowNegativeThrust() const { return m_allowNeg; }
         void setOn(bool);
