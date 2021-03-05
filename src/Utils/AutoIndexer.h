@@ -5,6 +5,7 @@
 #include <limits>
 #include <vector>
 #include <optional>
+#include <Utils/VectorHelper.h>
 
 namespace IOSP
 {
