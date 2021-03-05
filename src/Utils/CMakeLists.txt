@@ -23,6 +23,8 @@ set(SOURCES
     NamedClassInstance.h
     Ownership.h
     RelativeValue.h
+    SimpleState.h
+    SimpleState.cpp
     VectorHelper.h
     XMLNodeWriter.h
     XMLNodeWriter.cpp
