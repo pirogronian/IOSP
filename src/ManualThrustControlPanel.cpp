@@ -44,7 +44,8 @@ void ManualThrustControlPanel::updateImGui()
     {
         auto lt = dynamic_cast<Thruster*>(m_controlTarget->getComponent(index));
         if (!lt)  continue;
-        ImGui::Text(lt->getLocalName().c_str());
+        std::string name = m_controlTarget->getComponentName(index);
+        ImGui::Text(name.c_str());
         ImGui::Text("On:"); ImGui::SameLine();
         ImGui::PushID(ImGuiIDs.next());
         bool on = lt->isOn();

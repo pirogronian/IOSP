@@ -5,13 +5,17 @@
 
 using namespace IOSP;
 
-void BulletBodySceneNode::autoIndexComponent(Component *c)
+void BulletBodySceneNode::autoIndexComponent(Component *c, std::string prefix)
 {
     auto i = m_components.add(c);
     c->m_globalIndex = i;
+    std::string name = prefix;
+    if (c != &m_rootComponent) name += '.';
+    name += c->getLocalName();
+    m_compNames.add(name);
 //     std::printf("Indexing component at index %i\n", i);
     for (auto child : c->m_children)
-        if (child) autoIndexComponent(child.value());
+        if (child) autoIndexComponent(child.value(), name);
 }
 
 void IOSP::BulletBodySceneNode::setRigidBody(btRigidBody *body)

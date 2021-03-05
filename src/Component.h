@@ -26,6 +26,7 @@ namespace IOSP
         int getLocalIndex() const { return m_localIndex; }
         int getGlobalIndex() const { return m_globalIndex; }
         const std::string& getLocalName() const { return m_localName; }
+        void setLocalName(const std::string& name) { m_localName = name; }
         Component *getParent() { return m_parent; }
         const Component *getParent() const { return m_parent; }
         void updateTransform();

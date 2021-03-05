@@ -1,6 +1,7 @@
 
 #pragma once
 
+#include <string>
 #include <irrlicht.h>
 #include <Utils/AutoIndexer.h>
 #include <BulletMotionState.h>
@@ -24,7 +25,8 @@ namespace IOSP
         Component m_rootComponent;
         LogicalBody *m_logicalBody{nullptr};
         AutoIndexer<Component*> m_components;
-        void autoIndexComponent(Component*);
+        AutoIndexer<std::string> m_compNames;
+        void autoIndexComponent(Component*, std::string prefix = "");
     public:
         static BulletBodySceneNode *getNode(const btRigidBody *rb) {
             return static_cast<BulletBodySceneNode*>(rb->getUserPointer());
@@ -83,12 +85,16 @@ namespace IOSP
         btFixedConstraint *attachFixed(BulletBodySceneNode *);
         Component &getRootComponent() { return m_rootComponent; }
         const Component &getRootComponent() const { return m_rootComponent; }
-        void updateComponentIndex() { autoIndexComponent(&m_rootComponent); }
+        void updateComponentIndex() {
+            m_rootComponent.setLocalName(getName());
+            autoIndexComponent(&m_rootComponent);
+        }
         Component *getComponent(std::size_t i) { return m_components.get(i, nullptr); }
         const Component *getComponent(std::size_t i) const { return m_components.get(i, nullptr); }
         std::size_t getComponentIndexSize() const { return m_components.size(); }
         LogicalBody *getLogicalBody() { return m_logicalBody; }
         const LogicalBody *getLogicalBody() const { return m_logicalBody; }
         void setLogicalBody(LogicalBody *lg) { m_logicalBody = lg; }
+        std::string getComponentName(std::size_t i) { return m_compNames.get(i, std::string()); }
     };
 }

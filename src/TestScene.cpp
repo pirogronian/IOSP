@@ -29,7 +29,7 @@ BulletBodySceneNode *createTestModel()
     auto *body = new BulletBodySceneNode(smgr->getRootSceneNode(), smgr, brigid);
     auto *model = smgr->addMeshSceneNode(am->getMesh(0), body);
     model->setMaterialFlag(video::EMF_LIGHTING, true);
-    model->setName("TestModel");
+    body->setName("TestModelBody");
     body->getRootComponent().addChild(new LinearThruster(btVector3(0, 0, 1), 10), 0, "MainThruster");
     body->getRootComponent().addChild(new TorqueThruster(btVector3(0, 0, 1), 10), 1, "RollThruster");
     body->updateComponentIndex();
