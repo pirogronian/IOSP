@@ -105,8 +105,10 @@ Simulation *IOSP::TestScene()
         auto b2 = testModel->createCopy();
         b2->setPosition(core::vector3df(0, 5, -20));
         b2->setName("ModelCopy");
-        testModel->getLogicalBody()->addBody(b2);
+        auto lb = testModel->getLogicalBody();
+        lb->addBody(b2);
         bworld->addBody(b2);
+        dump(lb);
     }
     auto terrain = createTerrain();
     terrain->setPosition(core::vector3df(0, 0, 75));

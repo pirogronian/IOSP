@@ -1,5 +1,6 @@
 
 #include <cassert>
+#include <cstdio>
 
 #include "LogicalBody.h"
 
@@ -56,4 +57,14 @@ bool LogicalBody::delBody(BulletBodySceneNode *body)
     body->setLogicalBody(nullptr);
     modify();
     return true;
+}
+
+void IOSP::dump(const LogicalBody& lb)
+{
+    auto bodies = lb.getBodies();
+    std::printf("LogicalBody: {%i}\n", bodies.size());
+    for (auto body : bodies)
+    {
+        std::printf("%s%s\n", body->getName(), body == lb.getRoot() ? " (root)" : "");
+    }
 }

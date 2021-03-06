@@ -27,4 +27,7 @@ namespace IOSP
         bool addBody(BulletBodySceneNode *, bool = false);
         bool delBody(BulletBodySceneNode *);
     };
+
+    void dump(const LogicalBody&);
+    inline void dump(const LogicalBody *ptr) { dump(*ptr); }
 }
