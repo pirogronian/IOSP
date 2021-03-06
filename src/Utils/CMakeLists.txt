@@ -8,6 +8,8 @@ set(SOURCES
     CommonObject.h
     CommonObject.cpp
     Conversions.h
+    CopyFrom.h
+    CopyFrom.cpp
     Dump.h
     Dump.cpp
     FloatFormatString.h
