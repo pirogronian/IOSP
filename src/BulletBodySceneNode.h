@@ -105,5 +105,6 @@ namespace IOSP
             ISceneNode::setName(name);
             m_rootComponent.setLocalName(name.c_str());
         }
+        BulletBodySceneNode *createCopy();
     };
 }

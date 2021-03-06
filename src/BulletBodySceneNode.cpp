@@ -1,5 +1,6 @@
 
 #include <Utils/Conversions.h>
+#include <Utils/CopyFrom.h>
 
 #include "BulletBodySceneNode.h"
 
@@ -124,4 +125,14 @@ btFixedConstraint *IOSP::BulletBodySceneNode::attachFixed(BulletBodySceneNode *n
     auto wnode = BulletWorldSceneNode::getNode(m_world);
     if (!wnode)  return nullptr;
     return wnode->createFixedJoint(this, node);
+}
+
+BulletBodySceneNode *BulletBodySceneNode::createCopy()
+{
+    auto body = new btRigidBody(m_bbody->getMass(), 0, 0);
+    copyFrom(body, m_bbody);
+    auto nn = new BulletBodySceneNode(getParent(), getSceneManager(), body);
+    nn->m_rootComponent = m_rootComponent;
+    nn->m_rootComponent.cloneChildren(m_rootComponent, true);
+    return nn;
 }
