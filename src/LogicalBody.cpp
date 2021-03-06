@@ -65,6 +65,11 @@ void IOSP::dump(const LogicalBody& lb)
     std::printf("LogicalBody: {%i}\n", bodies.size());
     for (auto body : bodies)
     {
-        std::printf("%s%s\n", body->getName(), body == lb.getRoot() ? " (root)" : "");
+        auto n = body->getComponentIndexSize();
+        std::printf(" %s [%i] %s\n", body->getName(), n, body == lb.getRoot() ? " (root)" : "");
+        for (int i = 0; i < n; i++)
+        {
+            std::printf("  %s\n", body->getComponentName(i).c_str());
+        }
     }
 }
