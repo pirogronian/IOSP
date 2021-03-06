@@ -25,6 +25,7 @@ void IOSP::BulletBodySceneNode::setRigidBody(btRigidBody *body)
     clearRigidBody();
     m_bbody = body;
     m_bbody->setUserPointer(this);
+    m_bbody->setUserIndex(getID());
     m_bbody->setActivationState(DISABLE_DEACTIVATION);
     m_bbody->setMotionState(&m_mstate);
     syncInertia();
@@ -45,9 +46,13 @@ void IOSP::BulletBodySceneNode::clearRigidBody()
 
 void IOSP::BulletBodySceneNode::setWorld(btDynamicsWorld *w)
 {
+    std::printf("%s::setWorld\n Body: %i\n Old world: %i\n New world: %i\n",
+                getName(), m_bbody != 0, m_world != 0, w != 0);
     if (m_world && m_bbody)  m_world->removeRigidBody(m_bbody);
+    else std::puts("No world or body to remove from.");
     m_world = w;
     if (m_world && m_bbody)  m_world->addRigidBody(m_bbody);
+    else std::puts("No world or body to add to.");
 }
 
 IOSP::BulletBodySceneNode::BulletBodySceneNode(

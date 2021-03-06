@@ -53,6 +53,13 @@ IOSP::MagicSimpleRocketControlPanel::MagicSimpleRocketControlPanel(
     m_accText.setBelow(&m_velText);
     m_accText.getOwnBackgroundColor().set(127, 127, 0, 127);
 
+    m_forceText.setAlignment(0.5, 0);
+    m_forceText.getPadding().set(10);
+    m_forceText.setFormat(9, 4, "Linear force");
+    m_forceText.updateContent(0, 0, 0);
+    m_forceText.setBelow(&m_accText);
+    m_forceText.getOwnBackgroundColor().set(127, 127, 127, 127);
+
     m_infoRoot.getPadding().set(5);
     m_infoRoot.setCanShrink(true);
     m_infoRoot.setCanExpand(true);
@@ -175,6 +182,8 @@ void IOSP::MagicSimpleRocketControlPanel::update()
     m_velText.updateContent(lv);
     auto la = m_controlTarget->getLinearAcceleration();
     m_accText.updateContent(la);
+    auto lf = m_controlTarget->getAppliedForce();
+    m_forceText.updateContent(lf);
     m_infoRoot.updateRectangle();
 }
 

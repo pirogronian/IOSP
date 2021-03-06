@@ -97,20 +97,18 @@ Simulation *IOSP::TestScene()
     auto testCube = createTestCube();
     bworld->addBody(testCube);
     auto testModel = createTestModel();
-    if (testModel)
-    {
-        testModel->setPosition(core::vector3df(0, 0, -20));
-        testModel->syncTransform();
-        bworld->addBody(testModel);
-        auto b2 = dynamic_cast<BulletBodySceneNode*>(testModel->clone());
+    testModel->setPosition(core::vector3df(0, 0, -20));
+    testModel->syncTransform();
+    bworld->addBody(testModel);
+    auto b2 = dynamic_cast<BulletBodySceneNode*>(testModel->clone());
 //         auto b2 = testModel->createCopy();
-        b2->setPosition(core::vector3df(0, 5, -20));
-        b2->setName("ModelCopy");
-        auto lb = testModel->getLogicalBody();
-        lb->addBody(b2);
-        bworld->addBody(b2);
-        dump(lb);
-    }
+    b2->setPosition(core::vector3df(0, 5, -20));
+    b2->setName("ModelCopy");
+    auto lb = testModel->getLogicalBody();
+    lb->addBody(b2);
+    bworld->addBody(b2);
+    dump(lb);
+
     auto terrain = createTerrain();
     terrain->setPosition(core::vector3df(0, 0, 75));
     terrain->setRotation(core::vector3df(-90, 0, 0));
@@ -124,8 +122,8 @@ Simulation *IOSP::TestScene()
     bworld->addBody(terrain);
     auto *tcpanel = new MagicSimpleRocketControlPanel(smgr->getRootSceneNode(), smgr, 100);
     auto *mtpanel = new ManualThrustControlPanel(tcpanel, smgr, 101);
-    tcpanel->setTarget(testModel);
-    ThirdPersonCamera::addCurrent(new ThirdPersonCamera(testModel));
+    tcpanel->setTarget(b2);
+    ThirdPersonCamera::addCurrent(new ThirdPersonCamera(b2));
     auto *sim = new Simulation();
     sim->addWorld(bworld);
     sim->setActivePanel(tcpanel);

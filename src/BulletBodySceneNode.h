@@ -69,6 +69,7 @@ namespace IOSP
             auto &tr = m_bbody->getWorldTransform().getBasis();
             m_bbody->applyForce(tr * f, tr * offset);
         }
+        btVector3 getAppliedForce() const { return m_bbody ? m_bbody->getTotalForce() : btVector3(0, 0, 0); }
         btCollisionWorld::ClosestRayResultCallback rayTestClosest(const btVector3& start,
                             const btVector3& stop) const
         {
@@ -112,6 +113,11 @@ namespace IOSP
             ISceneNode::setName(name);
             m_rootComponent.setLocalName(name.c_str());
             rebuildComponentIndex();
+        }
+        void setID(irr::s32 i) override
+        {
+            ISceneNode::setID(i);
+            if (m_bbody)  m_bbody->setUserIndex(i);
         }
         BulletBodySceneNode *createCopy();
         ISceneNode *clone(irr::scene::ISceneNode * = nullptr,
