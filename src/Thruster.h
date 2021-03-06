@@ -17,7 +17,15 @@ namespace IOSP
         virtual void updateEffectiveThrust();
     public:
         Thruster(const btVector3&, btScalar, bool = true);
-        Thruster(const Thruster&);
+        void copyFrom(const Thruster&);
+        Thruster(const Thruster& other)
+        : Component(other)
+        { copyFrom(other); }
+        Thruster& operator=(const Thruster& other)
+        {
+            copyFrom(other);
+            return *this;
+        }
         Component *clone(bool c) override
         {
             return Component::clone<Thruster>(c);

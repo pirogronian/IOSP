@@ -23,7 +23,12 @@ namespace IOSP
         std::string m_localName;
     public:
         Component() = default;
-        Component(const Component&);
+        void copyFrom(const Component&);
+        Component(const Component& other) { copyFrom(other); }
+        Component& operator=(const Component& other) {
+            copyFrom(other);
+            return *this;
+        }
         void cloneChildren(const Component&, bool);
         template<class T>
         T *clone(bool children)

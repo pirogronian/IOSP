@@ -6,17 +6,9 @@
 using namespace irr;
 using namespace IOSP;
 
-Thruster::Thruster(const btVector3& vec, btScalar maxThr, bool allowNeg)
+void Thruster::copyFrom(const Thruster& other)
 {
-    m_allowNeg = allowNeg;
-    m_vector = vec.normalized();
-    assert(maxThr >= 0);
-    m_maxThrust = maxThr;
-}
-
-Thruster::Thruster(const Thruster& other)
-: Component(other)
-{
+    Component::copyFrom(other);
     m_vector = other.m_vector;
     m_maxThrust = other.m_maxThrust;
     m_setThrust = other.m_setThrust;
@@ -25,13 +17,13 @@ Thruster::Thruster(const Thruster& other)
     m_on = other.m_on;
 }
 
-// Component *Thruster::clone(bool children)
-// {
-//     auto ret = new Thruster(*this);
-//     if (children)
-//         ret->cloneChildren(*this, true);
-//     return ret;
-// }
+Thruster::Thruster(const btVector3& vec, btScalar maxThr, bool allowNeg)
+{
+    m_allowNeg = allowNeg;
+    m_vector = vec.normalized();
+    assert(maxThr >= 0);
+    m_maxThrust = maxThr;
+}
 
 void Thruster::updateEffectiveThrust()
 {

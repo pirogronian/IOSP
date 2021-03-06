@@ -6,7 +6,7 @@
 using namespace irr;
 using namespace IOSP;
 
-Component::Component(const Component& other)
+void Component::copyFrom(const Component& other)
 {
     m_localIndex = other.m_localIndex;
     m_globalIndex = other.m_globalIndex;
@@ -23,14 +23,6 @@ void Component::cloneChildren(const Component& other, bool children)
         addChild(nc, nc->getLocalIndex(), nc->getLocalName(), nc->getTransform(), false);
     }
 }
-
-// Component *Component::clone(bool children)
-// {
-//     auto ret = new Component(*this);
-//     if (children)
-//         ret->cloneChildren(*this, children);
-//     return ret;
-// }
 
 void Component::updateTransform()
 {
