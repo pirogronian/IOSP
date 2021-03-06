@@ -3,7 +3,7 @@
 
 using namespace IOSP;
 
-btCollisionObject &copyFrom(
+btCollisionObject &IOSP::copyFrom(
     btCollisionObject& obj,
     btCollisionObject& other)
 {
@@ -32,7 +32,7 @@ btCollisionObject &copyFrom(
     return obj;
 }
 
-btRigidBody& copyFrom(btRigidBody& obj, btRigidBody& other)
+btRigidBody& IOSP::copyFrom(btRigidBody& obj, btRigidBody& other)
 {
     obj.setGravity(other.getGravity());
     obj.setDamping(
