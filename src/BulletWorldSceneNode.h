@@ -35,8 +35,8 @@ namespace IOSP
             const irr::core::vector3df& rotation = irr::core::vector3df(0, 0, 0),
             const irr::core::vector3df& scale = irr::core::vector3df(1, 1, 1));
         void OnRegisterSceneNode() override;
-        btDiscreteDynamicsWorld& bulletWorld() { return m_world; }
-        const btDiscreteDynamicsWorld& bulletWorld() const { return m_world; }
+        btDiscreteDynamicsWorld& getBulletWorld() { return m_world; }
+        const btDiscreteDynamicsWorld& getBulletWorld() const { return m_world; }
         void setGlobalGravity(const btVector3& v) { m_world.setGravity(v); }
         btVector3 getGlobalGravity() const { return m_world.getGravity(); }
         void setMinStepDelta(btScalar d) { m_minStepDelta = d; }

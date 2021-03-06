@@ -34,6 +34,7 @@ btCollisionObject &IOSP::copyFrom(
 
 btRigidBody& IOSP::copyFrom(btRigidBody& obj, btRigidBody& other)
 {
+    copyFrom(static_cast<btCollisionObject&>(obj), static_cast<btCollisionObject&>(other));
     obj.setGravity(other.getGravity());
     obj.setDamping(
         other.getLinearDamping(),

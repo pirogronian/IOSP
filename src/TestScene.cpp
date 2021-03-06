@@ -31,6 +31,7 @@ BulletBodySceneNode *createTestModel()
     auto *model = smgr->addMeshSceneNode(am->getMesh(0), body);
     model->setMaterialFlag(video::EMF_LIGHTING, true);
     body->setName("TestModelBody");
+    body->setID(-2);
     body->getRootComponent().addChild(new LinearThruster(btVector3(0, 0, 1), 10), 0, "MainThruster");
     body->getRootComponent().addChild(new TorqueThruster(btVector3(0, 0, 1), 10), 1, "RollThruster");
     body->rebuildComponentIndex();
@@ -51,6 +52,7 @@ BulletBodySceneNode *createTestCube()
     cube->setMaterialFlag(video::EMF_NORMALIZE_NORMALS, true);
     cube->setScale(core::vector3df(5, 5, 5));
     body->setName("TestCube");
+    body->setID(-3);
     return body;
 }
 
@@ -79,6 +81,8 @@ BulletBodySceneNode *createTerrain()
     auto bnode = new BulletBodySceneNode(smgr->getRootSceneNode(), smgr, body);
     mnode->setParent(bnode);
     mnode->setName("TerrainMeshNode");
+    bnode->setName("Terrain");
+    bnode->setID(-4);
     return bnode;
 }
 
@@ -103,7 +107,9 @@ Simulation *IOSP::TestScene()
     auto b2 = dynamic_cast<BulletBodySceneNode*>(testModel->clone());
 //         auto b2 = testModel->createCopy();
     b2->setPosition(core::vector3df(0, 5, -20));
+    b2->syncTransform();
     b2->setName("ModelCopy");
+    b2->setID(-5);
     auto lb = testModel->getLogicalBody();
     lb->addBody(b2);
     bworld->addBody(b2);
@@ -113,6 +119,8 @@ Simulation *IOSP::TestScene()
     terrain->setPosition(core::vector3df(0, 0, 75));
     terrain->setRotation(core::vector3df(-90, 0, 0));
     terrain->syncTransform();
+//     terrain->setID(-3);
+    
 //     dump(terrain->getRotation());
 //     auto child = smgr->getSceneNodeFromName("TerrainMeshNode");
 //     child->updateAbsolutePosition();
@@ -120,6 +128,8 @@ Simulation *IOSP::TestScene()
 //     dump(child->getAbsoluteTransformation().getRotationDegrees());
 //     dump(terrain->getAbsoluteTransformation().getRotationDegrees());
     bworld->addBody(terrain);
+    dump(bworld->getBulletWorld());
+
     auto *tcpanel = new MagicSimpleRocketControlPanel(smgr->getRootSceneNode(), smgr, 100);
     auto *mtpanel = new ManualThrustControlPanel(tcpanel, smgr, 101);
     tcpanel->setTarget(b2);

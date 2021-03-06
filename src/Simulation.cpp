@@ -9,7 +9,7 @@ bool IOSP::Simulation::addWorld(BulletWorldSceneNode *w)
 {
     if (m_worlds.addItem(w))
     {
-        w->bulletWorld().setDebugDrawer(&m_ddrawer);
+        w->getBulletWorld().setDebugDrawer(&m_ddrawer);
         return true;
     }
     return false;
@@ -23,7 +23,7 @@ bool IOSP::Simulation::removeWorld(BulletWorldSceneNode *w)
         if (*it == w)
         {
             m_worlds.erase(it);
-            w->bulletWorld().setDebugDrawer(nullptr);
+            w->getBulletWorld().setDebugDrawer(nullptr);
             return true;
         }
     }
@@ -72,7 +72,7 @@ void IOSP::Simulation::drawDebug()
     auto *drv = getVideoDriver();
     drv->setTransform(irr::video::ETS_WORLD, irr::core::matrix4());
     for (auto &world : m_worlds)
-        world->bulletWorld().debugDrawWorld();
+        world->getBulletWorld().debugDrawWorld();
 }
 
 void IOSP::Simulation::setActivePanel(ControlPanelSceneNode *p)
