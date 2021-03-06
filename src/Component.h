@@ -23,6 +23,8 @@ namespace IOSP
         std::string m_localName;
     public:
         Component() = default;
+        void deleteChildren();
+        virtual ~Component() { deleteChildren(); }
         void copyFrom(const Component&);
         Component(const Component& other) { copyFrom(other); }
         Component& operator=(const Component& other) {
@@ -81,7 +83,6 @@ namespace IOSP
             return m_children[index].value_or(nullptr);
         }
         virtual void update(BulletBodySceneNode *, irr::u32);
-        virtual ~Component();
     };
 }
 

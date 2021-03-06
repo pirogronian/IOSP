@@ -24,6 +24,16 @@ void Component::cloneChildren(const Component& other, bool children)
     }
 }
 
+void Component::deleteChildren()
+{
+    for (auto &child : m_children)
+    {
+        if (!child)  continue;
+        delete child.value();
+        child.reset();
+    }
+}
+
 void Component::updateTransform()
 {
     for (auto &child : m_children)
@@ -55,12 +65,4 @@ void Component::update(BulletBodySceneNode *node, u32 dtime)
 {
     for (auto child : m_children)
         if (child) child.value()->update(node, dtime);
-}
-
-Component::~Component()
-{
-    for (auto &child : m_children)
-    {
-        if (child)  delete child.value();
-    }
 }
