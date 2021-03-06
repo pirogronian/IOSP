@@ -86,7 +86,6 @@ namespace IOSP
         Component &getRootComponent() { return m_rootComponent; }
         const Component &getRootComponent() const { return m_rootComponent; }
         void updateComponentIndex() {
-            m_rootComponent.setLocalName(getName());
             autoIndexComponent(&m_rootComponent);
         }
         Component *getComponent(std::size_t i) { return m_components.get(i, nullptr); }
@@ -96,5 +95,15 @@ namespace IOSP
         const LogicalBody *getLogicalBody() const { return m_logicalBody; }
         void setLogicalBody(LogicalBody *lg) { m_logicalBody = lg; }
         std::string getComponentName(std::size_t i) { return m_compNames.get(i, std::string()); }
+        void setName(const irr::c8 *name) override
+        {
+            ISceneNode::setName(name);
+            m_rootComponent.setLocalName(name);
+        }
+        void setName(const irr::core::stringc &name) override
+        {
+            ISceneNode::setName(name);
+            m_rootComponent.setLocalName(name.c_str());
+        }
     };
 }
