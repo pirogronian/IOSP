@@ -110,5 +110,11 @@ namespace IOSP
             if (!isIndexValid(m_vector, i))  return def;
             return m_vector[i].value_or(def);
         }
+        void clear()
+        {
+            m_vector.clear();
+            m_firstFreeSlot = InvalidIndex;
+            m_freeSlots = 0;
+        }
     };
 }

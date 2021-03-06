@@ -5,6 +5,7 @@
 #include "BulletBodySceneNode.h"
 
 using namespace IOSP;
+using namespace irr;
 
 void BulletBodySceneNode::autoIndexComponent(Component *c, std::string prefix)
 {
@@ -134,6 +135,21 @@ BulletBodySceneNode *BulletBodySceneNode::createCopy()
     auto nn = new BulletBodySceneNode(getParent(), getSceneManager(), body);
     nn->m_rootComponent = m_rootComponent;
     nn->m_rootComponent.cloneChildren(m_rootComponent, true);
-    nn->updateComponentIndex();
+    nn->rebuildComponentIndex();
     return nn;
+}
+
+scene::ISceneNode *BulletBodySceneNode::clone(
+    scene::ISceneNode *newParent,
+    scene::ISceneManager *newMgr)
+{
+    if (!newParent)
+        newParent = Parent;
+    if (!newMgr)
+        newMgr = SceneManager;
+    auto ret = createCopy();
+    ret->cloneMembers(this, newMgr);
+    if (newParent)
+        ret->drop();
+    return ret;
 }

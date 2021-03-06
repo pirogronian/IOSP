@@ -85,8 +85,14 @@ namespace IOSP
         btFixedConstraint *attachFixed(BulletBodySceneNode *);
         Component &getRootComponent() { return m_rootComponent; }
         const Component &getRootComponent() const { return m_rootComponent; }
-        void updateComponentIndex() {
+        void rebuildComponentIndex() {
+            clearComponentIndex();
             autoIndexComponent(&m_rootComponent);
+        }
+        void clearComponentIndex()
+        {
+            m_components.clear();
+            m_compNames.clear();
         }
         Component *getComponent(std::size_t i) { return m_components.get(i, nullptr); }
         const Component *getComponent(std::size_t i) const { return m_components.get(i, nullptr); }
@@ -99,12 +105,16 @@ namespace IOSP
         {
             ISceneNode::setName(name);
             m_rootComponent.setLocalName(name);
+            rebuildComponentIndex();
         }
         void setName(const irr::core::stringc &name) override
         {
             ISceneNode::setName(name);
             m_rootComponent.setLocalName(name.c_str());
+            rebuildComponentIndex();
         }
         BulletBodySceneNode *createCopy();
+        ISceneNode *clone(irr::scene::ISceneNode * = nullptr,
+                          irr::scene::ISceneManager * = nullptr) override;
     };
 }

@@ -33,7 +33,7 @@ BulletBodySceneNode *createTestModel()
     body->setName("TestModelBody");
     body->getRootComponent().addChild(new LinearThruster(btVector3(0, 0, 1), 10), 0, "MainThruster");
     body->getRootComponent().addChild(new TorqueThruster(btVector3(0, 0, 1), 10), 1, "RollThruster");
-    body->updateComponentIndex();
+    body->rebuildComponentIndex();
     auto lbody = new LogicalBody(body);
     return body;
 }
@@ -102,7 +102,8 @@ Simulation *IOSP::TestScene()
         testModel->setPosition(core::vector3df(0, 0, -20));
         testModel->syncTransform();
         bworld->addBody(testModel);
-        auto b2 = testModel->createCopy();
+        auto b2 = dynamic_cast<BulletBodySceneNode*>(testModel->clone());
+//         auto b2 = testModel->createCopy();
         b2->setPosition(core::vector3df(0, 5, -20));
         b2->setName("ModelCopy");
         auto lb = testModel->getLogicalBody();
