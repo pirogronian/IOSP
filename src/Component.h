@@ -19,10 +19,11 @@ namespace IOSP
         int m_globalIndex{-1};
         btTransform m_transform{btTransform::getIdentity()};
         Component *m_parent{nullptr};
+        BulletBodySceneNode *m_node{nullptr};
         std::vector<std::optional<Component*>> m_children{0};
         std::string m_localName;
     public:
-        Component() = default;
+        Component(BulletBodySceneNode *node = nullptr) : m_node(node) {}
         void deleteChildren();
         virtual ~Component() { deleteChildren(); }
         void copyFrom(const Component&);
@@ -48,6 +49,9 @@ namespace IOSP
         Component *getParent() { return m_parent; }
         const Component *getParent() const { return m_parent; }
         const btTransform& getTransform() const { return m_transform; }
+        BulletBodySceneNode *getBodyNode() { return m_node; }
+        const BulletBodySceneNode *getBodyNode() const { return m_node; }
+        void setBodyNode(BulletBodySceneNode *);
         void updateTransform();
         void addChild(
             Component *,
@@ -82,7 +86,7 @@ namespace IOSP
             if (!isIndexValid(m_children, index))  return nullptr;
             return m_children[index].value_or(nullptr);
         }
-        virtual void update(BulletBodySceneNode *, irr::u32);
+        virtual void update(irr::u32);
     };
 }
 

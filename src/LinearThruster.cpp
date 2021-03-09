@@ -6,8 +6,8 @@
 using namespace IOSP;
 using namespace irr;
 
-void LinearThruster::update(BulletBodySceneNode *node, u32 dtime)
+void LinearThruster::update(u32 dtime)
 {
-    node->applyForceLocal(m_transform * m_vector * m_effectiveThrust);
-    Component::update(node, dtime);
+    m_node->applyForceLocal(m_transform * m_vector * m_effectiveThrust);
+    Component::update(dtime);
 }

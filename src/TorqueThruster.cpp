@@ -5,8 +5,8 @@
 using namespace IOSP;
 using namespace irr;
 
-void TorqueThruster::update(BulletBodySceneNode *node, u32 dtime)
+void TorqueThruster::update(u32 dtime)
 {
-    node->applyTorqueLocal(m_vector * m_effectiveThrust);
-    Component::update(node, dtime);
+    m_node->applyTorqueLocal(m_vector * m_effectiveThrust);
+    Component::update(dtime);
 }

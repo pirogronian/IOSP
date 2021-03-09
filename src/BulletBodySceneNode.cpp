@@ -114,7 +114,7 @@ void IOSP::BulletBodySceneNode::update(irr::u32 dt)
     auto la = (lv - m_lVel)/d;
     m_lVel = lv;
     m_lAccel = la;
-    m_rootComponent.update(this, dt);
+    m_rootComponent.update(dt);
 }
 
 btFixedConstraint *IOSP::BulletBodySceneNode::attachFixed(btRigidBody *body)

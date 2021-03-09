@@ -28,21 +28,6 @@ void ManualThrustControlPanel::scanForThrusters()
     }
     m_ths.setLogicalBody(lbody);
     m_ths.scanForType<Thruster>();
-//     auto tr = m_controlTarget;
-//     if (!tr)  return;
-//     m_ths.clear();
-//     auto n = tr->getComponentIndexSize();
-//     std::printf("Target components number: %i\n", n);
-//     for(std::size_t i = 0; i < n; i++)
-//     {
-//         auto c = tr->getComponent(i);
-//         if (!c)  continue;
-//         std::printf("Found component at index: %i\n", i);
-//         auto lth = dynamic_cast<Thruster*>(c);
-//         if (!lth)  continue;
-//         std::printf("Found thruster at index: %i\n", i);
-//         m_ths.push_back(i);
-//     }
 }
 
 void ManualThrustControlPanel::update()

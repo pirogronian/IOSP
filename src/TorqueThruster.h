@@ -14,6 +14,6 @@ namespace IOSP
         {
             return Component::clone<TorqueThruster>(c);
         }
-        void update(BulletBodySceneNode *, irr::u32) override;
+        void update(irr::u32) override;
     };
 }

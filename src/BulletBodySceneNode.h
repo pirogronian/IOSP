@@ -22,7 +22,7 @@ namespace IOSP
         btVector3 m_lVel{0, 0, 0}, m_lAccel{0, 0, 0};
         btScalar m_lastDelta{0};
         btDynamicsWorld *m_world{nullptr};
-        Component m_rootComponent;
+        Component m_rootComponent{this};
         LogicalBody *m_logicalBody{nullptr};
         AutoIndexer<Component*> m_components;
         AutoIndexer<std::string> m_compNames;

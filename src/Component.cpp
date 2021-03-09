@@ -44,6 +44,14 @@ void Component::updateTransform()
     }
 }
 
+void Component::setBodyNode(BulletBodySceneNode *node)
+{
+    m_node = node;
+    for (auto &child : m_children)
+        if (child)
+            child.value()->setBodyNode(node);
+}
+
 void Component::addChild(Component *child, int index, const char *name, const btTransform& tr, bool localTr)
 {
     assert(index >= 0);
@@ -59,10 +67,11 @@ void Component::addChild(Component *child, int index, const char *name, const bt
     }
     else
         child->m_transform = tr;
+    child->setBodyNode(m_node);
 }
 
-void Component::update(BulletBodySceneNode *node, u32 dtime)
+void Component::update(u32 dtime)
 {
     for (auto child : m_children)
-        if (child) child.value()->update(node, dtime);
+        if (child) child.value()->update(dtime);
 }
