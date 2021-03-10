@@ -1,6 +1,5 @@
 
 #include <Utils/Dump.h>
-#include <BulletUpdatable.h>
 #include <BulletBodySceneNode.h>
 #include "BulletWorldSceneNode.h"
 
@@ -27,10 +26,10 @@ void IOSP::BulletWorldSceneNode::OnRegisterSceneNode()
 
 void IOSP::BulletWorldSceneNode::update(irr::u32 d)
 {
-    for(std::size_t i = 0; i < m_updatableIndex.size(); i++)
+    for(std::size_t i = 0; i < m_bodiesIndex.size(); i++)
     {
-        if (m_updatableIndex.contains(i))
-            m_updatableIndex.get(i)->update(d);
+        if (m_bodiesIndex.contains(i))
+            m_bodiesIndex.get(i)->update(d);
     }
     stepSimulation(((btScalar)d) / 1000);
 }
@@ -40,34 +39,26 @@ void IOSP::BulletWorldSceneNode::stepSimulation(btScalar d)
     m_world.stepSimulation(d, m_maxSubSteps, m_minStepDelta);
 }
 
-bool IOSP::BulletWorldSceneNode::registerUpdatable(BulletUpdatable *u)
-{
-    if (m_updatableIndex.contains(u->worldIndex()))  return false;
-    auto i = m_updatableIndex.add(u);
-    u->setWorldIndex(i);
-    u->m_world = this;
-    return true;
-}
-
-bool IOSP::BulletWorldSceneNode::unregisterUpdatable(BulletUpdatable *u)
-{
-    if (!m_updatableIndex.contains(u->worldIndex()))  return false;
-    m_updatableIndex.remove(u->worldIndex());
-    u->setWorldIndex(std::numeric_limits<std::size_t>::max());
-    u->m_world = nullptr;
-    return true;
-}
-
 bool IOSP::BulletWorldSceneNode::addBody(BulletBodySceneNode *b)
 {
-    b->setWorld(&m_world);
-    return registerUpdatable(b);
+    if (m_bodiesIndex.contains(b->getWorldIndex()))  return false;
+    b->setWorld(this);
+    if (b->getRigidBody())  m_world.addRigidBody(b->getRigidBody());
+    auto i = m_bodiesIndex.add(b);
+    b->setWorldIndex(i);
+    b->m_world = this;
+    return true;
 }
 
 bool IOSP::BulletWorldSceneNode::removeBody(BulletBodySceneNode *b)
 {
+    if (!m_bodiesIndex.contains(b->getWorldIndex()))  return false;
     b->setWorld(nullptr);
-    return unregisterUpdatable(b);
+    if (b->getRigidBody())  m_world.removeRigidBody(b->getRigidBody());
+    m_bodiesIndex.remove(b->getWorldIndex());
+    b->setWorldIndex(std::numeric_limits<std::size_t>::max());
+    b->m_world = nullptr;
+    return true;
 }
 
 btFixedConstraint *IOSP::BulletWorldSceneNode::createFixedJoint(BulletBodySceneNode *body1,

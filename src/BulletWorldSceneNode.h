@@ -9,7 +9,6 @@
 
 namespace IOSP
 {
-    class BulletUpdatable;
     class BulletBodySceneNode;
 
     class BulletWorldSceneNode : public irr::scene::ISceneNode
@@ -22,7 +21,7 @@ namespace IOSP
         int m_maxSubSteps{128};
         btScalar m_minStepDelta{1./60.};
         irr::core::aabbox3d<irr::f32> m_bbox;
-        AutoIndexer<BulletUpdatable*> m_updatableIndex;
+        AutoIndexer<BulletBodySceneNode*> m_bodiesIndex;
     public:
         static BulletWorldSceneNode* getNode(btDynamicsWorld *w) {
             return static_cast<BulletWorldSceneNode*>(w->getWorldUserInfo());
@@ -54,8 +53,6 @@ namespace IOSP
             return m_bbox;
         }
         void update(irr::u32);
-        bool registerUpdatable(BulletUpdatable *);
-        bool unregisterUpdatable(BulletUpdatable *);
         bool addBody(BulletBodySceneNode *);
         bool removeBody(BulletBodySceneNode *);
         btFixedConstraint *createFixedConstraint(btRigidBody *body1,

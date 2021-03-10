@@ -30,7 +30,7 @@ void IOSP::BulletBodySceneNode::setRigidBody(btRigidBody *body)
     m_bbody->setMotionState(&m_mstate);
     syncInertia();
     syncTransform();
-    if (m_world)  m_world->addRigidBody(m_bbody);
+    if (m_world)  m_world->getBulletWorld().addRigidBody(m_bbody);
 }
 
 void IOSP::BulletBodySceneNode::clearRigidBody()
@@ -39,20 +39,9 @@ void IOSP::BulletBodySceneNode::clearRigidBody()
     {
         m_bbody->setUserPointer(nullptr);
         m_bbody->setMotionState(nullptr);
-        if (m_world) m_world->removeRigidBody(m_bbody);
+        if (m_world) m_world->getBulletWorld().removeRigidBody(m_bbody);
         m_bbody = nullptr;
     }
-}
-
-void IOSP::BulletBodySceneNode::setWorld(btDynamicsWorld *w)
-{
-    std::printf("%s::setWorld\n Body: %i\n Old world: %i\n New world: %i\n",
-                getName(), m_bbody != 0, m_world != 0, w != 0);
-    if (m_world && m_bbody)  m_world->removeRigidBody(m_bbody);
-    else std::puts("No world or body to remove from.");
-    m_world = w;
-    if (m_world && m_bbody)  m_world->addRigidBody(m_bbody);
-    else std::puts("No world or body to add to.");
 }
 
 IOSP::BulletBodySceneNode::BulletBodySceneNode(
@@ -120,17 +109,13 @@ void IOSP::BulletBodySceneNode::update(irr::u32 dt)
 btFixedConstraint *IOSP::BulletBodySceneNode::attachFixed(btRigidBody *body)
 {
     if (!m_world)  return nullptr;
-    auto wnode = BulletWorldSceneNode::getNode(m_world);
-    if (!wnode)  return nullptr;
-    return wnode->createFixedConstraint(getRigidBody(), body);
+    return m_world->createFixedConstraint(getRigidBody(), body);
 }
 
 btFixedConstraint *IOSP::BulletBodySceneNode::attachFixed(BulletBodySceneNode *node)
 {
     if (!m_world)  return nullptr;
-    auto wnode = BulletWorldSceneNode::getNode(m_world);
-    if (!wnode)  return nullptr;
-    return wnode->createFixedJoint(this, node);
+    return m_world->createFixedJoint(this, node);
 }
 
 BulletBodySceneNode *BulletBodySceneNode::createCopy()

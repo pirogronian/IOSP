@@ -4,29 +4,33 @@
 #include <string>
 #include <irrlicht.h>
 #include <Utils/AutoIndexer.h>
+#include <BulletWorldSceneNode.h>
 #include <BulletMotionState.h>
 #include <btBulletDynamicsCommon.h>
-#include <BulletUpdatable.h>
 #include <Component.h>
 
 namespace IOSP
 {
     class LogicalBody;
 
-    class BulletBodySceneNode : public irr::scene::ISceneNode, public BulletUpdatable
+    class BulletBodySceneNode : public irr::scene::ISceneNode
     {
+        friend BulletWorldSceneNode;
     protected:
         BulletMotionState m_mstate{*this};
         btRigidBody *m_bbody{nullptr};
+        std::size_t m_worldIndex{std::numeric_limits<std::size_t>::max()};
         irr::core::aabbox3d<irr::f32> m_bbox;
         btVector3 m_lVel{0, 0, 0}, m_lAccel{0, 0, 0};
         btScalar m_lastDelta{0};
-        btDynamicsWorld *m_world{nullptr};
+        BulletWorldSceneNode *m_world{nullptr};
         Component m_rootComponent{this};
         LogicalBody *m_logicalBody{nullptr};
         AutoIndexer<Component*> m_components;
         AutoIndexer<std::string> m_compNames;
         void autoIndexComponent(Component*, std::string prefix = "");
+        void setWorld(BulletWorldSceneNode *w) { m_world = w; }
+        void setWorldIndex(std::size_t i) { m_worldIndex - i; }
     public:
         static BulletBodySceneNode *getNode(const btRigidBody *rb) {
             return static_cast<BulletBodySceneNode*>(rb->getUserPointer());
@@ -40,9 +44,9 @@ namespace IOSP
                             btRigidBody*,
                             irr::s32 id = -1);
         ~BulletBodySceneNode();
-        void setWorld(btDynamicsWorld *);
-        const btDynamicsWorld *getWorld() const { return m_world; }
-        btDynamicsWorld *getWorld() { return m_world; }
+        const BulletWorldSceneNode *getWorld() const { return m_world; }
+        BulletWorldSceneNode *getWorld() { return m_world; }
+        std::size_t getWorldIndex() const { return m_worldIndex; }
         btVector3 getLinearVelocity() const { return m_bbody ? m_bbody->getLinearVelocity() : btVector3(0, 0, 0); }
         btVector3 getLinearAcceleration() const { return m_lAccel; }
         btScalar getLastDelta() const { return m_lastDelta; }
@@ -54,7 +58,7 @@ namespace IOSP
         void render() {}
         void syncTransform();
         void syncInertia();
-        virtual void update(irr::u32) override;
+        virtual void update(irr::u32);
         btScalar getMass() const { return m_bbody ? m_bbody->getMass() : 0; }
         void setMass(btScalar);
         btTransform getBodyTransform() const { return m_bbody ? m_bbody->getWorldTransform() : btTransform(); }
@@ -74,9 +78,8 @@ namespace IOSP
                             const btVector3& stop) const
         {
             auto tr = getBodyTransform();
-            auto wnode = getWorldNode();
-            if (!wnode)  return btCollisionWorld::ClosestRayResultCallback(start, stop);
-            return wnode->rayTestClosest(tr * start, tr * stop);
+            if (!m_world)  return btCollisionWorld::ClosestRayResultCallback(start, stop);
+            return m_world->rayTestClosest(tr * start, tr * stop);
         }
         btCollisionWorld::ClosestRayResultCallback rayTestClosest(const btVector3& stop) const
         {

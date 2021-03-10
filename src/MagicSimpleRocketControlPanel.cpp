@@ -135,8 +135,7 @@ void IOSP::MagicSimpleRocketControlPanel::update()
         m_controlTarget->setMass(m_controlTarget->getMass() - 1);
     }
 
-    auto world = m_controlTarget->getWorld();
-    auto wnode = BulletWorldSceneNode::getNode(m_controlTarget->getWorld());
+    auto wnode = m_controlTarget->getWorld();
     auto rayResult = m_controlTarget->rayTestClosest(m_rayStart, m_rayStop);
     m_hit = rayResult.hasHit();
     if (m_hit)
