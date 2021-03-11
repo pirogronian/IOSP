@@ -126,6 +126,7 @@ BulletBodySceneNode *BulletBodySceneNode::createCopy()
     nn->m_rootComponent = m_rootComponent;
     nn->m_rootComponent.cloneChildren(m_rootComponent, true);
     nn->rebuildComponentIndex();
+    if (m_world)  m_world->addBody(nn);
     return nn;
 }
 

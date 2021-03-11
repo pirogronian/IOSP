@@ -4,6 +4,7 @@
 #include "BulletWorldSceneNode.h"
 
 using namespace IOSP;
+using namespace irr;
 
 IOSP::BulletWorldSceneNode::BulletWorldSceneNode(
     irr::scene::ISceneNode *parent,
@@ -22,6 +23,23 @@ void IOSP::BulletWorldSceneNode::OnRegisterSceneNode()
     if (IsVisible)
         SceneManager->registerNodeForRendering(this);
     ISceneNode::OnRegisterSceneNode();
+}
+
+void IOSP::BulletWorldSceneNode::addChild(scene::ISceneNode *child)
+{
+    scene::ISceneNode::addChild(child);
+    auto bnode = dynamic_cast<BulletBodySceneNode*>(child);
+    if (bnode)
+        addBody(bnode);
+}
+
+bool IOSP::BulletWorldSceneNode::removeChild(scene::ISceneNode *child)
+{
+    if (!scene::ISceneNode::removeChild(child))  return false;
+    auto bnode = dynamic_cast<BulletBodySceneNode*>(child);
+    if (bnode)
+        removeBody(bnode);
+    return true;
 }
 
 void IOSP::BulletWorldSceneNode::update(irr::u32 d)

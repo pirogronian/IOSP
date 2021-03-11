@@ -103,7 +103,7 @@ Simulation *IOSP::TestScene()
     auto testModel = createTestModel();
     testModel->setPosition(core::vector3df(0, 0, -20));
     testModel->syncTransform();
-    bworld->addBody(testModel);
+    bworld->addChild(testModel);
     auto b2 = dynamic_cast<BulletBodySceneNode*>(testModel->clone());
 //         auto b2 = testModel->createCopy();
     b2->setPosition(core::vector3df(0, 5, -20));
@@ -112,7 +112,7 @@ Simulation *IOSP::TestScene()
     b2->setID(-5);
     auto lb = testModel->getLogicalBody();
     lb->addBody(b2);
-    bworld->addBody(b2);
+//     bworld->addBody(b2);
     dump(lb);
 
     auto terrain = createTerrain();
@@ -120,14 +120,7 @@ Simulation *IOSP::TestScene()
     terrain->setRotation(core::vector3df(-90, 0, 0));
     terrain->syncTransform();
 //     terrain->setID(-3);
-    
-//     dump(terrain->getRotation());
-//     auto child = smgr->getSceneNodeFromName("TerrainMeshNode");
-//     child->updateAbsolutePosition();
-//     terrain->updateAbsolutePosition();
-//     dump(child->getAbsoluteTransformation().getRotationDegrees());
-//     dump(terrain->getAbsoluteTransformation().getRotationDegrees());
-    bworld->addBody(terrain);
+    bworld->addChild(terrain);
     dump(bworld->getBulletWorld());
 
     auto *tcpanel = new MagicSimpleRocketControlPanel(smgr->getRootSceneNode(), smgr, 100);

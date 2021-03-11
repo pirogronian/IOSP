@@ -52,6 +52,8 @@ namespace IOSP
         {
             return m_bbox;
         }
+        void addChild(irr::scene::ISceneNode *) override;
+        bool removeChild(irr::scene::ISceneNode *) override;
         void update(irr::u32);
         bool addBody(BulletBodySceneNode *);
         bool removeBody(BulletBodySceneNode *);
