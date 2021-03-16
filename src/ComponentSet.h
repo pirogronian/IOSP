@@ -7,16 +7,16 @@
 
 namespace IOSP
 {
-    template<typename DataType>
+    class EmptyStruct{};
+    template<class Type = Component, typename DataType = EmptyStruct>
     class ComponentSet
     {
     public:
         struct Entry
         {
-            BulletBodySceneNode *node{nullptr};
-            int index{-1};
+            Type *component{nullptr};
             DataType data;
-            Entry(BulletBodySceneNode *n, int i) : node(n), index(i) {}
+            Entry(Type *c) : component(c) {}
         };
     protected:
         std::vector<Entry> m_vector;
@@ -41,13 +41,13 @@ namespace IOSP
                 {
                     auto cp = dynamic_cast<T*>(body->getComponent(i));
                     if (!cp)  continue;
-                    m_vector.push_back(Entry(body, i));
+                    m_vector.push_back(Entry(cp));
                 }
             }
         }
-        void scanForAll()
+        void scan()
         {
-            scanForType<Component>();
+            scanForType<Type>();
         }
     };
 }

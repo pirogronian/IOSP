@@ -17,7 +17,7 @@ namespace IOSP
             bool on{false};
             float thrust{0};
         };
-        ComponentSet<ThrusterState> m_ths;
+        ComponentSet<Thruster, ThrusterState> m_ths;
     public:
         ManualThrustControlPanel(
             irr::scene::ISceneNode *parent,

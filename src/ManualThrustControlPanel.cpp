@@ -27,7 +27,7 @@ void ManualThrustControlPanel::scanForThrusters()
         return;
     }
     m_ths.setLogicalBody(lbody);
-    m_ths.scanForType<Thruster>();
+    m_ths.scan();
 }
 
 void ManualThrustControlPanel::update()
@@ -54,9 +54,9 @@ void ManualThrustControlPanel::updateImGui()
     auto bodies = lbody->getBodies();
     for(auto &entry : m_ths.getVector())
     {
-        auto lt = dynamic_cast<Thruster*>(entry.node->getComponent(entry.index));
-        if (!lt)  continue;
-        std::string name = entry.node->getComponentName(entry.index);
+        auto lt = entry.component;
+//         if (!lt)  continue;
+        std::string name = lt->getBodyNode()->getComponentName(lt->getGlobalIndex());
         ImGui::Text(name.c_str());
         ImGui::Text("On:"); ImGui::SameLine();
         ImGui::PushID(ImGuiIDs.next());
