@@ -14,7 +14,6 @@ namespace IOSP
         irr::scene::ICameraSceneNode *m_camera{nullptr};
         static std::vector<ThirdPersonCamera*> s_vector;
         static int s_current;
-        static bool s_active;
     public:
         ThirdPersonCamera(irr::scene::ISceneNode *target = nullptr);
         ThirdPersonCamera(const ThirdPersonCamera&);

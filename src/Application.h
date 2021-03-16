@@ -27,6 +27,7 @@ namespace IOSP
             CameraPrev,
             CameraClone,
             CameraDelete,
+            CameraMode,
             LoadTTF,
             SettingsAction
         };
@@ -41,6 +42,7 @@ namespace IOSP
         static Application *s_instance;
         IrrIMGUI::CIMGUIEventReceiver m_irrImGuiER;
         IrrIMGUI::IIMGUIHandle *m_irrImGui{nullptr};
+        bool m_useTPC{true};
     public:
         static Application *getInstance() { return s_instance; }
         Application();
@@ -50,6 +52,8 @@ namespace IOSP
         Simulation *simulation() { return m_simulation; }
         const Simulation *simulation() const { return m_simulation; }
         void setSimulation(Simulation *s) { m_simulation = s; }
+        bool isUsingThirdPersonCamera() const { return m_useTPC; }
+        void setUsingThirdPersonCamera(bool u) { m_useTPC = u; }
         bool OnEvent(const irr::SEvent&) override;
         bool OnGuiEvent(const irr::SEvent::SGUIEvent&);
 //         bool OnKeyInput(const irr::SEvent::SKeyInput&);
