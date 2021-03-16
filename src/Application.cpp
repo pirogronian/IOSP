@@ -42,7 +42,8 @@ Application::Application()
     m_trKeyActions.bind(CameraPrev, irr::KEY_F1, true);
     m_trKeyActions.bind(CameraClone, irr::KEY_INSERT);
     m_trKeyActions.bind(CameraDelete, irr::KEY_DELETE);
-    m_trKeyActions.bind(CameraMode, irr::KEY_F1, false, true);
+    m_trKeyActions.bind(CameraMode, irr::KEY_TAB, false, true);
+    int a = m_trKeyActions.boundAction(irr::KEY_TAB, false, true);
 
     m_irrImGui = IrrIMGUI::createIMGUI(dev, &m_irrImGuiER);
 }
@@ -78,10 +79,7 @@ bool Application::OnEvent(const SEvent& event)
                 ThirdPersonCamera::deleteCurrent();
         }
         if (m_trKeyActions.isTriggered(CameraMode))
-        {
             m_useTPC = !m_useTPC;
-            std::printf("Switch camera mode to: %i\n", m_useTPC);
-        }
         if (m_trKeyActions.isTriggered(SettingsAction))
             openSettingsDialog();
         m_trKeyActions.reset();

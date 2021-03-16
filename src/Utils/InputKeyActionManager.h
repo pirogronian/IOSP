@@ -22,17 +22,7 @@ namespace IOSP
     {
     public:
         virtual void triggered(int) = 0;
-        bool OnKeyInput(const irr::SEvent::SKeyInput& ki) override
-        {
-            if (!ki.PressedDown)  return false;
-            int action = boundAction(ki);
-            if (action > 0)
-            {
-                triggered(action);
-                return true;
-            }
-            return false;
-        }
+        bool OnKeyInput(const irr::SEvent::SKeyInput&) override;
     };
 
     class SimpleInputKeyTriggeredActionManager : public AbstractInputKeyTriggeredActionManager

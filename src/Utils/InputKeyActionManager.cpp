@@ -8,6 +8,18 @@
 
 using namespace IOSP;
 
+bool AbstractInputKeyTriggeredActionManager::OnKeyInput(const irr::SEvent::SKeyInput& ki)
+{
+    if (!ki.PressedDown)  return false;
+    int action = boundAction(ki);
+    if (action > 0)
+    {
+        triggered(action);
+        return true;
+    }
+    return false;
+}
+
 void IOSP::SimpleInputKeyTriggeredActionManager::triggered(int action)
 {
     ensureSize(m_triggered, action);
